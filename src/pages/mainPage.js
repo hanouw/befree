@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-import MainComponents from "../components/main/MainComponents";
+import React from "react";
+import BasicLayout from "../layouts/BasicLayout";
+import { Link } from "react-router-dom";
 
-const ListPage = () => {
+const mainPage = () => {
   return (
-    <div className="overflow-hidden bg-white shadow sm:rounded-lg">
-      <div className="px-4 py-5 sm:p-6">
-        <MainComponents />
-      </div>
-    </div>
+    <BasicLayout>
+      Main
+      <div></div>
+    </BasicLayout>
   );
 };
 
-export default ListPage;
+export default mainPage;
