@@ -3,16 +3,13 @@ import { Suspense, lazy } from "react";
 import LoadingPage from "../components/common/LoadingPage";
 import tripRouter from "./tripRouter";
 
-const Main = lazy(() => {
-  return Promise.all([import("../pages/mainPage"), new Promise((resolve) => setTimeout(resolve, 500))]).then(
-    ([moduleExports]) => moduleExports
-  );
-});
+const Main = lazy(() => import("../pages/MainPage"));
+const Info = lazy(() => import("../pages/InfoPage"));
 
-const TripList = lazy(() => import("../pages/tripList/tripList"));
-const MyPage = lazy(() => import("../pages/user/myPage"));
-const Login = lazy(() => import("../pages/user/loginPage"));
-const Signup = lazy(() => import("../pages/user/signupPage"));
+const TripList = lazy(() => import("../pages/tripList/TripList"));
+const MyPage = lazy(() => import("../pages/user/MyPage"));
+const Login = lazy(() => import("../pages/user/LoginPage"));
+const Signup = lazy(() => import("../pages/user/SignupPage"));
 
 // 경로 매핑하는 곳 (root)
 const Router = () => {
@@ -22,6 +19,14 @@ const Router = () => {
       element: (
         <Suspense fallback={<LoadingPage />}>
           <Main />
+        </Suspense>
+      ),
+    },
+    {
+      path: "/info",
+      element: (
+        <Suspense fallback={<LoadingPage />}>
+          <Info />
         </Suspense>
       ),
     },

@@ -1,7 +1,7 @@
 import React from "react";
 import BasicLayout from "../../layouts/BasicLayout";
 
-const myPage = () => {
+const MyPage = () => {
   return (
     <>
       <BasicLayout>myPage</BasicLayout>
@@ -9,4 +9,4 @@ const myPage = () => {
   );
 };
 
-export default myPage;
+export default MyPage;

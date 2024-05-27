@@ -5,10 +5,10 @@ import { Link } from "react-router-dom";
 
 // 항상 보여줌
 const navigation = [
-  { name: "Main", href: "/" },
-  { name: "About", href: "/about" },
-  { name: "Todo", href: "/todo/" },
-  { name: "Products", href: "/products" },
+  { name: "홈", href: "/" },
+  { name: "정보", href: "/info" },
+  { name: "여행", href: "/trip" },
+  { name: "마이페이지", href: "/mypage" },
 ];
 
 export default function Header() {
@@ -18,12 +18,12 @@ export default function Header() {
     <header className="bg-white">
       <nav className="mx-auto flex max-w-7xl items-center justify-between gap-x-6 p-6 lg:px-8" aria-label="Global">
         <div className="flex lg:flex-1">
-          <Link to="/" className="-m-1.5 p-1.5">
-            <span className="sr-only">Your Company</span>
-            <img className="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="" />
+          <Link to="/">
+            <span className="sr-only">BeFree</span>
+            <img className="h-8 w-auto" src={process.env.PUBLIC_URL + "/assets/imgs/BeFree.svg"} alt="Logo" />
           </Link>
         </div>
-        <div className="hidden lg:flex lg:gap-x-12">
+        <div className="hidden lg:flex lg:gap-x-24">
           {navigation.map((item) => (
             <Link key={item.name} to={item.href} className="text-sm font-semibold leading-6 text-gray-900">
               {item.name}
@@ -32,7 +32,7 @@ export default function Header() {
         </div>
         <div className="flex flex-1 items-center justify-end gap-x-6">
           <Link to="#" className="hidden lg:block lg:text-sm lg:font-semibold lg:leading-6 lg:text-gray-900">
-            Log in
+            로그인하기 <span aria-hidden="true">&rarr;</span>
           </Link>
         </div>
         <div className="flex lg:hidden">
@@ -85,7 +85,7 @@ export default function Header() {
                   to={"/member/login"}
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
-                  Log in
+                  로그인하기
                 </Link>
               </div>
             </div>

@@ -1,7 +1,7 @@
 import React from "react";
 import BasicLayout from "../../layouts/BasicLayout";
 
-const signupPage = () => {
+const SignupPage = () => {
   return (
     <>
       <BasicLayout>signupPage</BasicLayout>
@@ -9,4 +9,4 @@ const signupPage = () => {
   );
 };
 
-export default signupPage;
+export default SignupPage;

@@ -1,9 +1,9 @@
 import { Suspense, lazy } from "react";
 import LoadingPage from "../components/common/LoadingPage";
 
-const TripListDetail = lazy(() => import("../pages/tripList/tripListDetail"));
-const TripplanAdd = lazy(() => import("../pages/tripList/tripPlanAdd"));
-const PlaceDetail = lazy(() => import("../pages/tripList/placeDetail"));
+const TripListDetail = lazy(() => import("../pages/tripList/TripListDetail"));
+const TripplanAdd = lazy(() => import("../pages/tripList/TripPlanAdd"));
+const PlaceDetail = lazy(() => import("../pages/tripList/PlaceDetail"));
 
 const tripRouter = () => {
   return [

@@ -4,7 +4,7 @@ import tripListComponent from "../../components/tripList/tripListComponent";
 import tripAddModalComponent from "../../components/tripList/tripAddModalComponent";
 
 // 여행 계획 목록
-const tripListPage = () => {
+const TripList = () => {
   return (
     <>
       <BasicLayout>
@@ -15,4 +15,4 @@ const tripListPage = () => {
   );
 };
 
-export default tripListPage;
+export default TripList;
