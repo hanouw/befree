@@ -1,7 +1,7 @@
 import React from "react";
 
-const tripListComponent = () => {
-  return <div>tripListComponent</div>;
+const TripListComponent = () => {
+  return <div>TripListComponent</div>;
 };
 
-export default tripListComponent;
+export default TripListComponent;

@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 const navigation = [
   { name: "홈", href: "/" },
   { name: "정보", href: "/info" },
-  { name: "여행", href: "/trip" },
+  { name: "여행", href: "/trip/list" },
   { name: "마이페이지", href: "/mypage" },
 ];
 

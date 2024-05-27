@@ -1,7 +1,7 @@
 import React from "react";
 
-const tripAddModalComponent = () => {
-  return <div>tripAddModalComponent</div>;
+const TripAddModalComponent = () => {
+  return <div>TripAddModalComponent</div>;
 };
 
-export default tripAddModalComponent;
+export default TripAddModalComponent;

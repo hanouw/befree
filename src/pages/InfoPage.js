@@ -15,16 +15,32 @@ const InfoPage = () => {
   } = useCustomMove();
   return (
     <BasicLayout>
-      InfoPage
-      <div className="bg-orange-300">
-        <div onClick={moveToMain}>moveToMain</div>
-        <div onClick={moveToTripList}>moveToTripList</div>
-        <div onClick={moveToTripListDetail}>moveToTripListDetail</div>
-        <div onClick={moveToTripPlanAdd}>moveToTripPlanAdd</div>
-        <div onClick={moveToPlaceDetail}>moveToPlaceDetail</div>
-        <div onClick={moveToMyPage}>moveToMyPage</div>
-        <div onClick={moveToLogin}>moveToLogin</div>
-        <div onClick={moveToSignup}>moveToSignup</div>
+      <div className="grid place-items-center text-3xl m-9">InfoPage</div>
+      <div className="hover:cursor-pointer grid place-items-center">
+        <div className="mb-2 bg-green-300" onClick={moveToMain}>
+          moveToMain
+        </div>
+        <div className="mb-2 bg-green-300" onClick={moveToTripList}>
+          moveToTripList
+        </div>
+        <div className="mb-2 bg-green-300" onClick={moveToTripListDetail}>
+          moveToTripListDetail
+        </div>
+        <div className="mb-2 bg-green-300" onClick={moveToTripPlanAdd}>
+          moveToTripPlanAdd
+        </div>
+        <div className="mb-2 bg-green-300" onClick={moveToPlaceDetail}>
+          moveToPlaceDetail
+        </div>
+        <div className="mb-2 bg-green-300" onClick={moveToMyPage}>
+          moveToMyPage
+        </div>
+        <div className="mb-2 bg-green-300" onClick={moveToLogin}>
+          moveToLogin
+        </div>
+        <div className="mb-2 bg-green-300" onClick={moveToSignup}>
+          moveToSignup
+        </div>
       </div>
     </BasicLayout>
   );

@@ -16,7 +16,7 @@ const useCustomMove = () => {
 
   // 여행계획 목록으로 이동
   const moveToTripList = () => {
-    navigate({ pathname: "../trip" });
+    navigate({ pathname: "../trip/list" });
   };
 
   // 여행 계획 상세로 이동

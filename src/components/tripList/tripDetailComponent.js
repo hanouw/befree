@@ -1,7 +1,7 @@
 import React from "react";
 
-const tripDetailComponent = () => {
-  return <div>tripDetailComponent</div>;
+const TripDetailComponent = () => {
+  return <div>TripDetailComponent</div>;
 };
 
-export default tripDetailComponent;
+export default TripDetailComponent;

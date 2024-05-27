@@ -6,7 +6,7 @@ import tripRouter from "./tripRouter";
 const Main = lazy(() => import("../pages/MainPage"));
 const Info = lazy(() => import("../pages/InfoPage"));
 
-const TripList = lazy(() => import("../pages/tripList/TripList"));
+const TripIndex = lazy(() => import("../pages/trip/TripIndex"));
 const MyPage = lazy(() => import("../pages/user/MyPage"));
 const Login = lazy(() => import("../pages/user/LoginPage"));
 const Signup = lazy(() => import("../pages/user/SignupPage"));
@@ -31,16 +31,17 @@ const Router = () => {
       ),
     },
     {
-      path: "trip",
+      // 여행관련
+      path: "/trip",
       element: (
         <Suspense fallback={<LoadingPage />}>
-          <TripList />
+          <TripIndex />
         </Suspense>
       ),
       children: tripRouter(),
     },
     {
-      path: "mypage",
+      path: "/mypage",
       element: (
         <Suspense fallback={<LoadingPage />}>
           <MyPage />
@@ -48,7 +49,7 @@ const Router = () => {
       ),
     },
     {
-      path: "login",
+      path: "/login",
       element: (
         <Suspense fallback={<LoadingPage />}>
           <Login />
@@ -56,7 +57,7 @@ const Router = () => {
       ),
     },
     {
-      path: "signup",
+      path: "/signup",
       element: (
         <Suspense fallback={<LoadingPage />}>
           <Signup />

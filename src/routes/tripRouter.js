@@ -1,14 +1,23 @@
 import { Suspense, lazy } from "react";
 import LoadingPage from "../components/common/LoadingPage";
 
-const TripListDetail = lazy(() => import("../pages/tripList/TripListDetail"));
-const TripplanAdd = lazy(() => import("../pages/tripList/TripPlanAdd"));
-const PlaceDetail = lazy(() => import("../pages/tripList/PlaceDetail"));
+const TripList = lazy(() => import("../pages/trip/TripList"));
+const TripListDetail = lazy(() => import("../pages/trip/TripListDetail"));
+const TripplanAdd = lazy(() => import("../pages/trip/TripPlanAdd"));
+const PlaceDetail = lazy(() => import("../pages/trip/PlaceDetail"));
 
 const tripRouter = () => {
   return [
     {
-      path: "listdetail",
+      path: "list", // 여행 계획 목록 - 이전 여행 및 클릭해서 새로운 여행 계획하기 페이지
+      element: (
+        <Suspense fallback={<LoadingPage />}>
+          <TripList />
+        </Suspense>
+      ),
+    },
+    {
+      path: "listdetail", // 여행 상세 - 여행 계획짜기
       element: (
         <Suspense fallback={<LoadingPage />}>
           <TripListDetail />
@@ -16,7 +25,7 @@ const tripRouter = () => {
       ),
     },
     {
-      path: "planadd",
+      path: "planadd", // 여행에 여행지 추가
       element: (
         <Suspense fallback={<LoadingPage />}>
           <TripplanAdd />
@@ -24,7 +33,7 @@ const tripRouter = () => {
       ),
     },
     {
-      path: "placedetail",
+      path: "placedetail", // 여행지 상세
       element: (
         <Suspense fallback={<LoadingPage />}>
           <PlaceDetail />
