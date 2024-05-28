@@ -1,8 +1,8 @@
-import React from "react";
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
+
 const { kakao } = window;
 
-const KakaoMapComponent = () => {
+const KakaoMapComponent = ({ width = "100%", height = "100%" }) => {
   const mapContainer = useRef(null);
 
   useEffect(() => {
@@ -15,12 +15,7 @@ const KakaoMapComponent = () => {
     const map = new kakao.maps.Map(container, options); // 지도 생성 및 객체 리턴
   }, []);
 
-  return (
-    <>
-      <div>KakaoMapComponent</div>
-      <div ref={mapContainer} style={{ width: "100%", height: "400px" }}></div>
-    </>
-  );
+  return <div ref={mapContainer} style={{ width, height }}></div>;
 };
 
 export default KakaoMapComponent;

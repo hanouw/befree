@@ -4,6 +4,11 @@ import LoadingPage from "../components/common/LoadingPage";
 import tripRouter from "./tripRouter";
 
 const Main = lazy(() => import("../pages/MainPage"));
+// const Main = lazy(() => {
+//   return Promise.all([import("../pages/MainPage"), new Promise((resolve) => setTimeout(resolve, 1500))]).then(
+//     ([moduleExports]) => moduleExports
+//   );
+// });
 const Info = lazy(() => import("../pages/InfoPage"));
 
 const TripIndex = lazy(() => import("../pages/trip/TripIndex"));
