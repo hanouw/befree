@@ -1,4 +1,5 @@
 import KakaoMapComponent from "../map/KakaoMapComponent";
+import "../../css/TripPlanAdd.css";
 
 const MapComponent = () => {
 	return (
