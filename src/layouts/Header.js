@@ -35,7 +35,7 @@ export default function Header() {
         </div>
         <div className="flex flex-1 items-center justify-end gap-x-6">
           <Link
-            to="#"
+            to="/login"
             className="hidden lg:block lg:text-base font-['Pretendard-SemiBold'] lg:leading-6 lg:text-gray-900"
           >
             로그인하기 <span aria-hidden="true">&rarr;</span>

@@ -17,10 +17,10 @@ const InfoPage = () => {
     <BasicLayout>
       <div className="grid place-items-center text-3xl m-9">InfoPage</div>
       <div className="hover:cursor-pointer grid place-items-center">
-        <div className="mb-2 bg-green-300" onClick={moveToMain}>
+        <div className="mb-2 bg-my-color-beige" onClick={moveToMain}>
           moveToMain
         </div>
-        <div className="mb-2 bg-green-300" onClick={moveToTripList}>
+        <div className="mb-2 bg-my-color-beige" onClick={moveToTripList}>
           moveToTripList
         </div>
         <div className="mb-2 bg-green-300" onClick={moveToTripListDetail}>

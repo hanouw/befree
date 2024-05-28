@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import TripAddModalComponent from "../../components/tripList/TripAddModalComponent";
+import useCustomMove from "../../hooks/useCustomMove";
+import PagenationComponent from "../../components/tripList/PagenationComponent";
 
 // 여행 계획 목록
 const TripList = () => {
+  const { moveToTripListDetail } = useCustomMove();
+
   // 이미지 드래그 못하게 하는 style
   const noDrag = {
     userSelect: "none",
@@ -82,7 +86,7 @@ const TripList = () => {
       </div>
       <div className="grid place-items-center mt-10">
         {tripList.map((item) => (
-          <div className="w-2/3" key={item.src}>
+          <div className="w-2/3" key={item.src} onClick={moveToTripListDetail}>
             <img src={item.src} alt={item.alt} style={item.style} className="rounded-md h-24 sm:h-full"></img>
             <div className="sm:mt-2 mb-4">
               <span className="font-[Pretendard-Light] text-sm sm:text-lg">{item.date}</span>
@@ -91,197 +95,7 @@ const TripList = () => {
           </div>
         ))}
       </div>
-
-      {/* pagenation */}
-      {/* 데스크탑 */}
-      <div className="grid place-items-center">
-        <nav aria-label="Page navigation example" className="hidden sm:block">
-          <ul className="flex items-center -space-x-px h-10 text-base">
-            <li>
-              <p
-                href="#"
-                className="flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white rounded-s-lg hover:bg-gray-100 hover:text-gray-700  "
-              >
-                <span className="sr-only">Previous</span>
-                <svg
-                  className="w-3 h-3 rtl:rotate-180"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 6 10"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M5 1 1 5l4 4"
-                  />
-                </svg>
-              </p>
-            </li>
-            <li>
-              <p
-                href="#"
-                className="flex items-center justify-center px-4 h-10 leading-tight underline underline-offset-8 text-black bg-white hover:bg-gray-100 hover:text-gray-700  "
-              >
-                1
-              </p>
-            </li>
-            <li>
-              <p
-                href="#"
-                className="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white  hover:bg-gray-100 hover:text-gray-700  "
-              >
-                2
-              </p>
-            </li>
-            <li>
-              <p
-                href="#"
-                aria-current="page"
-                className="z-10 flex items-center justify-center px-4 h-10 leading-tight text-gray-500  bg-white hover:bg-gray-100 hover:text-gray-700 "
-              >
-                3
-              </p>
-            </li>
-            <li>
-              <p
-                href="#"
-                className="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white  hover:bg-gray-100 hover:text-gray-700 "
-              >
-                4
-              </p>
-            </li>
-            <li>
-              <p
-                href="#"
-                className="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white  hover:bg-gray-100 hover:text-gray-700 "
-              >
-                5
-              </p>
-            </li>
-            <li>
-              <p
-                href="#"
-                className="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white rounded-e-lg hover:bg-gray-100 hover:text-gray-700 "
-              >
-                <span className="sr-only">Next</span>
-                <svg
-                  className="w-3 h-3 rtl:rotate-180"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 6 10"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="m1 9 4-4-4-4"
-                  />
-                </svg>
-              </p>
-            </li>
-          </ul>
-        </nav>
-      </div>
-
-      {/* 모바일 */}
-      <div className="grid place-items-center">
-        <nav aria-label="Page navigation example" className="block sm:hidden">
-          <ul className="flex items-center -space-x-px h-8 text-sm">
-            <li>
-              <p
-                href="#"
-                className="flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white rounded-s-lg hover:bg-gray-100 hover:text-gray-700 "
-              >
-                <span className="sr-only">Previous</span>
-                <svg
-                  className="w-3 h-3 rtl:rotate-180"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 6 10"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M5 1 1 5l4 4"
-                  />
-                </svg>
-              </p>
-            </li>
-            <li>
-              <p
-                href="#"
-                className="flex items-center justify-center px-4 h-10 leading-tight underline underline-offset-8 text-black bg-white hover:bg-gray-100 hover:text-gray-700 "
-              >
-                1
-              </p>
-            </li>
-            <li>
-              <p
-                href="#"
-                className="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white  hover:bg-gray-100 hover:text-gray-700 "
-              >
-                2
-              </p>
-            </li>
-            <li>
-              <p
-                href="#"
-                aria-current="page"
-                className="z-10 flex items-center justify-center px-4 h-10 leading-tight text-gray-500  bg-white hover:bg-gray-100 hover:text-gray-700 "
-              >
-                3
-              </p>
-            </li>
-            <li>
-              <p
-                href="#"
-                className="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white  hover:bg-gray-100 hover:text-gray-700 "
-              >
-                4
-              </p>
-            </li>
-            <li>
-              <p
-                href="#"
-                className="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white  hover:bg-gray-100 hover:text-gray-700 "
-              >
-                5
-              </p>
-            </li>
-            <li>
-              <p
-                href="#"
-                className="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white rounded-e-lg hover:bg-gray-100 hover:text-gray-700 "
-              >
-                <span className="sr-only">Next</span>
-                <svg
-                  className="w-3 h-3 rtl:rotate-180"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 6 10"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="m1 9 4-4-4-4"
-                  />
-                </svg>
-              </p>
-            </li>
-          </ul>
-        </nav>
-      </div>
+      <PagenationComponent />
     </>
   );
 };

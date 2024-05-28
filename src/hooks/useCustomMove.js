@@ -16,37 +16,37 @@ const useCustomMove = () => {
 
   // 여행계획 목록으로 이동
   const moveToTripList = () => {
-    navigate({ pathname: "../trip/list" });
+    navigate({ pathname: "/trip/list" });
   };
 
   // 여행 계획 상세로 이동
   const moveToTripListDetail = () => {
-    navigate({ pathname: `../trip/listdetail` });
+    navigate({ pathname: `/trip/listdetail` });
   };
 
   // 여행 계획 상세로 이동
   const moveToTripPlanAdd = () => {
-    navigate({ pathname: `../trip/planadd` });
+    navigate({ pathname: `/trip/planadd` });
   };
 
   // 여행지 상세로 이동
   const moveToPlaceDetail = () => {
-    navigate({ pathname: `../trip/placedetail` });
+    navigate({ pathname: `/trip/placedetail` });
   };
 
   // =========================================================================== 유저 관련 페이지
 
   // 여행지 상세로 이동
   const moveToMyPage = () => {
-    navigate({ pathname: `../mypage` });
+    navigate({ pathname: `/mypage` });
   };
   // 여행지 상세로 이동
   const moveToLogin = () => {
-    navigate({ pathname: `../login` });
+    navigate({ pathname: `/login` });
   };
   // 여행지 상세로 이동
   const moveToSignup = () => {
-    navigate({ pathname: `../signup` });
+    navigate({ pathname: `/signup` });
   };
 
   // 각 이동 함수를 리턴
