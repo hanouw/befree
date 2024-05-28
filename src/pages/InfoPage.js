@@ -12,6 +12,8 @@ const InfoPage = () => {
     moveToMyPage,
     moveToLogin,
     moveToSignup,
+    moveToDelete,
+    moveToModify,
   } = useCustomMove();
   return (
     <BasicLayout>
@@ -40,6 +42,12 @@ const InfoPage = () => {
         </div>
         <div className="mb-2 bg-my-color-beige" onClick={moveToSignup}>
           moveToSignup
+        </div>
+        <div className="mb-2 bg-my-color-beige" onClick={moveToDelete}>
+          moveToDelete
+        </div>
+        <div className="mb-2 bg-my-color-beige" onClick={moveToModify}>
+          moveToModify
         </div>
       </div>
     </BasicLayout>

@@ -13,18 +13,11 @@ const MyPage = () => {
 
   return (
     <BasicLayout>
-      <div className="font-[Pretendard-Bold] text-3xl grid place-items-center mt-12 mb-12">로그인</div>
+      <div className="font-[Pretendard-Bold] text-3xl grid place-items-center mt-12 mb-12">회원 정보 수정</div>
       <div className="w-full grid place-items-center gap-5">
         <div className="w-full sm:w-1/2 md:w-1/3 px-4">
           <span className="font-[Pretendard-Regular]">이메일 주소</span>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            className={inputClassName}
-            placeholder="Befree@befree.com"
-            disabled
-          />
+          <input id="email" name="email" type="email" className={inputClassName} placeholder="Befree@befree.com" />
         </div>
         <div className="w-full sm:w-1/2 md:w-1/3 px-4 mb-4">
           <span className="font-[Pretendard-Regular]">비밀번호</span>
@@ -35,12 +28,11 @@ const MyPage = () => {
             className={inputClassName}
             placeholder="8자리 이상의 비밀번호"
             value={"********"}
-            disabled
           />
         </div>
         <div className="w-full sm:w-1/2 md:w-1/3 px-4 flex gap-10">
-          <button className={emptyButtonClassName}>회원 탈퇴</button>
-          <button className={buttonClassName}>정보수정</button>
+          <button className={emptyButtonClassName}>돌아가기</button>
+          <button className={buttonClassName}>저장하기</button>
         </div>
       </div>
     </BasicLayout>
