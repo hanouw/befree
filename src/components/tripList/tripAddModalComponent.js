@@ -150,14 +150,14 @@ const TripAddModalComponent = ({ callbackFn }) => {
                     id="endDate"
                     name="endDate"
                     type="date"
-                    className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-600 dark:text-gray-800 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
                     onChange={handleChangeProduct}
                   ></input>
                 </div>
               </div>
               <button
                 type="button"
-                className="text-gray-900 inline-flex items-center bg-my-color-superlightgreen hover:bg-my-color-lightgreen focus:ring-4 focus:outline-none focus:ring-my-color-deepgreen font-['Pretendard-Medium'] rounded-lg text-sm px-5 py-2.5 text-center dark:bg- dark:border-gray-700 dark:bg-gray-100 dark:hover:bg-white dark:focus:ring-my-color-beige"
+                className="text-gray-900 inline-flex items-center bg-my-color-superlightgreen hover:bg-my-color-lightgreen focus:ring-4 focus:outline-none focus:ring-my-color-deepgreen font-['Pretendard-Medium'] rounded-lg text-sm px-5 py-2.5 text-center"
                 onClick={AddButtonClicked}
               >
                 <svg

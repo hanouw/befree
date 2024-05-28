@@ -32,13 +32,13 @@ const InfoPage = () => {
         <div className="mb-2 bg-green-300" onClick={moveToPlaceDetail}>
           moveToPlaceDetail
         </div>
-        <div className="mb-2 bg-green-300" onClick={moveToMyPage}>
+        <div className="mb-2 bg-my-color-beige" onClick={moveToMyPage}>
           moveToMyPage
         </div>
-        <div className="mb-2 bg-green-300" onClick={moveToLogin}>
+        <div className="mb-2 bg-my-color-beige" onClick={moveToLogin}>
           moveToLogin
         </div>
-        <div className="mb-2 bg-green-300" onClick={moveToSignup}>
+        <div className="mb-2 bg-my-color-beige" onClick={moveToSignup}>
           moveToSignup
         </div>
       </div>
