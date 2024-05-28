@@ -3,6 +3,7 @@ import BasicLayout from "../../layouts/BasicLayout";
 import useCustomMove from "../../hooks/useCustomMove";
 
 const MyPage = () => {
+  const { moveToMyPage } = useCustomMove();
   const inputClassName =
     "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 font-[Pretendard-Regular]";
   const buttonClassName =
@@ -17,7 +18,14 @@ const MyPage = () => {
       <div className="w-full grid place-items-center gap-5">
         <div className="w-full sm:w-1/2 md:w-1/3 px-4">
           <span className="font-[Pretendard-Regular]">이메일 주소</span>
-          <input id="email" name="email" type="email" className={inputClassName} placeholder="Befree@befree.com" />
+          <input
+            id="email"
+            name="email"
+            type="email"
+            className={inputClassName}
+            value="BeFree@befree.com"
+            placeholder="Befree@befree.com"
+          />
         </div>
         <div className="w-full sm:w-1/2 md:w-1/3 px-4 mb-4">
           <span className="font-[Pretendard-Regular]">비밀번호</span>
@@ -31,8 +39,12 @@ const MyPage = () => {
           />
         </div>
         <div className="w-full sm:w-1/2 md:w-1/3 px-4 flex gap-10">
-          <button className={emptyButtonClassName}>돌아가기</button>
-          <button className={buttonClassName}>저장하기</button>
+          <button className={emptyButtonClassName} onClick={moveToMyPage}>
+            돌아가기
+          </button>
+          <button className={buttonClassName} onClick={moveToMyPage}>
+            저장하기
+          </button>
         </div>
       </div>
     </BasicLayout>

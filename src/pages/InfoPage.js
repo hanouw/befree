@@ -28,7 +28,7 @@ const InfoPage = () => {
         <div className="mb-2 bg-green-300" onClick={moveToTripListDetail}>
           moveToTripListDetail
         </div>
-        <div className="mb-2 bg-green-300" onClick={moveToTripPlanAdd}>
+        <div className="mb-2 bg-my-color-beige" onClick={moveToTripPlanAdd}>
           moveToTripPlanAdd
         </div>
         <div className="mb-2 bg-green-300" onClick={moveToPlaceDetail}>

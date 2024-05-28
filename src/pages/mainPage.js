@@ -70,7 +70,7 @@ const MainPage = () => {
       <span className="grid place-items-center font-semibold lg:text-2xl text-lg">새로운 여행을 찾아 떠나보세요!</span>
       <button
         onClick={moveToTripList}
-        className="flex mx-auto mt-8 bg-transparent border-black border-2 py-2 px-8 focus:outline-none hover:bg-black hover:text-white rounded lg:text-lg text-sm"
+        className="flex mx-auto mt-6 lg:mt-8 bg-transparent border-black border-2 py-2 px-8 focus:outline-none hover:bg-black hover:text-white rounded lg:text-lg text-sm"
       >
         여행 계획 추가하기
       </button>

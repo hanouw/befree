@@ -14,6 +14,9 @@ module.exports = {
         "my-color-deepgreen": "#41B06E",
         "my-color-beige": "#FFF5E0",
       },
+      width: {
+        mywidth1200: "1200px",
+      },
     },
   },
   plugins: [],

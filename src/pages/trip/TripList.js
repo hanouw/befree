@@ -82,11 +82,11 @@ const TripList = () => {
       {/* 이미지 아래 여행목록 시작 */}
       <div className="grid place-items-center">
         <span className="font-['Pretendard-Medium'] sm:text-2xl text-lg">여행 목록</span>
-        <div className="w-[80%] my-[1%] border-[1px] border-neutral-500"></div>
+        <div className="w-2/3 lg:w-mywidth1200 my-[1%] border-[1px] border-neutral-500"></div>
       </div>
       <div className="grid place-items-center mt-10">
         {tripList.map((item) => (
-          <div className="w-2/3" key={item.src} onClick={moveToTripListDetail}>
+          <div className="w-2/3 lg:w-mywidth1200" key={item.src} onClick={moveToTripListDetail}>
             <img src={item.src} alt={item.alt} style={item.style} className="rounded-md h-24 sm:h-full"></img>
             <div className="sm:mt-2 mb-4">
               <span className="font-[Pretendard-Light] text-sm sm:text-lg">{item.date}</span>

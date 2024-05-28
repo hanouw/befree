@@ -15,9 +15,7 @@ const KakaoMapComponent = ({ width = "100%", height = "100%" }) => {
     const map = new kakao.maps.Map(container, options); // 지도 생성 및 객체 리턴
   }, []);
 
-  return (
-    <div ref={mapContainer} style={{ width, height }}></div>
-  );
+  return <div ref={mapContainer} style={{ width, height }}></div>;
 };
 
 export default KakaoMapComponent;
