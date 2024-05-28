@@ -25,13 +25,13 @@ const InfoPage = () => {
         <div className="mb-2 bg-my-color-beige" onClick={moveToTripList}>
           moveToTripList
         </div>
-        <div className="mb-2 bg-green-300" onClick={moveToTripListDetail}>
+        <div className="mb-2 bg-my-color-beige" onClick={moveToTripListDetail}>
           moveToTripListDetail
         </div>
         <div className="mb-2 bg-my-color-beige" onClick={moveToTripPlanAdd}>
           moveToTripPlanAdd
         </div>
-        <div className="mb-2 bg-green-300" onClick={moveToPlaceDetail}>
+        <div className="mb-2 bg-my-color-beige" onClick={moveToPlaceDetail}>
           moveToPlaceDetail
         </div>
         <div className="mb-2 bg-my-color-beige" onClick={moveToMyPage}>

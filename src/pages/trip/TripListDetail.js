@@ -35,7 +35,7 @@ const TripListDetail = () => {
   return (
     <>
       <div className="h-full">
-        <KakaoMapComponent width="100vw" height="550px" />
+        <KakaoMapComponent width="100%" height="550px" />
       </div>
       <div className="flex justify-between items-center mt-10 px-4 pr-44 pl-44">
         <span className="font-[Pretendard-Regular] text-xl">1 일차</span>
@@ -55,7 +55,7 @@ const TripListDetail = () => {
       <div className="flex justify-center my-4 mt-4 mb-52 font-[Pretendard-Regular]">
         “추가하기” 버튼을 눌러 여행지를 추가하세요
       </div>
-      {/* ================================================================================================================================================================================================================================================================================================================================= */}
+      {/* 2일차 시작 포인트====================================================================================================================================================================================================================================================== */}
 
       <div className="flex justify-between items-center mt-10 px-4 pr-44 pl-44">
         <span className="font-[Pretendard-Regular] text-xl">2 일차</span>
@@ -71,12 +71,16 @@ const TripListDetail = () => {
       <div className="flex justify-center my-4">
         <div className="w-[80%] border-[1px] border-neutral-500"></div>
       </div>
-      <div className="">
+      <div className="pr-44 pl-44">
         {items.map((item) => (
-          <div className="flex justify-between items-center mt-10 px-4 pr-44 pl-44" key={item.id}>
-            <span className="block">{item.id}</span>
-            <span className="block">{item.name}</span>
-            <span className="block">{item.facilities}</span>
+          <div
+            className="flex justify-between items-center mt-10 mb-10 px-4 border border-my-color-darkblue rounded-md py-4 text-sm"
+            key={item.id}
+          >
+            <span className="font-[Pretendard-Regular]">
+              {item.id}. {item.place}
+            </span>
+            <span className="font-[Pretendard-Regular]">{item.facilities}</span>
           </div>
         ))}
       </div>
