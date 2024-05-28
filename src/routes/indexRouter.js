@@ -8,6 +8,8 @@ const Info = lazy(() => import("../pages/InfoPage"));
 
 const TripIndex = lazy(() => import("../pages/trip/TripIndex"));
 const MyPage = lazy(() => import("../pages/user/MyPage"));
+const Modify = lazy(() => import("../pages/user/MyPageModify"));
+const Delete = lazy(() => import("../pages/user/MyPageDelete"));
 const Login = lazy(() => import("../pages/user/LoginPage"));
 const Signup = lazy(() => import("../pages/user/SignupPage"));
 
@@ -45,6 +47,22 @@ const Router = () => {
       element: (
         <Suspense fallback={<LoadingPage />}>
           <MyPage />
+        </Suspense>
+      ),
+    },
+    {
+      path: "/modify",
+      element: (
+        <Suspense fallback={<LoadingPage />}>
+          <Modify />
+        </Suspense>
+      ),
+    },
+    {
+      path: "/delete",
+      element: (
+        <Suspense fallback={<LoadingPage />}>
+          <Delete />
         </Suspense>
       ),
     },

@@ -36,17 +36,25 @@ const useCustomMove = () => {
 
   // =========================================================================== 유저 관련 페이지
 
-  // 여행지 상세로 이동
+  // 내 페이지로 이동
   const moveToMyPage = () => {
     navigate({ pathname: `/mypage` });
   };
-  // 여행지 상세로 이동
+  // 로그인 페이지로 이동
   const moveToLogin = () => {
     navigate({ pathname: `/login` });
   };
-  // 여행지 상세로 이동
+  // 회원가입으로 이동
   const moveToSignup = () => {
     navigate({ pathname: `/signup` });
+  };
+  // 회원정보 변경페이지로 이동
+  const moveToModify = () => {
+    navigate({ pathname: `/modify` });
+  };
+  // 회원 삭제 확인 페이지로 이동
+  const moveToDelete = () => {
+    navigate({ pathname: `/delete` });
   };
 
   // 각 이동 함수를 리턴
@@ -59,6 +67,8 @@ const useCustomMove = () => {
     moveToMyPage,
     moveToLogin,
     moveToSignup,
+    moveToModify,
+    moveToDelete,
     refresh,
   };
 };

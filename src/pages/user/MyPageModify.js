@@ -3,7 +3,6 @@ import BasicLayout from "../../layouts/BasicLayout";
 import useCustomMove from "../../hooks/useCustomMove";
 
 const MyPage = () => {
-  const { moveToDelete, moveToModify } = useCustomMove();
   const inputClassName =
     "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 font-[Pretendard-Regular]";
   const buttonClassName =
@@ -40,12 +39,8 @@ const MyPage = () => {
           />
         </div>
         <div className="w-full sm:w-1/2 md:w-1/3 px-4 flex gap-10">
-          <button className={emptyButtonClassName} onClick={moveToDelete}>
-            회원 탈퇴
-          </button>
-          <button className={buttonClassName} onClick={moveToModify}>
-            정보수정
-          </button>
+          <button className={emptyButtonClassName}>회원 탈퇴</button>
+          <button className={buttonClassName}>정보수정</button>
         </div>
       </div>
     </BasicLayout>
