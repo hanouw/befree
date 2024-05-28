@@ -18,7 +18,7 @@ const KakaoMapComponent = () => {
   return (
     <>
       <div>KakaoMapComponent</div>
-      <div ref={mapContainer} style={{ width: "500px", height: "400px" }}></div>
+      <div ref={mapContainer} style={{ width: "100%", height: "400px" }}></div>
     </>
   );
 };
