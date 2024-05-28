@@ -11,7 +11,7 @@ const useCustomMove = () => {
 
   // 메인 페이지로 이동 : default 페이지로이동
   const moveToMain = () => {
-    navigate({ pathname: "../" });
+    navigate({ pathname: "/" });
   };
 
   // 여행계획 목록으로 이동

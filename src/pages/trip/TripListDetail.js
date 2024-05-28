@@ -1,11 +1,11 @@
 import React from "react";
-import TripDetailComponent from "../../components/tripList/TripDetailComponent";
+import KakaoMapComponent from "../../components/map/KakaoMapComponent";
 
 // 여행 계획 상세
 const TripListDetail = () => {
   return (
     <div>
-      <TripDetailComponent />
+      <KakaoMapComponent />
     </div>
   );
 };
