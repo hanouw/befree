@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect, useRef } from "react";
 const { kakao } = window;
 
-const TripDetailComponent = () => {
+const KakaoMapComponent = () => {
   const mapContainer = useRef(null);
 
   useEffect(() => {
@@ -23,4 +23,4 @@ const TripDetailComponent = () => {
   );
 };
 
-export default TripDetailComponent;
+export default KakaoMapComponent;
