@@ -1,8 +1,8 @@
-import React from "react";
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
+
 const { kakao } = window;
 
-const KakaoMapComponent = () => {
+const KakaoMapComponent = ({ width = "100%", height = "100%" }) => {
   const mapContainer = useRef(null);
 
   useEffect(() => {
@@ -16,10 +16,7 @@ const KakaoMapComponent = () => {
   }, []);
 
   return (
-    <>
-      <div>KakaoMapComponent</div>
-      <div ref={mapContainer} style={{ width: "100%", height: "400px" }}></div>
-    </>
+    <div ref={mapContainer} style={{ width, height }}></div>
   );
 };
 

@@ -10,7 +10,12 @@
 .container-noline {
 	max-width: 1200px;
 	margin: 0 auto;
-	/* padding: 20px; */
+	background-color: #fff;
+}
+
+.container-noline-list {
+	max-width: 1200px;
+	margin: 20px auto;
 	background-color: #fff;
 }
 
@@ -144,6 +149,10 @@
 	background-color: #f0f0f0;
 }
 
+.filter-section select {
+  min-width: 300px; /* Adjust this value as needed */
+}
+
 .filters .section .sub-options {
 	display: flex;
 	flex-wrap: wrap;
@@ -164,7 +173,7 @@
 	display: flex;
 	gap: 10px;
 	justify-content: center;
-	margin-top: 40px;
+	margin-top: 10px;
 }
 
 .page-footer .buttons button {
