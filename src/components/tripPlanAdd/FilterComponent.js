@@ -94,7 +94,7 @@ const AccessibilityButtons = ({ types, selectedItems, toggleFunction }) =>
 		</button>
 	));
 
-const TripPlanAddComponent = () =>  {
+const TripPlanAddComponent = () => {
 	const [selectedProvinces, setSelectedProvinces] = useState([]);
 	const [selectedCities, setSelectedCities] = useState([]);
 	const [selectedCategories, setSelectedCategories] = useState([]);
@@ -199,7 +199,7 @@ const TripPlanAddComponent = () =>  {
 	};
 
 	return (
-		<div className="container font-['Pretendard']">
+		<div className="container font-['Pretendard'] text-center">
 			<div className="page-header">
 				<h1>검색</h1>
 				<p>조건에 맞는 여행지를 탐색해보세요</p>
@@ -210,39 +210,47 @@ const TripPlanAddComponent = () =>  {
 				<button>검색</button>
 			</div>
 
-			<div className="filters">
-				<FilterSection title="지역">
-					<select onChange={(e) => handleProvinceChange(e.target.value)}>
-						<option value="null">도/광역시 선택</option>
-						{Object.keys(regions).map((province) => (
-							<option key={province} value={province}>
-								{province}
-							</option>
-						))}
-					</select>
-					<select onChange={handleCityChange}>
-						<option value="">시/군/구 선택</option>
-						{cityOptions}
-					</select>
+			<div className="filters flex flex-col items-center">
+				<FilterSection title="지역" className="w-full flex">
+					<div className="flex items-center">
+						<select
+							onChange={(e) => handleProvinceChange(e.target.value)}
+							className="mr-2 mb-2"
+						>
+							<option value="">도/광역시 선택</option>
+							{Object.keys(regions).map((province) => (
+								<option key={province} value={province}>
+									{province}
+								</option>
+							))}
+						</select>
+						<select onChange={handleCityChange} className="mb-2">
+							<option value="">시/군/구 선택</option>
+							{cityOptions}
+						</select>
+					</div>
 				</FilterSection>
 
-				<FilterSection title="관광 유형">
+				<FilterSection
+					title="관광 유형"
+					className="w-full flex flex-col items-center"
+				>
 					<SelectionButtons
 						items={Object.keys(categories)}
 						selectedItems={selectedCategories}
 						toggleFunction={handleCategoryClick}
 					/>
 					{selectedCategories.length > 0 && (
-						<div className="sub-options">
+						<div className="sub-options flex flex-wrap justify-center">
 							{selectedCategories.flatMap((category) =>
 								categories[category].map((subCategory) => (
 									<button
 										key={subCategory}
-										className={
+										className={`m-1 ${
 											selectedSubCategories.includes(subCategory)
 												? "selected"
 												: ""
-										}
+										}`}
 										onClick={() => handleSubCategoryClick(subCategory)}
 									>
 										{subCategory}
@@ -253,7 +261,10 @@ const TripPlanAddComponent = () =>  {
 					)}
 				</FilterSection>
 
-				<FilterSection title="관광 약자 유형">
+				<FilterSection
+					title="관광 약자 유형"
+					className="w-full flex flex-col items-center"
+				>
 					<AccessibilityButtons
 						types={accessibilityTypes}
 						selectedItems={selectedAccessibilityTypes}
@@ -267,7 +278,10 @@ const TripPlanAddComponent = () =>  {
 					/>
 				</FilterSection>
 
-				<FilterSection title="관광약자 편의시설">
+				<FilterSection
+					title="관광약자 편의시설"
+					className="w-full flex flex-col items-center"
+				>
 					<SelectionButtons
 						items={facilities}
 						selectedItems={selectedFacilities}
@@ -283,26 +297,32 @@ const TripPlanAddComponent = () =>  {
 			</div>
 
 			<div className="page-footer">
-				<div className="selected-area">
+				<div className="selected-area flex flex-wrap justify-center">
 					{[
 						...selectedCities,
 						...selectedSubCategories,
 						...selectedAccessibilityTypes,
 						...selectedFacilities,
 					].map((item) => (
-						<button key={item} onClick={() => handleRemoveSelected(item)}>
+						<button
+							key={item}
+							onClick={() => handleRemoveSelected(item)}
+							className="m-1"
+						>
 							{item}
 						</button>
 					))}
 				</div>
 
-				<div className="buttons">
-					<button onClick={resetSelections}>초기화</button>
+				<div className="buttons flex justify-center mt-4">
+					<button onClick={resetSelections} className="mr-2">
+						초기화
+					</button>
 					<button>검색하기</button>
 				</div>
 			</div>
 		</div>
 	);
-}
+};
 
 export default TripPlanAddComponent;
