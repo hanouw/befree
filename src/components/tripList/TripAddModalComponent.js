@@ -157,7 +157,7 @@ const TripAddModalComponent = ({ callbackFn }) => {
               </div>
               <button
                 type="button"
-                className="text-gray-900 inline-flex items-center bg-my-color-superlightgreen hover:bg-my-color-lightgreen focus:ring-4 focus:outline-none focus:ring-my-color-deepgreen font-['Pretendard-Medium'] rounded-lg text-sm px-5 py-2.5 text-center"
+                className="text-black inline-flex items-center bg-gray-300 hover:bg-my-color-darkblue hover:text-white focus:ring-2 focus:outline-none focus:ring-my-color-lightgreen font-['Pretendard-Medium'] rounded-lg text-sm px-5 py-2.5 text-center"
                 onClick={AddButtonClicked}
               >
                 <svg
