@@ -3,7 +3,6 @@ import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 
-// 항상 보여줌
 const navigation = [
   { name: "홈", href: "/" },
   { name: "정보", href: "/info" },
@@ -20,18 +19,25 @@ export default function Header() {
         <div className="flex lg:flex-1">
           <Link to="/">
             <span className="sr-only">BeFree</span>
-            <img className="h-8 w-auto" src={process.env.PUBLIC_URL + "/assets/imgs/BeFree.svg"} alt="Logo" />
+            <img className="h-4 lg:h-6 w-auto" src={process.env.PUBLIC_URL + "/assets/imgs/BeFree.svg"} alt="Logo" />
           </Link>
         </div>
-        <div className="hidden lg:flex lg:gap-x-24">
+        <div className="hidden lg:flex lg:gap-x-32">
           {navigation.map((item) => (
-            <Link key={item.name} to={item.href} className="text-sm font-semibold leading-6 text-gray-900">
+            <Link
+              key={item.name}
+              to={item.href}
+              className=" text-base font-['Pretendard-SemiBold'] leading-6 text-gray-900"
+            >
               {item.name}
             </Link>
           ))}
         </div>
         <div className="flex flex-1 items-center justify-end gap-x-6">
-          <Link to="#" className="hidden lg:block lg:text-sm lg:font-semibold lg:leading-6 lg:text-gray-900">
+          <Link
+            to="#"
+            className="hidden lg:block lg:text-base font-['Pretendard-SemiBold'] lg:leading-6 lg:text-gray-900"
+          >
             로그인하기 <span aria-hidden="true">&rarr;</span>
           </Link>
         </div>
@@ -50,13 +56,9 @@ export default function Header() {
         <div className="fixed inset-0 z-10" />
         <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center gap-x-6">
-            <Link href="#" className="-m-1.5 p-1.5">
-              <span className="sr-only">Your Company</span>
-              <img
-                className="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                alt=""
-              />
+            <Link to="/">
+              <span className="sr-only">BeFree</span>
+              <img className=" h-6 w-auto" src={process.env.PUBLIC_URL + "/assets/imgs/BeFree.svg"} alt="Logo" />
             </Link>
             <button
               type="button"
@@ -74,7 +76,7 @@ export default function Header() {
                   <Link
                     key={item.name}
                     to={item.href}
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-['Pretendard-SemiBold'] leading-7 text-gray-900 hover:bg-gray-50"
                   >
                     {item.name}
                   </Link>
@@ -82,8 +84,8 @@ export default function Header() {
               </div>
               <div className="py-6">
                 <Link
-                  to={"/member/login"}
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  to={"/login"}
+                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-['Pretendard-SemiBold'] leading-7 text-gray-900 hover:bg-gray-50"
                 >
                   로그인하기
                 </Link>
