@@ -1,6 +1,9 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import KakaoMapComponent from "../../components/map/KakaoMapComponent";
 import PagenationComponent from "../../components/tripList/PagenationComponent";
+import useCustomMove from "../../hooks/useCustomMove";
+import { useLocation } from "react-router-dom";
+import TripTopBannerComponent from "../../components/tripPlanAdd/TripTopBannerComponent";
 
 // 여행 계획 상세
 const TripListDetail = () => {
@@ -32,24 +35,54 @@ const TripListDetail = () => {
     },
   ]);
 
+  const [page, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(5);
+
+  const numButtonClicked = (buttonNumber) => {
+    setPage(buttonNumber);
+    console.log("눌림", buttonNumber);
+  };
+
+  const { moveToTripPlanAdd, moveToBack } = useCustomMove();
+
+  const location = useLocation();
+
+  const tid = { ...location.state }.tid;
+  const title = { ...location.state }.title;
+  const date = { ...location.state }.date;
+  console.log(location);
+  console.log("tid", tid);
+  console.log("title", title);
+  console.log("date", date);
+
   return (
     <>
-      <div className="h-full">
-        <KakaoMapComponent width="100%" height="550px" />
+      <TripTopBannerComponent topText={"여행지 살펴보기"} tid={tid} title={title} date={date} />
+      <div className="container-noline">
+        <KakaoMapComponent width="1200px" height="600px" />
       </div>
-      <div className="flex justify-between items-center mt-10 px-4 pr-44 pl-44">
-        <span className="font-[Pretendard-Regular] text-xl">1 일차</span>
-        <div className="flex space-x-4">
-          <button className="text-center w-28 text-gray-900 inline-flex justify-center border border-my-color-darkblue hover:bg-slate-100 focus:ring-2 focus:outline-none focus:ring-slate-400 font-['Pretendard-Regular'] rounded-sm text-sm py-2.5 bg-white">
-            편집하기
-          </button>
-          <button className="text-center w-28 text-white inline-flex justify-center items-center bg-my-color-darkblue hover:bg-slate-700 border-black focus:ring-2 focus:outline-none focus:ring-slate-400 font-['Pretendard-Regular'] rounded-sm text-sm py-2.5">
-            추가하기
-          </button>
+      <div className="flex justify-center items-center mt-10">
+        <div className="flex justify-between items-center w-full max-w-[1200px]">
+          <span className="font-['Pretendard-Regular'] text-xl">1 일차</span>
+          <div className="flex space-x-4">
+            <button
+              onClick={() => moveToTripPlanAdd(tid, title, date)}
+              className="w-28 text-gray-900 flex justify-center border border-my-color-darkblue hover:bg-slate-100 focus:ring-2 focus:outline-none focus:ring-slate-400 font-['Pretendard-Regular'] rounded-sm text-sm py-2.5 bg-white"
+            >
+              편집하기
+            </button>
+            <button
+              onClick={() => moveToTripPlanAdd(tid, title, date)}
+              className="w-28 text-white flex justify-center items-center bg-my-color-darkblue hover:bg-slate-700 focus:ring-2 focus:outline-none focus:ring-slate-400 font-['Pretendard-Regular'] rounded-sm text-sm py-2.5"
+            >
+              추가하기
+            </button>
+          </div>
         </div>
       </div>
+
       <div className="flex justify-center my-4">
-        <div className="w-[80%] border-[1px] border-neutral-500"></div>
+        <div className="w-[1200px] border-[1px] border-neutral-500"></div>
       </div>
       <div className="flex justify-center my-4 mt-48 font-[Pretendard-Regular]">추가한 일정이 없습니다</div>
       <div className="flex justify-center my-4 mt-4 mb-52 font-[Pretendard-Regular]">
@@ -84,7 +117,7 @@ const TripListDetail = () => {
           </div>
         ))}
       </div>
-      <PagenationComponent />
+      <PagenationComponent page={page} totalPage={totalPage} numButtonClicked={numButtonClicked} />
     </>
   );
 };

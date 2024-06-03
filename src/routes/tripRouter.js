@@ -17,7 +17,7 @@ const tripRouter = () => {
       ),
     },
     {
-      path: "listdetail", // 여행 상세 - 여행 계획짜기
+      path: "listdetail/:tid", // 여행 상세 - 여행 계획짜기
       element: (
         <Suspense fallback={<LoadingPage />}>
           <TripListDetail />
@@ -25,7 +25,7 @@ const tripRouter = () => {
       ),
     },
     {
-      path: "planadd", // 여행에 여행지 추가
+      path: "planadd/:tid", // 여행에 여행지 추가
       element: (
         <Suspense fallback={<LoadingPage />}>
           <TripplanAdd />

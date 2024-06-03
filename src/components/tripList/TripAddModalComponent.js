@@ -1,12 +1,11 @@
 import React, { useRef, useState } from "react";
+import { createTrip } from "../../api/befreeApi";
 
 const initState = {
-  tid: "",
-  uid: 1,
-  title: "",
-  region: "",
-  startDate: "",
-  endDate: "",
+  ttitle: "",
+  tregion: "",
+  tbegin: "",
+  tend: "",
 };
 
 const TripAddModalComponent = ({ callbackFn }) => {
@@ -27,8 +26,7 @@ const TripAddModalComponent = ({ callbackFn }) => {
   };
 
   const AddButtonClicked = () => {
-    console.log("AddButtonClicked");
-    handleClose();
+    createTrip("befree@befree.com", trip).then(() => handleClose());
   };
 
   return (
@@ -81,7 +79,7 @@ const TripAddModalComponent = ({ callbackFn }) => {
                   </label>
                   <input
                     id="title"
-                    name="title"
+                    name="ttitle"
                     type="text"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-600 dark:text-gray-800 dark:focus:ring-primary-500 dark:focus:border-primary-500"
                     placeholder="여행 제목"
@@ -98,7 +96,7 @@ const TripAddModalComponent = ({ callbackFn }) => {
                   </label>
                   <select
                     id="region"
-                    name="region"
+                    name="tregion"
                     type="String"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-600 dark:text-gray-800 dark:focus:ring-primary-500 dark:focus:border-primary-500"
                     defaultValue={""}
@@ -133,7 +131,7 @@ const TripAddModalComponent = ({ callbackFn }) => {
                   </label>
                   <input
                     id="startDate"
-                    name="startDate"
+                    name="tbegin"
                     type="date"
                     className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-600 dark:text-gray-800 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     onChange={handleChangeProduct}
@@ -148,7 +146,7 @@ const TripAddModalComponent = ({ callbackFn }) => {
                   </label>
                   <input
                     id="endDate"
-                    name="endDate"
+                    name="tend"
                     type="date"
                     className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
                     onChange={handleChangeProduct}

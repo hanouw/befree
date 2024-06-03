@@ -4,6 +4,10 @@ import { useNavigate } from "react-router-dom";
 const useCustomMove = () => {
   const navigate = useNavigate();
 
+  const moveToBack = () => {
+    navigate(-1);
+  };
+
   // =========================================================================== 여행 관련 페이지
 
   // 현재 페이지를 다시 클릭해도 서버 호출이 되도록 도와주는 state값
@@ -20,13 +24,13 @@ const useCustomMove = () => {
   };
 
   // 여행 계획 상세로 이동
-  const moveToTripListDetail = () => {
-    navigate({ pathname: `/trip/listdetail` });
+  const moveToTripListDetail = (tid, title, date) => {
+    navigate({ pathname: `/trip/listdetail/${tid}` }, { state: { tid: `${tid}`, title: `${title}`, date: `${date}` } });
   };
 
   // 여행 계획 상세로 이동
-  const moveToTripPlanAdd = () => {
-    navigate({ pathname: `/trip/planadd` });
+  const moveToTripPlanAdd = (tid, title, date) => {
+    navigate({ pathname: `/trip/planadd/${tid}` }, { state: { tid: `${tid}`, title: `${title}`, date: `${date}` } });
   };
 
   // 여행지 상세로 이동
@@ -59,6 +63,7 @@ const useCustomMove = () => {
 
   // 각 이동 함수를 리턴
   return {
+    moveToBack,
     moveToMain,
     moveToTripList,
     moveToTripListDetail,

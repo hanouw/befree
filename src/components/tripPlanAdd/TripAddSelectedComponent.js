@@ -1,8 +1,9 @@
 import { useState } from "react";
 import "../../css/TripPlanAdd.css";
+import useCustomMove from "../../hooks/useCustomMove";
 
 // header가 아닌 여행지 추가 페이지의 헤더
-const HeaderComponent = () => {
+const TripAddSelectedComponent = () => {
   // 상태 선언 및 초기화
   const [items, setItems] = useState([
     {
@@ -19,24 +20,6 @@ const HeaderComponent = () => {
 
   return (
     <>
-      <div className="container-noline font-['Pretendard']">
-        <header className="header">
-          <h1>여행지 추가하기</h1>
-          <div className="buttons">
-            <button>돌아가기</button>
-            <button>추가하기</button>
-          </div>
-        </header>
-
-        <div className="banner">
-          <img src="/assets/imgs/trip_list_size_down_01.png" alt="Banner" />
-          <div className="banner-text">
-            <p>2024.01.01 ~ 2024.01.08</p>
-            <p>친구와 함께</p>
-          </div>
-        </div>
-      </div>
-
       <div className="container font-['Pretendard']">
         <div className="added-list">
           <h2>추가 된 목록</h2>
@@ -64,4 +47,4 @@ const HeaderComponent = () => {
   );
 };
 
-export default HeaderComponent;
+export default TripAddSelectedComponent;
