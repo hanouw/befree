@@ -21,13 +21,38 @@ const noDrag = {
   msUserDrag: "none",
 };
 
-const FoundListComponent = (region) => {
+const FoundListComponent = (values) => {
   const [tripList, setTripList] = useState([]);
+  const [recentResult, setRecentResult] = useState({
+    category: null,
+    imgNece: null,
+    region: values.region,
+    keywordVal: null,
+  });
+  const [totalCount, setTotalCount] = useState(0);
+  const [totalData, setTotalData] = useState(null);
+
+  if (values != recentResult) {
+    setRecentResult(values);
+  }
+  console.log(values);
 
   useEffect(() => {
+    console.log("this++++++++++++++++++++", values.region);
     // pageNo, arrange, keyword, contentTypeId, areaCode, sigunguCode, cat1, cat2
-    placeKeywordData(1, "O", null, null, 39, 3, null, null).then((data) => {
+    placeKeywordData(
+      1, // pageNo
+      values.imgNece || "O", //arrange
+      values.keywordVal, //keyword
+      values.category, //contentTypeId
+      values.region, //areaCode
+      null, //sigunguCode
+      null, //cat1
+      null //cat2
+    ).then((data) => {
       console.log("data", data);
+      setTotalData(data);
+      setTotalCount(data.response.body.totalCount);
 
       const refinedData = data.response.body;
       const newTripList = [];
@@ -50,7 +75,8 @@ const FoundListComponent = (region) => {
       setTripList(newTripList);
       console.log("set 실행 됨", newTripList);
     });
-  }, []);
+  }, [recentResult]);
+  console.log("tripList", tripList);
   return (
     <>
       <div className="container-noline-list">

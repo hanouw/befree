@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "../../css/TripPlanAdd.css";
-import { placeKeywordData } from "../../api/tripApi";
 
 const regionValue = {
   서울: "1",
@@ -138,6 +137,7 @@ const TripPlanAddComponent = ({ region, callBackFn }) => {
   const [cityOptions, setCityOptions] = useState([]);
   const [currentProvince, setCurrentProvince] = useState("");
   const [onlyWithImages, setOnlyWithImages] = useState(false);
+  const [keyword, setKeyword] = useState("");
 
   const toggleSelection = (setter, array, value) => {
     setter(
@@ -145,6 +145,19 @@ const TripPlanAddComponent = ({ region, callBackFn }) => {
         ? array.filter((item) => item !== value)
         : [...array, value]
     );
+  };
+
+  // 검색( 키워드 옆 X ) 클릭 시 작동
+  const searchClicked = () => {
+    callBackFn(selectedCities, selectedCategory, onlyWithImages, keyword);
+    console.log(cityOptions); // 옵션 보여주기 (전체, 강남구, 강동구, 강북구)
+    console.log(selectedProvinces); // 서울특별시
+    console.log(selectedCities); // 서울특별시 강남구 O
+    console.log(selectedCategory); // 28 O
+    console.log(selectedAccessibilityTypes); // 지체장애인, 노약자
+    console.log(selectedFacilities); // 전용 입장권 할인, 유아놀이 보관 가능
+    console.log(onlyWithImages); // false O
+    console.log(keyword); // 키워드 O
   };
 
   const handleProvinceChange = (province) => {
@@ -219,10 +232,15 @@ const TripPlanAddComponent = ({ region, callBackFn }) => {
     setSelectedAccessibilityTypes([]);
     setSelectedFacilities([]);
     setOnlyWithImages(false);
+    setKeyword("");
   };
 
   const handleToggleImageFilter = () => {
     setOnlyWithImages(!onlyWithImages);
+  };
+
+  const keywordChange = (e) => {
+    setKeyword(e.target.value);
   };
 
   return (
@@ -233,18 +251,28 @@ const TripPlanAddComponent = ({ region, callBackFn }) => {
       </div>
 
       <div className="search-bar">
-        <input type="text" placeholder="검색어" />
-        <button onClick={callBackFn}>검색</button>
+        <input
+          type="text"
+          placeholder="검색어 입력"
+          onChange={keywordChange}
+          value={keyword}
+        />
       </div>
 
       <div className="filters flex flex-col items-center">
-        <FilterSection title="이미지 선택" className="w-full flex">
-          <button
-            className={onlyWithImages ? "selected" : ""}
-            onClick={handleToggleImageFilter}
-          >
-            이미지 있는 곳만
-          </button>
+        <FilterSection
+          title="이미지가 있는 여행지만 보기"
+          className="w-full flex"
+        >
+          <label className="inline-flex items-center cursor-pointer">
+            <input
+              type="checkbox"
+              value=""
+              className="sr-only peer"
+              onClick={handleToggleImageFilter}
+            />
+            <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-my-color-darkblue"></div>
+          </label>
         </FilterSection>
 
         <FilterSection title="지역" className="w-full flex">
@@ -337,7 +365,7 @@ const TripPlanAddComponent = ({ region, callBackFn }) => {
           <button onClick={resetSelections} className="mr-2">
             초기화
           </button>
-          <button>검색하기</button>
+          <button onClick={searchClicked}>검색하기</button>
         </div>
       </div>
     </div>
