@@ -269,7 +269,7 @@ const TripPlanAddComponent = ({ region, callBackFn }) => {
           <button onClick={resetSelections} className="mr-2">
             초기화
           </button>
-          <button>검색하기</button>
+          <button onClick={callBackFn}>검색하기</button>
         </div>
       </div>
     </div>

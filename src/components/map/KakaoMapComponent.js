@@ -4,7 +4,6 @@ const { kakao } = window;
 
 const KakaoMapComponent = ({ width = "100%", height = "100%", list }) => {
   const mapContainer = useRef(null);
-  console.log("hi")
   console.log(list);
 
   useEffect(() => {
