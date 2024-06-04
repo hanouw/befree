@@ -1,11 +1,10 @@
 import KakaoMapComponent from "../map/KakaoMapComponent";
 import "../../css/TripPlanAdd.css";
 
-const MapComponent = () => {
+const MapComponent = ({map}) => {
 
-	const list = [
-		{ID:1,NAME:"A"}
-	]
+	const result = {map}
+	console.log("MapComponent map:", map)
 	
 	return (
 		<>
@@ -14,7 +13,7 @@ const MapComponent = () => {
 					<h1>지도</h1>
 				</div>	
 				<div></div>
-				<KakaoMapComponent width="1200px" height="600px" list={list} />
+				<KakaoMapComponent width="1200px" height="600px" result={result} />
 			</div>
 		</>
 	);

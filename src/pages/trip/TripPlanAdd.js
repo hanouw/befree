@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import FilterComponent from "../../components/tripPlanAdd/FilterComponent";
 import TripTopBannerComponent from "../../components/tripPlanAdd/TripTopBannerComponent";
 import TripAddSelectedComponent from "../../components/tripPlanAdd/TripAddSelectedComponent";
@@ -9,28 +9,28 @@ import { placeKeywordData } from "../../api/tripApi";
 
 // 여행 계획 추가
 const TripPlanAdd = () => {
-	const map = [];
+  const location = useLocation();
+  const [map, setMap] = useState([]);
 
 	const callBackFn = () => {
-		console.log("callBackFn 실행됨");
-		placeKeywordData().then((data) => {
-			map.length = 0;
-			console.log("placeKeywordData 실행됨");
-			let result = data.response.body.items.item;
-			for (let i = 0; i < result.length; i++) {
-				const item = result[i];
-				const mapObj = {
-					mapx: item.mapx,
-					mapy: item.mapy,
-					title: item.title,
-				};
-				map.push(mapObj);
-			}
-			console.log(map);
-		});
-	};
-
-	const location = useLocation();
+    console.log("TripPlanAdd callBackFn 실행됨");
+    placeKeywordData().then((data) => {
+      console.log("TripPlanAdd placeKeywordData 실행됨");
+      let result = data.response.body.items.item;
+      const newMap = []; // 새로운 배열 생성
+      for (let i = 0; i < result.length; i++) {
+        const item = result[i];
+        const mapObj = {
+          mapx: item.mapx,
+          mapy: item.mapy,
+          title: item.title,
+        };
+        newMap.push(mapObj);
+      }
+      setMap(newMap); // 상태 변수 업데이트
+      console.log("TripPlanAdd updated map:", map);
+    });
+  };
 
 	const tid = { ...location.state }.tid;
 	const title = { ...location.state }.title;
@@ -46,7 +46,7 @@ const TripPlanAdd = () => {
 			/>
 			<TripAddSelectedComponent />
 			<FilterComponent region={region} callBackFn={callBackFn} />
-			<MapComponent list={map} />
+			<MapComponent map={map} />
 			<FoundListComponent region={region} />
 		</div>
 	);
