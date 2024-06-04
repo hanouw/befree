@@ -57,6 +57,7 @@ const TripList = () => {
           alt: trip.tid,
           date: formattedBeginDate + " ~ " + formattedEndDate,
           title: trip.ttitle,
+          region: trip.tregion,
           style: noDrag,
         };
       });
@@ -98,7 +99,7 @@ const TripList = () => {
           <div
             className="w-2/3 lg:w-mywidth1200"
             key={item.src}
-            onClick={() => moveToTripListDetail(item.alt, item.title, item.date)}
+            onClick={() => moveToTripListDetail(item.alt, item.title, item.date, item.region)}
           >
             <img src={item.src} alt={item.alt} style={item.style} className="rounded-md h-24 sm:h-full"></img>
             <div className="sm:mt-2 mb-4">

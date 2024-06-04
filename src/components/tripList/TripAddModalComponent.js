@@ -102,23 +102,59 @@ const TripAddModalComponent = ({ callbackFn }) => {
                     defaultValue={""}
                     onChange={handleChangeProduct}
                   >
-                    <option className="font-['Pretendard-Medium']" value="">
-                      클릭해서 지역을 선택해주세요
+                    <option className="font-[Pretendard-regular]" value="">
+                      전체
                     </option>
-                    <option className="font-['Pretendard-Medium']" value="SEOUL">
+                    <option className="font-[Pretendard-regular]" value="1">
                       서울
                     </option>
-                    <option className="font-['Pretendard-Medium']" value="GYEONGGI">
-                      경기
+                    <option className="font-[Pretendard-regular]" value="6">
+                      부산
                     </option>
-                    <option className="font-['Pretendard-Medium']" value="INCHEON">
+                    <option className="font-[Pretendard-regular]" value="4">
+                      대구
+                    </option>
+                    <option className="font-[Pretendard-regular]" value="2">
                       인천
                     </option>
-                    <option className="font-['Pretendard-Medium']" value="GANGWON">
+                    <option className="font-[Pretendard-regular]" value="5">
+                      광주
+                    </option>
+                    <option className="font-[Pretendard-regular]" value="3">
+                      대전
+                    </option>
+                    <option className="font-[Pretendard-regular]" value="7">
+                      울산
+                    </option>
+                    <option className="font-[Pretendard-regular]" value="8">
+                      세종
+                    </option>
+                    <option className="font-[Pretendard-regular]" value="31">
+                      경기
+                    </option>
+                    <option className="font-[Pretendard-regular]" value="32">
                       강원
                     </option>
-                    <option className="font-['Pretendard-Medium']" value="BUSAN">
-                      부산
+                    <option className="font-[Pretendard-regular]" value="33">
+                      충북
+                    </option>
+                    <option className="font-[Pretendard-regular]" value="34">
+                      충남
+                    </option>
+                    <option className="font-[Pretendard-regular]" value="35">
+                      경북
+                    </option>
+                    <option className="font-[Pretendard-regular]" value="36">
+                      경남
+                    </option>
+                    <option className="font-[Pretendard-regular]" value="37">
+                      전북
+                    </option>
+                    <option className="font-[Pretendard-regular]" value="38">
+                      전남
+                    </option>
+                    <option className="font-[Pretendard-regular]" value="39">
+                      제주
                     </option>
                   </select>
                 </div>

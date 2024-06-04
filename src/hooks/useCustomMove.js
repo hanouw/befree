@@ -24,13 +24,19 @@ const useCustomMove = () => {
   };
 
   // 여행 계획 상세로 이동
-  const moveToTripListDetail = (tid, title, date) => {
-    navigate({ pathname: `/trip/listdetail/${tid}` }, { state: { tid: `${tid}`, title: `${title}`, date: `${date}` } });
+  const moveToTripListDetail = (tid, title, date, region) => {
+    navigate(
+      { pathname: `/trip/listdetail/${tid}` },
+      { state: { tid: `${tid}`, title: `${title}`, date: `${date}`, region: `${region}` } }
+    );
   };
 
   // 여행 계획 상세로 이동
-  const moveToTripPlanAdd = (tid, title, date) => {
-    navigate({ pathname: `/trip/planadd/${tid}` }, { state: { tid: `${tid}`, title: `${title}`, date: `${date}` } });
+  const moveToTripPlanAdd = (tid, title, date, region) => {
+    navigate(
+      { pathname: `/trip/planadd/${tid}` },
+      { state: { tid: `${tid}`, title: `${title}`, date: `${date}`, region: `${region}` } }
+    );
   };
 
   // 여행지 상세로 이동
