@@ -149,7 +149,6 @@ const TripPlanAddComponent = ({ region, callBackFn }) => {
 
   // 검색( 키워드 옆 X ) 클릭 시 작동
   const searchClicked = () => {
-    callBackFn(selectedCities, selectedCategory, onlyWithImages, keyword);
     console.log(cityOptions); // 옵션 보여주기 (전체, 강남구, 강동구, 강북구)
     console.log(selectedProvinces); // 서울특별시
     console.log(selectedCities); // 서울특별시 강남구 O
@@ -158,6 +157,7 @@ const TripPlanAddComponent = ({ region, callBackFn }) => {
     console.log(selectedFacilities); // 전용 입장권 할인, 유아놀이 보관 가능
     console.log(onlyWithImages); // false O
     console.log(keyword); // 키워드 O
+    callBackFn(selectedCities, selectedCategory, onlyWithImages, keyword);
   };
 
   const handleProvinceChange = (province) => {

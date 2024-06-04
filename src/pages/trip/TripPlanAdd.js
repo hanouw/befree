@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useState } from "react";
+import React, { useEffect, useState } from "react";
 import FilterComponent from "../../components/tripPlanAdd/FilterComponent";
 import TripTopBannerComponent from "../../components/tripPlanAdd/TripTopBannerComponent";
 import TripAddSelectedComponent from "../../components/tripPlanAdd/TripAddSelectedComponent";
@@ -9,13 +9,13 @@ import { placeKeywordData } from "../../api/tripApi";
 
 // 여행 계획 추가
 const TripPlanAdd = () => {
-	const location = useLocation();
-	const [map, setMap] = useState([]);
-	const [city, setCity] = useState(null); // 서울 강남  - 이후 지역코드, 시군구 코드로 수정
-	const [category, setCategory] = useState(null); // contentTypeId
-	const [imgNece, setImgNece] = useState(null); // arrange
-	const [keywordVal, setKeywordVal] = useState(null);
-  const const callBackFn = (
+  const location = useLocation();
+  const [map, setMap] = useState([]);
+  const [city, setCity] = useState(null); // 서울 강남  - 이후 지역코드, 시군구 코드로 수정
+  const [category, setCategory] = useState(null); // contentTypeId
+  const [imgNece, setImgNece] = useState(null); // arrange
+  const [keywordVal, setKeywordVal] = useState(null);
+  const callBackFn = (
     selectedCities,
     selectedCategory,
     onlyWithImages,
@@ -33,7 +33,7 @@ const TripPlanAdd = () => {
     } else {
       setKeywordVal(null);
     }
-	console.log("TripPlanAdd callBackFn 실행됨");
+    console.log("TripPlanAdd callBackFn 실행됨");
     placeKeywordData().then((data) => {
       console.log("TripPlanAdd placeKeywordData 실행됨");
       let result = data.response.body.items.item;
@@ -52,8 +52,6 @@ const TripPlanAdd = () => {
     });
   };
 
-  const location = useLocation();
-
   const tid = { ...location.state }.tid;
   const title = { ...location.state }.title;
   const date = { ...location.state }.date;
@@ -69,7 +67,7 @@ const TripPlanAdd = () => {
       />
       <TripAddSelectedComponent />
       <FilterComponent region={region} callBackFn={callBackFn} />
-      <MapComponent map={map}/>
+      <MapComponent map={map} />
       <FoundListComponent
         region={region}
         category={category}
