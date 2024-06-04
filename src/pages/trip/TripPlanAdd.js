@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import FilterComponent from "../../components/tripPlanAdd/FilterComponent";
 import TripTopBannerComponent from "../../components/tripPlanAdd/TripTopBannerComponent";
 import TripAddSelectedComponent from "../../components/tripPlanAdd/TripAddSelectedComponent";
@@ -8,6 +8,10 @@ import { useLocation } from "react-router-dom";
 
 // 여행 계획 추가
 const TripPlanAdd = () => {
+  const callBackFn = () => {
+    console.log("callBackFn 실행됨");
+  };
+
   const location = useLocation();
 
   const tid = { ...location.state }.tid;
@@ -18,7 +22,7 @@ const TripPlanAdd = () => {
     <div>
       <TripTopBannerComponent topText={"여행지 추가하기"} tid={tid} title={title} date={date} />
       <TripAddSelectedComponent />
-      <FilterComponent region={region} />
+      <FilterComponent region={region} callBackFn={callBackFn} />
       <MapComponent />
       <FoundListComponent region={region} />
     </div>

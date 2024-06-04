@@ -25,7 +25,7 @@ const FoundListComponent = (region) => {
       await placeKeywordData(1, "O", null, null, 39, 3, null, null).then((data) => {
         console.log("data", data);
 
-        const refinedData = data.response.body;
+        const refinedData = data.response.body || null;
         const newTripList = [];
 
         for (let i = 0; i < refinedData.numOfRows; i++) {
