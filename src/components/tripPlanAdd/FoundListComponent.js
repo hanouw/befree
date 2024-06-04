@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { disableData, keywordData, placeData } from "../../api/tripApi";
+import { disableData, keywordData, placeData, placeKeywordData } from "../../api/tripApi";
 import PagenationComponent from "../tripList/PagenationComponent";
 
 // 이미지 드래그 못하게 하는 style
@@ -16,42 +16,36 @@ const noDrag = {
   msUserDrag: "none",
 };
 
-const FoundListComponent = () => {
+const FoundListComponent = (region) => {
   const [tripList, setTripList] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const data = await placeData();
-      console.log(data.response.body.items.item);
+    const dataResult = async () => {
+      // pageNo, arrange, keyword, contentTypeId, areaCode, sigunguCode, cat1, cat2
+      await placeKeywordData(1, "O", null, null, 39, 3, null, null).then((data) => {
+        console.log("data", data);
 
-      const refinedData = data.response.body;
-      const newTripList = [];
+        const refinedData = data.response.body;
+        const newTripList = [];
 
-      for (let i = 0; i < refinedData.numOfRows; i++) {
-        const item = refinedData.items.item[i];
-        const tempPlace = {
-          src: item.firstimage || item.firstimage2 || process.env.PUBLIC_URL + "/assets/imgs/defaultImageStroke.png",
-          alt: `${item.cat3}-${item.contentid}`,
-          title: item.title,
-          address: item.addr1,
-          style: noDrag,
-        };
-        newTripList.push(tempPlace);
-      }
+        for (let i = 0; i < refinedData.numOfRows; i++) {
+          const item = refinedData.items.item[i];
+          const tempPlace = {
+            src: item.firstimage || item.firstimage2 || process.env.PUBLIC_URL + "/assets/imgs/defaultImageStroke.png",
+            alt: `${item.cat3}-${item.contentid}`,
+            title: item.title,
+            address: item.addr1,
+            style: noDrag,
+          };
+          newTripList.push(tempPlace);
+        }
 
-      setTripList(newTripList);
-      console.log("set 실행 됨", newTripList);
+        setTripList(newTripList);
+        console.log("set 실행 됨", newTripList);
+      });
     };
 
-    fetchData();
-    // const keywordDataResult = await keywordData(1, "A", null, 12, 1, 4, "A01", null);
-    const keywordDataResult = async () => {
-      keywordData(1, "A", null, 12, 1, 4, "A01", null).then(
-        console.log(keywordDataResult),
-        console.log("*****************************")
-      );
-    };
-    keywordDataResult();
+    dataResult();
   }, []);
   return (
     <>

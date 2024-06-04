@@ -50,10 +50,7 @@ const TripListDetail = () => {
   const tid = { ...location.state }.tid;
   const title = { ...location.state }.title;
   const date = { ...location.state }.date;
-  console.log(location);
-  console.log("tid", tid);
-  console.log("title", title);
-  console.log("date", date);
+  const region = { ...location.state }.region;
 
   return (
     <>
@@ -66,13 +63,13 @@ const TripListDetail = () => {
           <span className="font-['Pretendard-Regular'] text-xl">1 일차</span>
           <div className="flex space-x-4">
             <button
-              onClick={() => moveToTripPlanAdd(tid, title, date)}
+              // onClick={() => moveToTripPlanAdd(tid, title, date)}
               className="w-28 text-gray-900 flex justify-center border border-my-color-darkblue hover:bg-slate-100 focus:ring-2 focus:outline-none focus:ring-slate-400 font-['Pretendard-Regular'] rounded-sm text-sm py-2.5 bg-white"
             >
               편집하기
             </button>
             <button
-              onClick={() => moveToTripPlanAdd(tid, title, date)}
+              onClick={() => moveToTripPlanAdd(tid, title, date, region)}
               className="w-28 text-white flex justify-center items-center bg-my-color-darkblue hover:bg-slate-700 focus:ring-2 focus:outline-none focus:ring-slate-400 font-['Pretendard-Regular'] rounded-sm text-sm py-2.5"
             >
               추가하기

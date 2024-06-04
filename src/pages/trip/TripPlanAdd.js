@@ -13,17 +13,14 @@ const TripPlanAdd = () => {
   const tid = { ...location.state }.tid;
   const title = { ...location.state }.title;
   const date = { ...location.state }.date;
-  console.log(location);
-  console.log("tid", tid);
-  console.log("title", title);
-  console.log("date", date);
+  const region = { ...location.state }.region;
   return (
     <div>
       <TripTopBannerComponent topText={"여행지 추가하기"} tid={tid} title={title} date={date} />
       <TripAddSelectedComponent />
-      <FilterComponent />
+      <FilterComponent region={region} />
       <MapComponent />
-      <FoundListComponent />
+      <FoundListComponent region={region} />
     </div>
   );
 };
