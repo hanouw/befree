@@ -2,8 +2,10 @@ import React, { useEffect, useRef } from "react";
 
 const { kakao } = window;
 
-const KakaoMapComponent = ({ width = "100%", height = "100%" }) => {
+const KakaoMapComponent = ({ width = "100%", height = "100%", list }) => {
   const mapContainer = useRef(null);
+  console.log("hi")
+  console.log(list);
 
   useEffect(() => {
     const container = mapContainer.current; // useRef를 통해 DOM 레퍼런스 얻기

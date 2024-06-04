@@ -1,5 +1,5 @@
 import axios from "axios";
-export const API_SERVER_HOST = "http://localhost:8085";
+import { BEFREE_API_SERVER_HOST } from "./befreeApi";
 
 export const loginPost = async (loginParam) => {
 	const header = { Headers: { "Content-Type": "x-www-form-urlencoded" } };
@@ -8,7 +8,7 @@ export const loginPost = async (loginParam) => {
 	form.append("password", loginParam.password);
 
 	const response = await axios.post(
-		`${API_SERVER_HOST}/member/login`,
+		`${BEFREE_API_SERVER_HOST}/member/login`,
 		form,
 		header
 	);
@@ -21,7 +21,7 @@ export const register = async (input) => {
 	const header = { Headers: { "Content-Type": "application/json" } };
 
 	const response = await axios.post(
-		`${API_SERVER_HOST}/member/register`,
+		`${BEFREE_API_SERVER_HOST}/member/register`,
 		input,
 		header
 	);
