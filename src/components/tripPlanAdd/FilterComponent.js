@@ -2,10 +2,7 @@ import React, { useState } from "react";
 import "../../css/TripPlanAdd.css";
 import { placeKeywordData } from "../../api/tripApi";
 
-// 정렬구분 (A=제목순,C=수정일순, D=생성일순) 대표이미지가반드시있는정렬(O=제목순, Q=수정일순, R=생성일순)
-// 관광타입(12:관광지, 14:문화시설, 15:축제공연행사, 25:여행코스, 28:레포츠, 32:숙박, 38:쇼핑, 39:음식점) ID
-
-var regionValue = {
+const regionValue = {
   서울: "1",
   부산: "6",
   대구: "4",
@@ -25,8 +22,6 @@ var regionValue = {
   제주: "39",
 };
 
-console.log(regionValue);
-
 const regions = {
   서울특별시: ["전체", "강남구", "강동구", "강북구"],
   부산광역시: ["전체", "금정구", "기장군"],
@@ -34,13 +29,13 @@ const regions = {
 };
 
 const categories = {
-  음식: ["한식", "서양식", "일식", "중식", "이색음식점", "카페/전통찻집"],
-  쇼핑: ["쇼핑1", "쇼핑2", "쇼핑3"],
-  숙박: ["숙박1", "숙박2", "숙박3"],
-  레포츠: ["레포츠1", "레포츠2", "레포츠3"],
-  추천코스: ["추천코스1", "추천코스2", "추천코스3"],
-  인문: ["인문1", "인문2", "인문3"],
-  자연: ["자연1", "자연2", "자연3"],
+  12: "관광지",
+  14: "문화시설",
+  15: "축제공연행사",
+  28: "레포츠",
+  32: "숙박",
+  38: "쇼핑",
+  39: "음식점",
 };
 
 const accessibilityTypes = [
@@ -97,8 +92,12 @@ const FilterSection = ({ title, children }) => (
 );
 
 const SelectionButtons = ({ items, selectedItem, toggleFunction }) =>
-  items.map((item) => (
-    <button key={item} className={selectedItem === item ? "selected" : ""} onClick={() => toggleFunction(item)}>
+  Object.entries(items).map(([key, item]) => (
+    <button
+      key={key}
+      className={selectedItem === key ? "selected" : ""}
+      onClick={() => toggleFunction(key)}
+    >
       {item}
     </button>
   ));
@@ -107,10 +106,24 @@ const AccessibilityButtons = ({ types, selectedItems, toggleFunction }) =>
   types.map(({ type, icon, alt }) => (
     <button
       key={type}
-      className={`accessibility-button ${selectedItems.includes(type) ? "selected" : ""}`}
+      className={`accessibility-button ${
+        selectedItems.includes(type) ? "selected" : ""
+      }`}
       onClick={() => toggleFunction(type)}
     >
       <img src={icon} alt={alt} />
+    </button>
+  ));
+const FacilityButtons = ({ facilities, selectedFacilities, toggleFunction }) =>
+  facilities.map((facility) => (
+    <button
+      key={facility}
+      className={`facility-button ${
+        selectedFacilities.includes(facility) ? "selected" : ""
+      }`}
+      onClick={() => toggleFunction(facility)}
+    >
+      {facility}
     </button>
   ));
 
@@ -118,19 +131,27 @@ const TripPlanAddComponent = ({ region, callBackFn }) => {
   const [selectedProvinces, setSelectedProvinces] = useState([]);
   const [selectedCities, setSelectedCities] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [selectedSubCategory, setSelectedSubCategory] = useState("");
-  const [selectedAccessibilityTypes, setSelectedAccessibilityTypes] = useState([]);
+  const [selectedAccessibilityTypes, setSelectedAccessibilityTypes] = useState(
+    []
+  );
   const [selectedFacilities, setSelectedFacilities] = useState([]);
   const [cityOptions, setCityOptions] = useState([]);
   const [currentProvince, setCurrentProvince] = useState("");
+  const [onlyWithImages, setOnlyWithImages] = useState(false);
 
   const toggleSelection = (setter, array, value) => {
-    setter(array.includes(value) ? array.filter((item) => item !== value) : [...array, value]);
+    setter(
+      array.includes(value)
+        ? array.filter((item) => item !== value)
+        : [...array, value]
+    );
   };
 
   const handleProvinceChange = (province) => {
     setSelectedProvinces((prevSelectedProvinces) =>
-      prevSelectedProvinces.includes(province) ? prevSelectedProvinces : [...prevSelectedProvinces, province]
+      prevSelectedProvinces.includes(province)
+        ? prevSelectedProvinces
+        : [...prevSelectedProvinces, province]
     );
     const options = regions[province].map((city) => (
       <option key={city} value={city}>
@@ -147,9 +168,19 @@ const TripPlanAddComponent = ({ region, callBackFn }) => {
 
     setSelectedCities((prevSelectedCities) => {
       if (city === "전체") {
-        return [...prevSelectedCities.filter((selected) => !selected.startsWith(currentProvince)), formatted];
+        return [
+          ...prevSelectedCities.filter(
+            (selected) => !selected.startsWith(currentProvince)
+          ),
+          formatted,
+        ];
       } else {
-        return [...prevSelectedCities.filter((selected) => selected !== `${currentProvince} 전체`), formatted];
+        return [
+          ...prevSelectedCities.filter(
+            (selected) => selected !== `${currentProvince} 전체`
+          ),
+          formatted,
+        ];
       }
     });
   };
@@ -158,21 +189,25 @@ const TripPlanAddComponent = ({ region, callBackFn }) => {
     setSelectedCategory(category);
   };
 
-  const handleSubCategoryClick = (subCategory) => {
-    setSelectedSubCategory(subCategory);
-  };
-
   const handleRemoveSelected = (item) => {
     if (selectedProvinces.includes(item)) {
-      setSelectedProvinces((prevSelected) => prevSelected.filter((selectedItem) => selectedItem !== item));
+      setSelectedProvinces((prevSelected) =>
+        prevSelected.filter((selectedItem) => selectedItem !== item)
+      );
     } else if (selectedCities.includes(item)) {
-      setSelectedCities((prevSelected) => prevSelected.filter((selectedItem) => selectedItem !== item));
-    } else if (selectedSubCategory === item) {
-      setSelectedSubCategory("");
+      setSelectedCities((prevSelected) =>
+        prevSelected.filter((selectedItem) => selectedItem !== item)
+      );
+    } else if (selectedCategory && categories[selectedCategory] === item) {
+      setSelectedCategory("");
     } else if (selectedAccessibilityTypes.includes(item)) {
-      setSelectedAccessibilityTypes((prevSelected) => prevSelected.filter((selectedItem) => selectedItem !== item));
+      setSelectedAccessibilityTypes((prevSelected) =>
+        prevSelected.filter((selectedItem) => selectedItem !== item)
+      );
     } else if (selectedFacilities.includes(item)) {
-      setSelectedFacilities((prevSelected) => prevSelected.filter((selectedItem) => selectedItem !== item));
+      setSelectedFacilities((prevSelected) =>
+        prevSelected.filter((selectedItem) => selectedItem !== item)
+      );
     }
   };
 
@@ -181,9 +216,13 @@ const TripPlanAddComponent = ({ region, callBackFn }) => {
     setSelectedProvinces([]);
     setSelectedCities([]);
     setSelectedCategory("");
-    setSelectedSubCategory("");
     setSelectedAccessibilityTypes([]);
     setSelectedFacilities([]);
+    setOnlyWithImages(false);
+  };
+
+  const handleToggleImageFilter = () => {
+    setOnlyWithImages(!onlyWithImages);
   };
 
   return (
@@ -199,9 +238,21 @@ const TripPlanAddComponent = ({ region, callBackFn }) => {
       </div>
 
       <div className="filters flex flex-col items-center">
+        <FilterSection title="이미지 선택" className="w-full flex">
+          <button
+            className={onlyWithImages ? "selected" : ""}
+            onClick={handleToggleImageFilter}
+          >
+            이미지 있는 곳만
+          </button>
+        </FilterSection>
+
         <FilterSection title="지역" className="w-full flex">
           <div className="flex items-center">
-            <select onChange={(e) => handleProvinceChange(e.target.value)} className="mr-2 mb-2">
+            <select
+              onChange={(e) => handleProvinceChange(e.target.value)}
+              className="mr-2 mb-2"
+            >
               <option value="">도/광역시 선택</option>
               {Object.keys(regions).map((province) => (
                 <option key={province} value={province}>
@@ -216,50 +267,67 @@ const TripPlanAddComponent = ({ region, callBackFn }) => {
           </div>
         </FilterSection>
 
-        <FilterSection title="관광 유형" className="w-full flex flex-col items-center">
+        <FilterSection
+          title="관광 유형"
+          className="w-full flex flex-col items-center"
+        >
           <SelectionButtons
-            items={Object.keys(categories)}
+            items={categories}
             selectedItem={selectedCategory}
             toggleFunction={handleCategoryClick}
           />
-          {selectedCategory && (
-            <div className="sub-options flex flex-wrap justify-center">
-              {categories[selectedCategory].map((subCategory) => (
-                <button
-                  key={subCategory}
-                  className={`m-1 ${selectedSubCategory === subCategory ? "selected" : ""}`}
-                  onClick={() => handleSubCategoryClick(subCategory)}
-                >
-                  {subCategory}
-                </button>
-              ))}
-            </div>
-          )}
         </FilterSection>
 
-        <FilterSection title="관광 약자 유형" className="w-full flex flex-col items-center">
+        <FilterSection
+          title="관광 약자 유형"
+          className="w-full flex flex-col items-center"
+        >
           <AccessibilityButtons
             types={accessibilityTypes}
             selectedItems={selectedAccessibilityTypes}
-            toggleFunction={(type) => toggleSelection(setSelectedAccessibilityTypes, selectedAccessibilityTypes, type)}
+            toggleFunction={(type) =>
+              toggleSelection(
+                setSelectedAccessibilityTypes,
+                selectedAccessibilityTypes,
+                type
+              )
+            }
           />
         </FilterSection>
 
-        <FilterSection title="관광약자 편의시설" className="w-full flex flex-col items-center">
-          <SelectionButtons
-            items={facilities}
-            selectedItems={selectedFacilities}
-            toggleFunction={(facility) => toggleSelection(setSelectedFacilities, selectedFacilities, facility)}
+        <FilterSection
+          title="관광약자 편의시설"
+          className="w-full flex flex-col items-center"
+        >
+          <FacilityButtons
+            facilities={facilities}
+            selectedFacilities={selectedFacilities}
+            toggleFunction={(facility) =>
+              toggleSelection(
+                setSelectedFacilities,
+                selectedFacilities,
+                facility
+              )
+            }
           />
         </FilterSection>
       </div>
 
       <div className="page-footer">
         <div className="selected-area flex flex-wrap justify-center">
-          {[...selectedCities, selectedSubCategory, ...selectedAccessibilityTypes, ...selectedFacilities]
+          {[
+            ...selectedCities,
+            categories[selectedCategory], // key를 value로 변경
+            ...selectedAccessibilityTypes,
+            ...selectedFacilities,
+          ]
             .filter((item) => item)
             .map((item) => (
-              <button key={item} onClick={() => handleRemoveSelected(item)} className="m-1">
+              <button
+                key={item}
+                onClick={() => handleRemoveSelected(item)}
+                className="m-1"
+              >
                 {item}
               </button>
             ))}
