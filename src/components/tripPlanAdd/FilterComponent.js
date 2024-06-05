@@ -126,7 +126,7 @@ const FacilityButtons = ({ facilities, selectedFacilities, toggleFunction }) =>
     </button>
   ));
 
-const TripPlanAddComponent = ({ region, callBackFn }) => {
+const FilterComponent = ({ region, callBackFn }) => {
   const [selectedProvinces, setSelectedProvinces] = useState([]);
   const [selectedCities, setSelectedCities] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -372,4 +372,4 @@ const TripPlanAddComponent = ({ region, callBackFn }) => {
   );
 };
 
-export default TripPlanAddComponent;
+export default FilterComponent;
