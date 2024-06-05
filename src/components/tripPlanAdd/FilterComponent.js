@@ -149,15 +149,27 @@ const TripPlanAddComponent = ({ region, callBackFn }) => {
 
   // 검색( 키워드 옆 X ) 클릭 시 작동
   const searchClicked = () => {
-    console.log(cityOptions); // 옵션 보여주기 (전체, 강남구, 강동구, 강북구)
-    console.log(selectedProvinces); // 서울특별시
-    console.log(selectedCities); // 서울특별시 강남구 O
-    console.log(selectedCategory); // 28 O
-    console.log(selectedAccessibilityTypes); // 지체장애인, 노약자
-    console.log(selectedFacilities); // 전용 입장권 할인, 유아놀이 보관 가능
-    console.log(onlyWithImages); // false O
-    console.log(keyword); // 키워드 O
-    callBackFn(selectedCities, selectedCategory, onlyWithImages, keyword);
+    // console.log(cityOptions); // 옵션 보여주기 (전체, 강남구, 강동구, 강북구)
+    // console.log(selectedProvinces); // 서울특별시
+    // console.log(selectedCities); // 서울특별시 강남구 O
+    // console.log(selectedCategory); // 28 O
+    // console.log(selectedAccessibilityTypes); // 지체장애인, 노약자
+    // console.log(selectedFacilities); // 전용 입장권 할인, 유아놀이 보관 가능
+    // console.log(onlyWithImages); // false O
+    // console.log(keyword); // 키워드 O
+    let imgNece = null;
+    let keywordVal = null;
+    if (onlyWithImages === true) {
+      imgNece = "O";
+    } else {
+      imgNece = "A";
+    }
+    if (keyword !== "" || keyword !== " ") {
+      keywordVal = keyword;
+    } else {
+      keywordVal = null;
+    }
+    callBackFn(selectedCities, selectedCategory, imgNece, keywordVal);
   };
 
   const handleProvinceChange = (province) => {
@@ -261,7 +273,7 @@ const TripPlanAddComponent = ({ region, callBackFn }) => {
 
       <div className="filters flex flex-col items-center">
         <FilterSection
-          title="이미지가 있는 여행지만 보기"
+          title="이미지가 있는 여행지 먼저 보기"
           className="w-full flex"
         >
           <label className="inline-flex items-center cursor-pointer">
