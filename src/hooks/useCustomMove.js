@@ -27,7 +27,14 @@ const useCustomMove = () => {
   const moveToTripListDetail = (tid, title, date, region) => {
     navigate(
       { pathname: `/trip/listdetail/${tid}` },
-      { state: { tid: `${tid}`, title: `${title}`, date: `${date}`, region: `${region}` } }
+      {
+        state: {
+          tid: `${tid}`,
+          title: `${title}`,
+          date: `${date}`,
+          region: `${region}`,
+        },
+      }
     );
   };
 
@@ -35,13 +42,20 @@ const useCustomMove = () => {
   const moveToTripPlanAdd = (tid, title, date, region) => {
     navigate(
       { pathname: `/trip/planadd/${tid}` },
-      { state: { tid: `${tid}`, title: `${title}`, date: `${date}`, region: `${region}` } }
+      {
+        state: {
+          tid: `${tid}`,
+          title: `${title}`,
+          date: `${date}`,
+          region: `${region}`,
+        },
+      }
     );
   };
 
   // 여행지 상세로 이동
-  const moveToPlaceDetail = () => {
-    navigate({ pathname: `/trip/placedetail` });
+  const moveToPlaceDetail = (contentId) => {
+    navigate({ pathname: `/trip/placedetail/${contentId}` });
   };
 
   // =========================================================================== 유저 관련 페이지

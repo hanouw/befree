@@ -127,7 +127,7 @@ export const sendPlaceKeywordDataApi = async (recentResult) => {
         item.firstimage ||
         item.firstimage2 ||
         process.env.PUBLIC_URL + "/assets/imgs/defaultImageStroke.png",
-      alt: `${item.cat3}-${item.contentid}`,
+      alt: `${item.contentid}`,
       title: item.title,
       address: item.addr1,
       style: noDrag,

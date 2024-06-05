@@ -7,20 +7,6 @@ import { placeKeywordData, sendPlaceKeywordDataApi } from "../../api/tripApi";
 import KakaoMapComponent from "../../components/map/KakaoMapComponent";
 import NextBackPagenationComponent from "../../components/tripList/NextBackPagenationComponent";
 
-// 이미지 드래그 못하게 하는 style
-const noDrag = {
-  userSelect: "none",
-  WebkitUserSelect: "none",
-  MozUserSelect: "-moz-none",
-  msUserSelect: "none",
-  KhtmlUserSelect: "none",
-  userDrag: "none",
-  WebkitUserDrag: "none",
-  KhtmlUserDrag: "none",
-  MozUserDrag: "-moz-none",
-  msUserDrag: "none",
-};
-
 // 여행 계획 추가
 const TripPlanAdd = () => {
   // navigate를 통한 데이터 전달
@@ -76,6 +62,8 @@ const TripPlanAdd = () => {
     });
   }, [recentResult]);
 
+  const addPlaceToTempList = () => {};
+
   return (
     <div>
       <TripTopBannerComponent
@@ -86,7 +74,12 @@ const TripPlanAdd = () => {
       />
       <TripAddSelectedComponent />
       <FilterComponent region={region} callBackFn={callBackFn} />
-      <KakaoMapComponent width="1200px" height="600px" map={map} region={region} />
+      <KakaoMapComponent
+        width="1200px"
+        height="600px"
+        map={map}
+        region={region}
+      />
 
       {/* 기존 FoundListComponent */}
       <div className="container-noline-list">
@@ -98,7 +91,7 @@ const TripPlanAdd = () => {
           <>
             <div className="grid grid-cols-3 gap-0 mt-10">
               {tripList.map((item) => (
-                <div key={item.alt} className="flex justify-evenly ">
+                <div key={item.alt} className="flex justify-evenly mb-10">
                   <div className="flex flex-col" style={{ width: "90%" }}>
                     <img
                       src={item.src}
@@ -106,12 +99,59 @@ const TripPlanAdd = () => {
                       style={{ ...item.style, height: "300px" }}
                       className="rounded-md h-24 sm:h-full"
                     ></img>
-                    <div className="sm:mt-2 mb-4">
+                    <div className="sm:mt-2">
                       <span className="font-[Pretendard-Light] text-sm sm:text-lg">
                         {item.title}
                       </span>
                       <div className="font-[Pretendard-Light] text-sm sm:text-lg text-gray-600">
                         {item.address}
+                      </div>
+                    </div>
+                    {/* button start */}
+                    <div className="grid place-items-center">
+                      <div className="flex items-center justify-between w-full h-10 text-base">
+                        <button
+                          type="button"
+                          className=" mt-2 text-my-color-darkblue border-2 border-my-color-darkblue hover:bg-gray-100 hover:font-[Pretendard-ExtraBold] focus:ring-4 focus:outline-none focus:ring-gray-200 font-[Pretendard-SemiBold] rounded-md text-sm px-5 py-2.5 text-center inline-flex items-center"
+                        >
+                          자세히 보기
+                          <svg
+                            className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 14 10"
+                          >
+                            <path
+                              stroke="currentColor"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M1 5h12m0 0L9 1m4 4L9 9"
+                            />
+                          </svg>
+                        </button>
+                        <button
+                          type="button"
+                          className="gap-3 mt-2 text-white bg-my-color-darkblue hover:bg-slate-500 hover:font-[Pretendard-ExtraBold] focus:ring-4 focus:outline-none focus:ring-gray-200 font-[Pretendard-SemiBold] rounded-md text-base px-5 py-2.5 text-center inline-flex items-center"
+                          onClick={addPlaceToTempList}
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            className="w-6 h-6"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                            />
+                          </svg>
+                          추가하기
+                        </button>
                       </div>
                     </div>
                   </div>
