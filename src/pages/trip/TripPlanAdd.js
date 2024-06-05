@@ -86,7 +86,7 @@ const TripPlanAdd = () => {
       />
       <TripAddSelectedComponent />
       <FilterComponent region={region} callBackFn={callBackFn} />
-      <KakaoMapComponent width="1200px" height="600px" map={map} />
+      <KakaoMapComponent width="1200px" height="600px" map={map} region={region} />
 
       {/* 기존 FoundListComponent */}
       <div className="container-noline-list">

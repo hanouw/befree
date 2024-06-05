@@ -56,7 +56,7 @@ const TripListDetail = () => {
     <>
       <TripTopBannerComponent topText={"여행지 살펴보기"} tid={tid} title={title} date={date} />
       <div className="container-noline">
-        <KakaoMapComponent width="1200px" height="600px" />
+        <KakaoMapComponent width="1200px" height="600px" region={region} />
       </div>
       <div className="flex justify-center items-center mt-10">
         <div className="flex justify-between items-center w-full max-w-[1200px]">
