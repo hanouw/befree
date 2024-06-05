@@ -1,5 +1,19 @@
 import axios from "axios";
 
+// 이미지 드래그 못하게 하는 style
+const noDrag = {
+  userSelect: "none",
+  WebkitUserSelect: "none",
+  MozUserSelect: "-moz-none",
+  msUserSelect: "none",
+  KhtmlUserSelect: "none",
+  userDrag: "none",
+  WebkitUserDrag: "none",
+  KhtmlUserDrag: "none",
+  MozUserDrag: "-moz-none",
+  msUserDrag: "none",
+};
+
 // 무장애 기반
 export const disableData = async () => {
   // 컨텐츠ID가 “129619”인 무장애여행 정보 조회
@@ -69,6 +83,66 @@ export const placeKeywordData = async (
   if (requestLink) {
     return (await axios.get(requestLink)).data;
   }
+};
+
+// 위 API를 필터링 해서 가져오기
+// API 전송 함수
+export const sendPlaceKeywordDataApi = async (recentResult) => {
+  console.log(recentResult);
+  const data = await placeKeywordData(
+    1, // pageNo
+    recentResult.imgNece || "A", //arrange
+    recentResult.keywordVal, //keyword
+    recentResult.category, //contentTypeId
+    recentResult.region, //areaCode
+    null, //sigunguCode
+    null, //cat1
+    null //cat2
+  );
+
+  console.log("TripPlanAdd placeKeywordData 실행됨");
+  console.log(data);
+  const result = data.response.body.items.item;
+
+  // 지도 만들기
+  const newMap = []; // 새로운 배열 생성
+  if (data.response.body.numOfRows != 0) {
+    for (let i = 0; i < result.length; i++) {
+      const item = result[i];
+      const mapObj = {
+        mapx: item.mapx,
+        mapy: item.mapy,
+        title: item.title,
+      };
+      newMap.push(mapObj);
+    }
+  }
+
+  let newTripList = [];
+
+  for (let i = 0; i < data.response.body.numOfRows; i++) {
+    const item = result[i];
+    const tempPlace = {
+      src:
+        item.firstimage ||
+        item.firstimage2 ||
+        process.env.PUBLIC_URL + "/assets/imgs/defaultImageStroke.png",
+      alt: `${item.cat3}-${item.contentid}`,
+      title: item.title,
+      address: item.addr1,
+      style: noDrag,
+    };
+    newTripList.push(tempPlace);
+  }
+  const returnValue = {
+    newTripList: newTripList,
+    numOfRows: data.response.body.numOfRows,
+    newMap: newMap,
+  };
+
+  console.log(returnValue);
+
+  return returnValue;
 };
 
 //※내주변 좌표(서울 한국관광공사 주변)에서 1000m 이내에 있는 모든타입의 관광정보 조회
