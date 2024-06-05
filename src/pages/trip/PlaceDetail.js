@@ -1,8 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import KakaoMapComponent from "../../components/map/KakaoMapComponent";
+import { useParams } from "react-router-dom";
+import { getPlaceDetail } from "../../api/tripApi";
 
 // 여행지 상세 페이지
 const PlaceDetail = () => {
+	const { contentId } = useParams();
+	console.log(contentId)
+
+	useEffect(() => {
+		console.log("useEffect")
+		getPlaceDetail(contentId);
+	}, [contentId])
 	return (
 		<>
 			<div className="w-2/3 lg:w-mywidth1200 mx-auto p-4 font-['Pretendard']">
@@ -139,7 +148,7 @@ const PlaceDetail = () => {
 					<div className="w-[100%] my-[1%] border-[1px] border-neutral-500"></div>
 					<KakaoMapComponent width="1170px" height="600px" />
 				</section>
-			</div>	
+			</div>
 		</>
 	);
 };
