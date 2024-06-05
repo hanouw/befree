@@ -4,7 +4,6 @@ import "../../css/TripPlanAdd.css";
 const MapComponent = ({map}) => {
 
 	const result = {map}
-	console.log("MapComponent map:", map)
 	
 	return (
 		<>
