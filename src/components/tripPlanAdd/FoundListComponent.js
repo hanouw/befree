@@ -29,8 +29,6 @@ const FoundListComponent = (values) => {
     region: values.region,
     keywordVal: null,
   });
-  const [totalCount, setTotalCount] = useState(0);
-  const [totalData, setTotalData] = useState(null);
 
   if (values != recentResult) {
     setRecentResult(values);
@@ -38,43 +36,26 @@ const FoundListComponent = (values) => {
   console.log(values);
 
   useEffect(() => {
-    console.log("this++++++++++++++++++++", values.region);
-    // pageNo, arrange, keyword, contentTypeId, areaCode, sigunguCode, cat1, cat2
-    placeKeywordData(
-      1, // pageNo
-      values.imgNece || "O", //arrange
-      values.keywordVal, //keyword
-      values.category, //contentTypeId
-      values.region, //areaCode
-      null, //sigunguCode
-      null, //cat1
-      null //cat2
-    ).then((data) => {
-      console.log("data", data);
-      setTotalData(data);
-      setTotalCount(data.response.body.totalCount);
+    const refinedData = data.response.body;
+    const newTripList = [];
 
-      const refinedData = data.response.body;
-      const newTripList = [];
+    for (let i = 0; i < refinedData.numOfRows; i++) {
+      const item = refinedData.items.item[i];
+      const tempPlace = {
+        src:
+          item.firstimage ||
+          item.firstimage2 ||
+          process.env.PUBLIC_URL + "/assets/imgs/defaultImageStroke.png",
+        alt: `${item.cat3}-${item.contentid}`,
+        title: item.title,
+        address: item.addr1,
+        style: noDrag,
+      };
+      newTripList.push(tempPlace);
+    }
 
-      for (let i = 0; i < refinedData.numOfRows; i++) {
-        const item = refinedData.items.item[i];
-        const tempPlace = {
-          src:
-            item.firstimage ||
-            item.firstimage2 ||
-            process.env.PUBLIC_URL + "/assets/imgs/defaultImageStroke.png",
-          alt: `${item.cat3}-${item.contentid}`,
-          title: item.title,
-          address: item.addr1,
-          style: noDrag,
-        };
-        newTripList.push(tempPlace);
-      }
-
-      setTripList(newTripList);
-      console.log("set 실행 됨", newTripList);
-    });
+    setTripList(newTripList);
+    console.log("set 실행 됨", newTripList);
   }, [recentResult]);
   console.log("tripList", tripList);
   return (
