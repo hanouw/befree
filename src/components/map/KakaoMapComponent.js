@@ -3,61 +3,64 @@ import { mapData } from "../../util/mapData";
 
 const { kakao } = window;
 
-const KakaoMapComponent = ({
-	width = "100%",
-	height = "100%",
-	map = [],
-	region,
-}) => {
-	const mapContainer = useRef(null);
+const KakaoMapComponent = (props) => {
+  const { width = "100%", height = "100%", map = [], region } = props;
+  const mapContainer = useRef(null);
+  const mapInstance = useRef(null);
+  const bounds = useRef(null);
 
-	let center = "";
+  const initializeMap = (center) => {
+    const container = mapContainer.current;
+    const options = {
+      center,
+      level: 6,
+    };
+    mapInstance.current = new kakao.maps.Map(container, options);
+  };
 
-	if (map.length === 0) {
-    console.log("KakaoMapComponent region : ", region)
-    const result = mapData.find((data) => data.areaCode == region);
-    console.log("KakaoMapComponent result : ", result);
-		if (result) {
-			center = new kakao.maps.LatLng(result.mapy, result.mapx);
-		} else {
-			center = new kakao.maps.LatLng(37.554715, 126.970796); // 만약 문제생기면, 서울 디폴트
-      console.log("kakaoMap 디폴트다")
-		}
-	}
+  const updateMarkers = () => {
+    if (Array.isArray(map) && map.length > 0) {
+      bounds.current = new kakao.maps.LatLngBounds();
+      map.forEach((el) => {
+        const marker = new kakao.maps.Marker({
+          map: mapInstance.current,
+          position: new kakao.maps.LatLng(el.mapy, el.mapx),
+          title: el.title,
+        });
+        bounds.current.extend(new kakao.maps.LatLng(el.mapy, el.mapx));
+      });
+      mapInstance.current.setBounds(bounds.current);
+    }
+  };
 
-	const mapScript = () => {
-		const container = mapContainer.current; // useRef를 통해 DOM 레퍼런스 얻기
+  useEffect(() => {
+    let center;
+    if (map.length === 0 && region) {
+      const result = mapData.find((data) => data.areaCode == region);
+      if (result) {
+        center = new kakao.maps.LatLng(result.mapy, result.mapx);
+      } else {
+        center = new kakao.maps.LatLng(37.554715, 126.970796); // Default to Seoul if no result
+      }
+    } else if (map.length > 0) {
+      center = new kakao.maps.LatLng(map[0].mapy, map[0].mapx); // Center to the first map item
+    } else {
+      center = new kakao.maps.LatLng(37.554715, 126.970796); // Default to Seoul
+    }
 
-		const options = {
-			center: center,
-			level: 6, // 지도의 레벨(확대, 축소 정도)
-		};
-		const mapInstance = new kakao.maps.Map(container, options); // 지도 생성 및 객체 리턴
+    if (!mapInstance.current) {
+      initializeMap(center);
+    } else {
+      mapInstance.current.setCenter(center);
+      updateMarkers();
+    }
+  }, [map, region]);
 
-		if (Array.isArray(map) && map.length > 0) {
-			map.forEach((el) => {
-				// 마커를 생성합니다
-				new kakao.maps.Marker({
-					//마커가 표시 될 지도
-					map: mapInstance,
-					//마커가 표시 될 위치
-					position: new kakao.maps.LatLng(el.mapy, el.mapx),
-					//마커에 hover시 나타날 title
-					title: el.title,
-				});
-			});
-		}
-	};
-
-	useEffect(() => {
-		mapScript();
-	}, [map]);
-
-	return (
-		<div className="container-noline font-['Pretendard']">
-			<div ref={mapContainer} style={{ width, height }}></div>
-		</div>
-	);
+  return (
+    <div className="container-noline font-['Pretendard']">
+      <div ref={mapContainer} style={{ width, height }}></div>
+    </div>
+  );
 };
 
 export default KakaoMapComponent;
