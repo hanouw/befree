@@ -44,10 +44,16 @@ const PagenationComponent = ({ page, totalPage, numButtonClicked }) => {
               </a>
             </li>
             {pageNumbers.map((num) => (
-              <li key={num} onClick={() => isClicked(num)} className="cursor-pointer">
+              <li
+                key={num}
+                onClick={() => isClicked(num)}
+                className="cursor-pointer"
+              >
                 <a
                   className={`flex items-center justify-center px-4 h-10 leading-tight ${
-                    num === page ? "underline underline-offset-8 text-black" : "text-gray-500"
+                    num === page
+                      ? "underline underline-offset-8 text-black"
+                      : "text-gray-500"
                   } bg-white hover:bg-gray-100 hover:text-gray-700`}
                 >
                   {num}
@@ -103,10 +109,16 @@ const PagenationComponent = ({ page, totalPage, numButtonClicked }) => {
               </a>
             </li>
             {pageNumbers.map((num) => (
-              <li key={num} onClick={() => isClicked(num)} className="cursor-pointer">
+              <li
+                key={num}
+                onClick={() => isClicked(num)}
+                className="cursor-pointer"
+              >
                 <a
                   className={`flex items-center justify-center px-4 h-10 leading-tight ${
-                    num === page ? "underline underline-offset-8 text-black" : "text-gray-500"
+                    num === page
+                      ? "underline underline-offset-8 text-black"
+                      : "text-gray-500"
                   } bg-white hover:bg-gray-100 hover:text-gray-700`}
                 >
                   {num}
