@@ -32,12 +32,13 @@ const TripPlanAdd = () => {
     category: null, // contentTypeId
     imgNece: null, // arrange
     region: region, // areaCode
+    sigungu: null,
     keywordVal: null, // keyword
   });
 
   // 콜백함수 FilterComponent 에서 호출
   const callBackFn = (
-    selectedCities,
+    newSelectedRegionCode,
     selectedCategory,
     onlyWithImages,
     keyword
@@ -48,7 +49,10 @@ const TripPlanAdd = () => {
     setRecentResult({
       category: selectedCategory, // contentTypeId
       imgNece: onlyWithImages, // arrange
-      region: region, // areaCode
+      region: newSelectedRegionCode
+        ? newSelectedRegionCode[0].areaCode
+        : region, // areaCode
+      sigungu: newSelectedRegionCode ? newSelectedRegionCode[0].code : null, // sigungu
       keywordVal: keyword, // keyword
     });
   };
