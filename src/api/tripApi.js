@@ -148,6 +148,7 @@ export const sendPlaceKeywordDataApi = async (recentResult) => {
 
 export const getPlaceDetail = async (contentId) => {
 	console.log("tripApi getPlaceDetail 실행 contentId:", contentId);
+	// const data = await axios.get()
 };
 
 //※내주변 좌표(서울 한국관광공사 주변)에서 1000m 이내에 있는 모든타입의 관광정보 조회
