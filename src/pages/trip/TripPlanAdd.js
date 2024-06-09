@@ -23,6 +23,9 @@ const TripPlanAdd = () => {
   // 여행 목록
   const [tripList, setTripList] = useState([]);
 
+  // 추가된 목록
+  const [addedList, setAddList] = useState();
+
   // 필터링 데이터 전달
   const [city, setCity] = useState(null); // 서울 강남  - 이후 지역코드, 시군구 코드로 수정
   const [numOfRows, setNumOfRows] = useState(0);
@@ -30,12 +33,13 @@ const TripPlanAdd = () => {
     category: null, // contentTypeId
     imgNece: null, // arrange
     region: region, // areaCode
+    sigungu: null,
     keywordVal: null, // keyword
   });
 
   // 콜백함수 FilterComponent 에서 호출
   const callBackFn = (
-    selectedCities,
+    newSelectedRegionCode,
     selectedCategory,
     onlyWithImages,
     keyword
@@ -46,9 +50,17 @@ const TripPlanAdd = () => {
     setRecentResult({
       category: selectedCategory, // contentTypeId
       imgNece: onlyWithImages, // arrange
-      region: region, // areaCode
+      region: newSelectedRegionCode
+        ? newSelectedRegionCode[0].areaCode
+        : region, // areaCode
+      sigungu: newSelectedRegionCode ? newSelectedRegionCode[0].code : null, // sigungu
       keywordVal: keyword, // keyword
     });
+  };
+
+  // 최종 추가하기 버튼 클릭
+  const finalAddClicked = () => {
+    console.log("===============최종클릭=================");
   };
 
   useEffect(() => {
@@ -63,7 +75,11 @@ const TripPlanAdd = () => {
     });
   }, [recentResult]);
 
-  const addPlaceToTempList = () => {};
+  const addPlaceToTempList = (contentId, title, facilities) => {
+    // 이미 추가되었습니다 이후 추가
+    alert("추가되었습니다");
+    setAddList({ contentId: contentId, title: title, facilities: facilities });
+  };
 
   const { moveToPlaceDetail } = useCustomMove()
 
@@ -74,8 +90,9 @@ const TripPlanAdd = () => {
         tid={tid}
         title={title}
         date={date}
+        callBackFn={finalAddClicked}
       />
-      <TripAddSelectedComponent />
+      <TripAddSelectedComponent addedList={addedList} />
       <FilterComponent region={region} callBackFn={callBackFn} />
       <KakaoMapComponent
         width="1200px"
@@ -128,9 +145,9 @@ const TripPlanAdd = () => {
                           >
                             <path
                               stroke="currentColor"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
                               d="M1 5h12m0 0L9 1m4 4L9 9"
                             />
                           </svg>
@@ -138,19 +155,24 @@ const TripPlanAdd = () => {
                         <button
                           type="button"
                           className="gap-3 mt-2 text-white bg-my-color-darkblue hover:bg-slate-500 hover:font-[Pretendard-ExtraBold] focus:ring-4 focus:outline-none focus:ring-gray-200 font-[Pretendard-SemiBold] rounded-md text-base px-5 py-2.5 text-center inline-flex items-center"
-                          onClick={addPlaceToTempList}
+                          onClick={() =>
+                            addPlaceToTempList(item.contentId, item.title, [
+                              "시각",
+                              "청각",
+                            ])
+                          }
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"
-                            stroke-width="1.5"
+                            strokeWidth="1.5"
                             stroke="currentColor"
                             className="w-6 h-6"
                           >
                             <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
                               d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
                             />
                           </svg>

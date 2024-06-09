@@ -1,31 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../css/TripPlanAdd.css";
+import { mapData } from "../../util/mapData";
 
-const regionValue = {
-  서울: "1",
-  부산: "6",
-  대구: "4",
-  인천: "2",
-  광주: "5",
-  대전: "3",
-  울산: "7",
-  세종: "8",
-  경기: "31",
-  강원: "32",
-  충북: "33",
-  충남: "34",
-  경북: "35",
-  경남: "36",
-  전북: "37",
-  전남: "38",
-  제주: "39",
-};
-
-const regions = {
-  서울특별시: ["전체", "강남구", "강동구", "강북구"],
-  부산광역시: ["전체", "금정구", "기장군"],
-  경기도: ["전체", "가평군", "고양시", "과천시"],
-};
+// regions 객체 받아와서 생성
+const regions = mapData.reduce((acc, { title, regions }) => {
+  acc[title] = regions.map((region) => region.name);
+  return acc;
+}, {});
 
 const categories = {
   12: "관광지",
@@ -151,12 +132,36 @@ const FilterComponent = ({ region, callBackFn }) => {
   const searchClicked = () => {
     // console.log(cityOptions); // 옵션 보여주기 (전체, 강남구, 강동구, 강북구)
     // console.log(selectedProvinces); // 서울특별시
-    // console.log(selectedCities); // 서울특별시 강남구 O
+    // console.log(selectedCities); // ['광주 동구', '서울 전체'] O
     // console.log(selectedCategory); // 28 O
     // console.log(selectedAccessibilityTypes); // 지체장애인, 노약자
     // console.log(selectedFacilities); // 전용 입장권 할인, 유아놀이 보관 가능
     // console.log(onlyWithImages); // false O
     // console.log(keyword); // 키워드 O
+    const newSelectedRegionCode = selectedCities
+      .map((city) => {
+        const provinceName = city.split(" ")[0]; // 지역
+        const cityName = city.split(" ")[1]; // 시군구
+        const provinceData = mapData.find((item) =>
+          item.title.startsWith(provinceName)
+        );
+
+        if (provinceData) {
+          const areaCode = provinceData.areaCode;
+          const regionData = provinceData.regions.find(
+            (region) => region.name === cityName
+          );
+          const code = regionData ? regionData.code : 0; // 혹시 모를 예외처리
+
+          return { areaCode, code };
+        }
+
+        return null;
+      })
+      .filter((item) => item !== null);
+
+    console.log(newSelectedRegionCode);
+
     let imgNece = null;
     let keywordVal = null;
     if (onlyWithImages === true) {
@@ -169,7 +174,7 @@ const FilterComponent = ({ region, callBackFn }) => {
     } else {
       keywordVal = null;
     }
-    callBackFn(selectedCities, selectedCategory, imgNece, keywordVal);
+    callBackFn(newSelectedRegionCode, selectedCategory, imgNece, keywordVal);
   };
 
   const handleProvinceChange = (province) => {
@@ -192,6 +197,7 @@ const FilterComponent = ({ region, callBackFn }) => {
     const formatted = `${currentProvince} ${city}`;
 
     setSelectedCities((prevSelectedCities) => {
+      // 여기야 추가하기 경우에 따라서 =======================================
       if (city === "전체") {
         return [
           ...prevSelectedCities.filter(
@@ -208,6 +214,9 @@ const FilterComponent = ({ region, callBackFn }) => {
         ];
       }
     });
+    const currentProvinceData = mapData.find(
+      (item) => item.title === currentProvince
+    );
   };
 
   const handleCategoryClick = (category) => {
@@ -220,6 +229,7 @@ const FilterComponent = ({ region, callBackFn }) => {
         prevSelected.filter((selectedItem) => selectedItem !== item)
       );
     } else if (selectedCities.includes(item)) {
+      // 여기야 ===============================================================================
       setSelectedCities((prevSelected) =>
         prevSelected.filter((selectedItem) => selectedItem !== item)
       );
