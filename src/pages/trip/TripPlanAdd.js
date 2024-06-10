@@ -8,9 +8,13 @@ import KakaoMapComponent from "../../components/map/KakaoMapComponent";
 import NextBackPagenationComponent from "../../components/tripList/NextBackPagenationComponent";
 import useCustomMove from "../../hooks/useCustomMove";
 import TripAddLoadingModalComponent from "../../components/tripPlanAdd/TripAddLoadingModalComponent";
+import { addPlaceToTrip } from "../../api/befreeApi";
 
 // 여행 계획 추가
 const TripPlanAdd = () => {
+  // 페이지 이동
+  const { moveToTripListDetail } = useCustomMove();
+
   // navigate를 통한 데이터 전달
   const location = useLocation();
   const tid = { ...location.state }.tid;
@@ -70,13 +74,22 @@ const TripPlanAdd = () => {
   // 최종 추가하기 버튼 클릭 =============================================================================== 3
   const finalAddClicked = () => {
     console.log("===============최종클릭=================");
+    addPlaceToTrip(tid, finalData).then((isSuccess) => {
+      if (isSuccess.RESULT) {
+        alert("추가되었습니다");
+        moveToTripListDetail(tid, title, date, region);
+      } else {
+        alert("추가에 실패했습니다");
+      }
+    });
   };
 
-  // 여행지 추가되었을 때 리턴  ============================================================================= 1
+  // 여행지 추가되었을 때 리턴
   const selectedPlaceChange = (items) => {
     setFinalData(items);
-    console.log(items);
-    // [{contentId: "132215" facilities: ["장애인 주차장 있음", "출입구까지 턱이 없어 휠체어 접근 가능함", "주출입구는 턱이 없어 휠체어 접근 가능함"] mapx :"127.1109831778" mapy: "37.4960925880" title:"가락농수산물종합도매시장"}]
+    // [{contentId: "132215"
+    // facilities: ["장애인 주차장 있음", "출입구까지 턱이 없어 휠체어 접근 가능함", "주출입구는 턱이 없어 휠체어 접근 가능함"]
+    // mapx :"127.1109831778" mapy: "37.4960925880" title:"가락농수산물종합도매시장"}]
   };
 
   useEffect(() => {

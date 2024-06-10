@@ -4,6 +4,7 @@ import useCustomMove from "../../hooks/useCustomMove";
 
 // header가 아닌 여행지 추가 페이지의 헤더
 const TripAddSelectedComponent = ({ addedList, callBackFn }) => {
+  console.log(addedList);
   // 상태 선언 및 초기화
   const [items, setItems] = useState([]);
   useEffect(() => {

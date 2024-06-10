@@ -4,8 +4,7 @@ import { deleteTrip } from "../../api/befreeApi";
 
 // header가 아닌 여행지 추가 페이지의 헤더
 const TripTopBannerComponent = (data) => {
-  const { moveToBack } = useCustomMove();
-  console.log(data);
+  const { moveToTripList, moveToBack } = useCustomMove();
 
   const deleteClicked = () => {
     const deleteConfirm = window.confirm("정말로 삭제하시겠습니까?");
@@ -26,7 +25,7 @@ const TripTopBannerComponent = (data) => {
             <h1>{data.topText}</h1>
             <div className="flex space-x-4">
               <button
-                onClick={() => moveToBack()}
+                onClick={() => moveToTripList()}
                 className="text-center w-28 text-gray-900 inline-flex justify-center border border-my-color-darkblue hover:bg-slate-100 focus:ring-2 focus:outline-none focus:ring-slate-400 font-['Pretendard-Regular'] rounded-sm text-sm py-2.5 bg-white"
               >
                 돌아가기

@@ -208,6 +208,9 @@ export const sendPlaceKeywordDataApi = async (recentResult) => {
                   "_무장애 편의시설",
                   ""
                 );
+                value = value.replace("_시각장애인 편의시설", "");
+                value = value.replace("_청각장애인 편의시설", "");
+                value = value.replace("_지체장애인 편의시설", "");
                 tempFacil.push(value);
               }
             }
@@ -233,11 +236,14 @@ export const sendPlaceKeywordDataApi = async (recentResult) => {
           const disableReturnData =
             disableReturnTotalData.response.body.items.item[0];
           for (let key in disableReturnData) {
-            if (disableReturnData[key].trim() && key != "contentId") {
+            if (disableReturnData[key].trim() && key != "contentid") {
               let value = disableReturnData[key].replace(
                 "_무장애 편의시설",
                 ""
               );
+              value = value.replace("_시각장애인 편의시설", "");
+              value = value.replace("_청각장애인 편의시설", "");
+              value = value.replace("_지체장애인 편의시설", "");
               tempFacil.push(value);
             }
           }
