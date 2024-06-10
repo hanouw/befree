@@ -144,7 +144,7 @@ const TripPlanAdd = () => {
                         <button
                           type="button"
                           className=" mt-2 text-my-color-darkblue border-2 border-my-color-darkblue hover:bg-gray-100 hover:font-[Pretendard-ExtraBold] focus:ring-4 focus:outline-none focus:ring-gray-200 font-[Pretendard-SemiBold] rounded-md text-sm px-5 py-2.5 text-center inline-flex items-center"
-                          onClick={()=> moveToPlaceDetail(item.contentId)}
+                          onClick={()=> moveToPlaceDetail(item.contentId, item.contentTypeId)}
                         >
                           자세히 보기
                           <svg
