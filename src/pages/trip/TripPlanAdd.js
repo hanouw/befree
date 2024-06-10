@@ -6,6 +6,7 @@ import { useLocation } from "react-router-dom";
 import { sendPlaceKeywordDataApi } from "../../api/tripApi";
 import KakaoMapComponent from "../../components/map/KakaoMapComponent";
 import NextBackPagenationComponent from "../../components/tripList/NextBackPagenationComponent";
+import useCustomMove from "../../hooks/useCustomMove";
 
 // 여행 계획 추가
 const TripPlanAdd = () => {
@@ -88,6 +89,8 @@ const TripPlanAdd = () => {
     setAddList({ contentId: contentId, title: title, facilities: facilities });
   };
 
+  const { moveToPlaceDetail } = useCustomMove()
+
   return (
     <div>
       <TripTopBannerComponent
@@ -141,6 +144,7 @@ const TripPlanAdd = () => {
                         <button
                           type="button"
                           className=" mt-2 text-my-color-darkblue border-2 border-my-color-darkblue hover:bg-gray-100 hover:font-[Pretendard-ExtraBold] focus:ring-4 focus:outline-none focus:ring-gray-200 font-[Pretendard-SemiBold] rounded-md text-sm px-5 py-2.5 text-center inline-flex items-center"
+                          onClick={()=> moveToPlaceDetail(item.contentId)}
                         >
                           자세히 보기
                           <svg
