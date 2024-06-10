@@ -35,11 +35,6 @@ const accessibilityTypes = [
     alt: "지체장애인",
   },
   {
-    type: "노약자",
-    icon: "/assets/imgs/accessibilityTypes/old-man.svg ",
-    alt: "임산부",
-  },
-  {
     type: "유아",
     icon: "/assets/imgs/accessibilityTypes/baby-boy.svg",
     alt: "유아",
@@ -47,21 +42,30 @@ const accessibilityTypes = [
 ];
 
 const facilities = [
-  "유아의자 있음",
-  "가족화장실 있음",
-  "기저귀 교환대 있음",
-  "수유실 있음",
-  "전용 입장권 할인",
-  "유아놀이 보관 가능",
-  "시각장애인 편의시설 있음",
-  "청각장애인 편의시설 있음",
-  "장애인 엘리베이터 있음",
-  "장애인 화장실 있음",
-  "장애인 주차장 있음",
-  "휠체어/유모차 대여 가능",
-  "휠체어 접근 가능 매표소 있음",
-  "휠체어 사용자 테이블 접근이 용이함",
-  "휠체어 접근 가능 전시관 있음",
+  { type: "주차여부", id: "parking", cat: 1 },
+  { type: "대중교통", id: "route", cat: 1 },
+  { type: "접근로", id: "publictransport", cat: 1 },
+  { type: "매표소", id: "ticketoffice", cat: 1 },
+  { type: "홍보물", id: "promotion", cat: 1 },
+  { type: "휠체어", id: "wheelchair", cat: 1 },
+  { type: "출입통로", id: "exit", cat: 1 },
+  { type: "엘리베이터", id: "elevator", cat: 1 },
+  { type: "화장실", id: "restroom", cat: 1 },
+  { type: "관람석", id: "auditorium", cat: 1 },
+  { type: "객실 (지체장애)", id: "room", cat: 1 },
+  { type: "점자블록", id: "braileblock", cat: 2 },
+  { type: "보조견동반", id: "helpdog", cat: 2 },
+  { type: "안내요원", id: "guidehuman", cat: 2 },
+  { type: "오디오가이드", id: "audioguide", cat: 2 },
+  { type: "큰활자홍보물", id: "bigprint", cat: 2 },
+  { type: "점자 홍보물 및 표지판", id: "brailepromotion", cat: 2 },
+  { type: "유도 안내 설비", id: "guidesystem", cat: 2 },
+  { type: "수화 안내", id: "signguide", cat: 3 },
+  { type: "자막 & 비디오가이드 및 영상자막 안내", id: "videoguide", cat: 3 },
+  { type: "객실 (청각장애)", id: "hearingroom", cat: 3 },
+  { type: "유모차", id: "stroller", cat: 4 },
+  { type: "수유실", id: "lactationroom", cat: 4 },
+  { type: "유아용보조의자", id: "infantsfamilyetc", cat: 4 },
 ];
 
 const FilterSection = ({ title, children }) => (
@@ -95,15 +99,15 @@ const AccessibilityButtons = ({ types, selectedItems, toggleFunction }) =>
     </button>
   ));
 const FacilityButtons = ({ facilities, selectedFacilities, toggleFunction }) =>
-  facilities.map((facility) => (
+  facilities.map(({ type, id, cat }) => (
     <button
-      key={facility}
+      key={id}
       className={`facility-button ${
-        selectedFacilities.includes(facility) ? "selected" : ""
+        selectedFacilities.includes(type) ? "selected" : ""
       }`}
-      onClick={() => toggleFunction(facility)}
+      onClick={() => toggleFunction(type)}
     >
-      {facility}
+      {type}
     </button>
   ));
 
@@ -138,7 +142,7 @@ const FilterComponent = ({ region, callBackFn }) => {
     // console.log(selectedFacilities); // 전용 입장권 할인, 유아놀이 보관 가능
     // console.log(onlyWithImages); // false O
     // console.log(keyword); // 키워드 O
-    const newSelectedRegionCode = selectedCities
+    const selectedRegionCode = selectedCities
       .map((city) => {
         const provinceName = city.split(" ")[0]; // 지역
         const cityName = city.split(" ")[1]; // 시군구
@@ -160,7 +164,28 @@ const FilterComponent = ({ region, callBackFn }) => {
       })
       .filter((item) => item !== null);
 
-    console.log(newSelectedRegionCode);
+    let facilityCodeArray = [];
+
+    selectedFacilities.map((selectedVal) => {
+      facilityCodeArray.push(
+        facilities.find((item) => item.type === selectedVal)
+      );
+    });
+
+    for (let i = 0; i < selectedAccessibilityTypes.length; i++) {
+      if (selectedAccessibilityTypes[i] == "시각장애인") {
+        facilityCodeArray.push(facilities.find((item) => item.cat === 2));
+      }
+      if (selectedAccessibilityTypes[i] == "청각장애인") {
+        facilityCodeArray.push(facilities.find((item) => item.cat === 3));
+      }
+      if (selectedAccessibilityTypes[i] == "지체장애인") {
+        facilityCodeArray.push(facilities.find((item) => item.cat === 1));
+      }
+      if (selectedAccessibilityTypes[i] == "유아") {
+        facilityCodeArray.push(facilities.find((item) => item.cat === 4));
+      }
+    }
 
     let imgNece = null;
     let keywordVal = null;
@@ -174,7 +199,13 @@ const FilterComponent = ({ region, callBackFn }) => {
     } else {
       keywordVal = null;
     }
-    callBackFn(newSelectedRegionCode, selectedCategory, imgNece, keywordVal);
+    callBackFn(
+      selectedRegionCode,
+      selectedCategory,
+      imgNece,
+      keywordVal,
+      facilityCodeArray
+    );
   };
 
   const handleProvinceChange = (province) => {
@@ -197,7 +228,6 @@ const FilterComponent = ({ region, callBackFn }) => {
     const formatted = `${currentProvince} ${city}`;
 
     setSelectedCities((prevSelectedCities) => {
-      // 여기야 추가하기 경우에 따라서 =======================================
       if (city === "전체") {
         return [
           ...prevSelectedCities.filter(
@@ -214,9 +244,6 @@ const FilterComponent = ({ region, callBackFn }) => {
         ];
       }
     });
-    const currentProvinceData = mapData.find(
-      (item) => item.title === currentProvince
-    );
   };
 
   const handleCategoryClick = (category) => {
@@ -229,7 +256,6 @@ const FilterComponent = ({ region, callBackFn }) => {
         prevSelected.filter((selectedItem) => selectedItem !== item)
       );
     } else if (selectedCities.includes(item)) {
-      // 여기야 ===============================================================================
       setSelectedCities((prevSelected) =>
         prevSelected.filter((selectedItem) => selectedItem !== item)
       );

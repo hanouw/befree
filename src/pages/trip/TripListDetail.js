@@ -43,7 +43,7 @@ const TripListDetail = () => {
     console.log("눌림", buttonNumber);
   };
 
-  const { moveToTripPlanAdd, moveToBack } = useCustomMove();
+  const { moveToTripPlanAdd } = useCustomMove();
 
   const location = useLocation();
 

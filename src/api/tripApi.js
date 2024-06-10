@@ -15,10 +15,10 @@ const noDrag = {
 };
 
 // 무장애 기반
-export const disableData = async () => {
+export const disableData = async (contentId) => {
   // 컨텐츠ID가 “129619”인 무장애여행 정보 조회
   const response = await axios.get(
-    "http://apis.data.go.kr/B551011/KorWithService1/detailWithTour1?serviceKey=uO3hkVTS0Jua91aVTLwTYLDL9n1Tta108iwJEvwieZmxcwtzO32Fk9cyhgaKc5A22IM%2FREUAIyCVKvoTbvnfmg%3D%3D&contentId=129619&MobileOS=ETC&MobileApp=AppTest&_type=json"
+    `http://apis.data.go.kr/B551011/KorWithService1/detailWithTour1?serviceKey=uO3hkVTS0Jua91aVTLwTYLDL9n1Tta108iwJEvwieZmxcwtzO32Fk9cyhgaKc5A22IM%2FREUAIyCVKvoTbvnfmg%3D%3D&contentId=${contentId}&MobileOS=ETC&MobileApp=Befree&_type=json`
   );
   return response.data;
 };
@@ -32,7 +32,8 @@ export const placeKeywordData = async (
   areaCode,
   sigunguCode,
   cat1,
-  cat2
+  cat2,
+  numOfRows
 ) => {
   const final = () => {
     const dataList = [
@@ -66,7 +67,7 @@ export const placeKeywordData = async (
 
     let requestLink =
       `http://apis.data.go.kr/B551011/KorWithService1/${keyUrl}?serviceKey=uO3hkVTS0Jua91aVTLwTYLDL9n1Tta108iwJEvwieZmxcwtzO32Fk9cyhgaKc5A22IM%2FREUAIyCVKvoTbvnfmg%3D%3D` +
-      "&numOfRows=12" +
+      `&numOfRows=${numOfRows}` +
       "&MobileOS=ETC" +
       "&listYN=Y" +
       "&_type=json" +
@@ -83,67 +84,6 @@ export const placeKeywordData = async (
   if (requestLink) {
     return (await axios.get(requestLink)).data;
   }
-};
-
-// 위 API를 필터링 해서 가져오기
-// API 전송 함수
-export const sendPlaceKeywordDataApi = async (recentResult) => {
-  console.log(recentResult);
-  const data = await placeKeywordData(
-    1, // pageNo
-    recentResult.imgNece || "A", //arrange
-    recentResult.keywordVal, //keyword
-    recentResult.category, //contentTypeId
-    recentResult.region, //areaCode
-    recentResult.sigungu, //sigunguCode
-    null, //cat1
-    null //cat2
-  );
-
-  console.log("TripPlanAdd placeKeywordData 실행됨");
-  console.log(data);
-  const result = data.response.body.items.item;
-
-  // 지도 만들기
-  const newMap = []; // 새로운 배열 생성
-  if (data.response.body.numOfRows != 0) {
-    for (let i = 0; i < result.length; i++) {
-      const item = result[i];
-      const mapObj = {
-        mapx: item.mapx,
-        mapy: item.mapy,
-        title: item.title,
-      };
-      newMap.push(mapObj);
-    }
-  }
-
-  let newTripList = [];
-
-  for (let i = 0; i < data.response.body.numOfRows; i++) {
-    const item = result[i];
-    const tempPlace = {
-      src:
-        item.firstimage ||
-        item.firstimage2 ||
-        process.env.PUBLIC_URL + "/assets/imgs/defaultImageStroke.png",
-      alt: `${item.contentid}`,
-      title: item.title,
-      address: item.addr1,
-      style: noDrag,
-      contentId: item.contentid,
-    };
-    newTripList.push(tempPlace);
-  }
-  const returnValue = {
-    newTripList: newTripList,
-    numOfRows: data.response.body.numOfRows,
-    newMap: newMap,
-  };
-
-  console.log(returnValue);
-
-  return returnValue;
 };
 
 export const getPlaceDetail = async (contentId) => {
@@ -168,16 +108,145 @@ export const getPlaceDetail = async (contentId) => {
 // ※컨텐츠ID가 “252581”인 관광정보의 “기본정보”, “주소”, “개요” 정보를 조회
 // http://apis.data.go.kr/B551011/KorWithService1/detailCommon1?serviceKey=인증키&contentId=252581&defaultYN=Y&addrinfoYN=Y&overviewYN=Y&MobileOS=ETC&MobileApp=AppTest
 
-export const getGuList = async () => {
-  const areaId = [1, 6, 4, 2, 5, 3, 7, 8, 31, 32, 33, 34, 35, 36, 37, 38, 39];
+// 위 API를 필터링 해서 가져오기
+// API 전송 함수
+export const sendPlaceKeywordDataApi = async (recentResult) => {
+  console.log(recentResult.facilityCodeArray);
+  let placeDataList = [];
+  let facilitiesList = [];
+  const facilityTF = recentResult.facilityCodeArray.length == 0;
 
-  let result = [];
+  // 장애 & 취약 관련 정보 없을 때 12개 한번에 요청
+  if (facilityTF) {
+    const data = await placeKeywordData(
+      placeDataList.length + 1, // pageNo
+      recentResult.imgNece || "A", //arrange
+      recentResult.keywordVal, //keyword
+      recentResult.category, //contentTypeId
+      recentResult.region, //areaCode
+      recentResult.sigungu, //sigunguCode
+      null, //cat1
+      null, //cat2
+      6 // 한번에 요청하는 개수
+    );
+    console.log(data);
+    placeDataList = data.response.body.items.item;
+  } else {
+    let pageNum = 1;
+    // while (pageNum < 6) {
+    while (placeDataList.length < 6) {
+      console.log(
+        "==================================",
+        placeDataList.length,
+        pageNum
+      );
+      const data = await placeKeywordData(
+        pageNum, // pageNo
+        recentResult.imgNece || "A", //arrange
+        recentResult.keywordVal, //keyword
+        recentResult.category, //contentTypeId
+        recentResult.region, //areaCode
+        recentResult.sigungu, //sigunguCode
+        null, //cat1
+        null, //cat2
+        1 // 한번에 요청하는 개수
+      );
+      pageNum++;
+      console.log(data);
+      if (data.response.body.items == "") {
+        break;
+      }
 
-  for (let i = 0; i < 17; i++) {
-    let requestLink = `http://apis.data.go.kr/B551011/KorWithService1/areaCode1?serviceKey=uO3hkVTS0Jua91aVTLwTYLDL9n1Tta108iwJEvwieZmxcwtzO32Fk9cyhgaKc5A22IM%2FREUAIyCVKvoTbvnfmg%3D%3D&areaCode=${areaId[i]}&numOfRows=35&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json`;
-    await axios.get(requestLink).then((response) => {
-      result.push(response);
-    });
+      // 장애에 따른 필터링
+      if (!facilityTF) {
+        const item = data.response.body.items.item[0];
+        const conId = item.contentid;
+
+        try {
+          const disableReturnTotalData = await disableData(conId); // 여기에 데이터 저장
+          const disableReturnData =
+            disableReturnTotalData.response.body.items.item[0];
+          const facilities = recentResult.facilityCodeArray;
+
+          console.log(disableReturnData);
+
+          // 필터링
+          const hasAvailableFacility = facilities.some((facility) =>
+            disableReturnData[facility.id]?.trim()
+          );
+
+          if (hasAvailableFacility) {
+            // 시설을 저장
+            let tempFacil = [];
+            for (let key in disableReturnData) {
+              if (disableReturnData[key].trim()) {
+                tempFacil.push({ [key]: disableReturnData[key] });
+              }
+            }
+            console.log("====True====");
+            placeDataList.push(item);
+            facilitiesList.push(tempFacil);
+          } else {
+            console.log("====False====");
+          }
+        } catch (error) {
+          console.error("Error fetching disable data:", error);
+        }
+      } else {
+        placeDataList.push(data.response.body.items.item[0]);
+        // 시설을 저장
+        // let tempFacil = [];
+        // for (let key in disableReturnData) {
+        //   if (disableReturnData[key].trim()) {
+        //     tempFacil.push({ [key]: disableReturnData[key] });
+        //   }
+        // }
+        // facilitiesList.push(tempFacil);
+      }
+    }
   }
-  return result;
+
+  console.log(placeDataList);
+
+  // 지도 만들기
+  const newMap = []; // 새로운 배열 생성
+  if (placeDataList.length != 0) {
+    for (let i = 0; i < placeDataList.length; i++) {
+      // =================
+      const item = placeDataList[i]; // =================
+      const mapObj = {
+        mapx: item.mapx,
+        mapy: item.mapy,
+        title: item.title,
+      };
+      newMap.push(mapObj);
+    }
+  }
+
+  let newTripList = [];
+
+  for (let i = 0; i < placeDataList.length; i++) {
+    const item = placeDataList[i]; // =================
+    const tempPlace = {
+      src:
+        item.firstimage ||
+        item.firstimage2 ||
+        process.env.PUBLIC_URL + "/assets/imgs/defaultImageStroke.png",
+      alt: `${item.contentid}`,
+      title: item.title,
+      address: item.addr1,
+      style: noDrag,
+      contentId: item.contentid,
+    };
+    newTripList.push(tempPlace);
+  }
+  const returnValue = {
+    newTripList: newTripList,
+    numOfRows: placeDataList.length,
+    newMap: newMap,
+  };
+
+  console.log(returnValue);
+
+  return returnValue;
 };

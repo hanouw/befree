@@ -3,7 +3,7 @@ import FilterComponent from "../../components/tripPlanAdd/FilterComponent";
 import TripTopBannerComponent from "../../components/tripPlanAdd/TripTopBannerComponent";
 import TripAddSelectedComponent from "../../components/tripPlanAdd/TripAddSelectedComponent";
 import { useLocation } from "react-router-dom";
-import { placeKeywordData, sendPlaceKeywordDataApi } from "../../api/tripApi";
+import { sendPlaceKeywordDataApi } from "../../api/tripApi";
 import KakaoMapComponent from "../../components/map/KakaoMapComponent";
 import NextBackPagenationComponent from "../../components/tripList/NextBackPagenationComponent";
 
@@ -26,7 +26,6 @@ const TripPlanAdd = () => {
   const [addedList, setAddList] = useState();
 
   // 필터링 데이터 전달
-  const [city, setCity] = useState(null); // 서울 강남  - 이후 지역코드, 시군구 코드로 수정
   const [numOfRows, setNumOfRows] = useState(0);
   const [recentResult, setRecentResult] = useState({
     category: null, // contentTypeId
@@ -34,6 +33,7 @@ const TripPlanAdd = () => {
     region: region, // areaCode
     sigungu: null,
     keywordVal: null, // keyword
+    facilityCodeArray: [], // 편의시설
   });
 
   // 콜백함수 FilterComponent 에서 호출
@@ -41,7 +41,8 @@ const TripPlanAdd = () => {
     newSelectedRegionCode,
     selectedCategory,
     onlyWithImages,
-    keyword
+    keyword,
+    facilityCodeArray
   ) => {
     console.log("TripPlanAdd callBackFn 실행됨");
 
@@ -49,11 +50,12 @@ const TripPlanAdd = () => {
     setRecentResult({
       category: selectedCategory, // contentTypeId
       imgNece: onlyWithImages, // arrange
-      region: newSelectedRegionCode
+      region: newSelectedRegionCode[0]
         ? newSelectedRegionCode[0].areaCode
         : region, // areaCode
-      sigungu: newSelectedRegionCode ? newSelectedRegionCode[0].code : null, // sigungu
+      sigungu: newSelectedRegionCode[0] ? newSelectedRegionCode[0].code : null, // sigungu
       keywordVal: keyword, // keyword
+      facilityCodeArray: facilityCodeArray, // 편의시설
     });
   };
 
@@ -62,7 +64,13 @@ const TripPlanAdd = () => {
     console.log("===============최종클릭=================");
   };
 
+  // 여행지 추가되었을 때 리턴
+  const selectedPlaceChange = (items) => {
+    console.log(items);
+  };
+
   useEffect(() => {
+    console.log(recentResult);
     // API 전송 함수
     sendPlaceKeywordDataApi(recentResult).then((result) => {
       console.log("sendPlaceKeywordDataApi 리턴 데이터", result);
@@ -89,7 +97,10 @@ const TripPlanAdd = () => {
         date={date}
         callBackFn={finalAddClicked}
       />
-      <TripAddSelectedComponent addedList={addedList} />
+      <TripAddSelectedComponent
+        addedList={addedList}
+        callBackFn={selectedPlaceChange}
+      />
       <FilterComponent region={region} callBackFn={callBackFn} />
       <KakaoMapComponent
         width="1200px"
