@@ -91,10 +91,6 @@ export const placeKeywordData = async (
   }
 };
 
-export const getPlaceDetail = async (contentId) => {
-  console.log("tripApi getPlaceDetail 실행 contentId:", contentId);
-};
-
 //※내주변 좌표(서울 한국관광공사 주변)에서 1000m 이내에 있는 모든타입의 관광정보 조회
 //http://apis.data.go.kr/B551011/KorWithService1/locationBasedList1?serviceKey=인증키&pageNo=1&numOfRows=10&mapX=126.981611&mapY=37.568477&radius=1000&listYN=Y&arrange=A&MobileOS=ETC&MobileApp=AppTest
 
@@ -281,6 +277,7 @@ export const sendPlaceKeywordDataApi = async (recentResult) => {
       address: item.addr1,
       style: noDrag,
       contentId: item.contentid,
+      contentTypeId: item.contenttypeid,
       facility: facilitiesList[i][0] ? facilitiesList[i] : null,
       mapx: newMap[i].mapx,
       mapy: newMap[i].mapy,
@@ -296,4 +293,52 @@ export const sendPlaceKeywordDataApi = async (recentResult) => {
   console.log(returnValue);
 
   return returnValue;
+};
+
+////////////////////////////////////////////////////PlaceDetail
+
+export const getPlaceDetail = async (contentId) => {
+  let link =
+    `https://apis.data.go.kr/B551011/KorWithService1/detailCommon1?firstImageYN=Y&serviceKey=` +
+    `${serviceKey}` +
+    `&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&contentId=` +
+    `${contentId}` +
+    `&defaultYN=Y&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y&_type=json`;
+  const response = await axios.get(link);
+  // return response.data;
+  return response.data.response.body.items.item[0];
+};
+
+export const getPlaceDetailImg = async (contentId) => {
+  let link =
+    `https://apis.data.go.kr/B551011/KorWithService1/detailImage1?serviceKey=` +
+    `${serviceKey}` +
+    `&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&contentId=` +
+    `${contentId}` +
+    `&imageYN=Y&subImageYN=Y&_type=json`;
+  const response = await axios.get(link);
+  // console.log(response.data.response.body.numOfRows);
+  return response.data.response.body;
+};
+
+export const getPlaceDetailIntro = async (contentId, contentTypeId) => {
+  let link =
+    `https://apis.data.go.kr/B551011/KorWithService1/detailIntro1?serviceKey=` +
+    `${serviceKey}` +
+    `&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&contentId=` +
+    `${contentId}` +
+    `&contentTypeId=` +
+    `${contentTypeId}`;
+  const response = await axios.get(link);
+  return response.data.response.body.items.item[0];
+};
+
+export const getPlaceDetailWithTour = async (contentId) => {
+  let link =
+    `http://apis.data.go.kr/B551011/KorWithService1/detailWithTour1?_type=json&serviceKey=` +
+    `${serviceKey}` +
+    `&MobileOS=ETC&MobileApp=AppTest&contentId=` +
+    `${contentId}`;
+  const response = await axios.get(link);
+  return response.data.response.body.items.item[0];
 };

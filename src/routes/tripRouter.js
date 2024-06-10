@@ -33,7 +33,7 @@ const tripRouter = () => {
       ),
     },
     {
-      path: "placedetail/:contentId", // 여행지 상세
+      path: "placedetail/:contentId/:contentTypeId", // 여행지 상세
       element: (
         <Suspense fallback={<LoadingPage />}>
           <PlaceDetail />

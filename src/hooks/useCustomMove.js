@@ -54,8 +54,8 @@ const useCustomMove = () => {
   };
 
   // 여행지 상세로 이동
-  const moveToPlaceDetail = (contentId) => {
-    navigate({ pathname: `/trip/placedetail/${contentId}` });
+  const moveToPlaceDetail = (contentId, contentTypeId) => {
+    navigate({ pathname: `/trip/placedetail/${contentId}/${contentTypeId}` });
   };
 
   // =========================================================================== 유저 관련 페이지
