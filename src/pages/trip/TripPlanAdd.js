@@ -7,6 +7,7 @@ import { sendPlaceKeywordDataApi } from "../../api/tripApi";
 import KakaoMapComponent from "../../components/map/KakaoMapComponent";
 import NextBackPagenationComponent from "../../components/tripList/NextBackPagenationComponent";
 import useCustomMove from "../../hooks/useCustomMove";
+import TripAddLoadingModalComponent from "../../components/tripPlanAdd/TripAddLoadingModalComponent";
 
 // 여행 계획 추가
 const TripPlanAdd = () => {
@@ -17,14 +18,20 @@ const TripPlanAdd = () => {
   const date = { ...location.state }.date;
   const region = { ...location.state }.region;
 
+  // 로딩중 모달 여부
+  const [loading, setLoading] = useState(true);
+
   // 지도 데이터 전달
   const [map, setMap] = useState([]);
 
   // 여행 목록
   const [tripList, setTripList] = useState([]);
 
-  // 추가된 목록
-  const [addedList, setAddList] = useState();
+  // 마지막으로 담긴 데이터
+  const [addedList, setAddedList] = useState();
+
+  // 최종 전송용 데이터
+  const [finalData, setFinalData] = useState();
 
   // 필터링 데이터 전달
   const [numOfRows, setNumOfRows] = useState(0);
@@ -60,18 +67,21 @@ const TripPlanAdd = () => {
     });
   };
 
-  // 최종 추가하기 버튼 클릭
+  // 최종 추가하기 버튼 클릭 =============================================================================== 3
   const finalAddClicked = () => {
     console.log("===============최종클릭=================");
   };
 
-  // 여행지 추가되었을 때 리턴
+  // 여행지 추가되었을 때 리턴  ============================================================================= 1
   const selectedPlaceChange = (items) => {
+    setFinalData(items);
     console.log(items);
+    // [{contentId: "132215" facilities: ["장애인 주차장 있음", "출입구까지 턱이 없어 휠체어 접근 가능함", "주출입구는 턱이 없어 휠체어 접근 가능함"] mapx :"127.1109831778" mapy: "37.4960925880" title:"가락농수산물종합도매시장"}]
   };
 
   useEffect(() => {
     console.log(recentResult);
+    setLoading(true);
     // API 전송 함수
     sendPlaceKeywordDataApi(recentResult).then((result) => {
       console.log("sendPlaceKeywordDataApi 리턴 데이터", result);
@@ -79,20 +89,26 @@ const TripPlanAdd = () => {
       console.log("TripPlanAdd updated map:", result.newMap);
       setNumOfRows(result.numOfRows);
       setTripList(result.newTripList);
-      console.log("set 실행 됨", tripList);
+      setLoading(false);
     });
   }, [recentResult]);
 
-  const addPlaceToTempList = (contentId, title, facilities) => {
-    // 이미 추가되었습니다 이후 추가
+  const addPlaceToTempList = (contentId, title, facilities, mapx, mapy) => {
     alert("추가되었습니다");
-    setAddList({ contentId: contentId, title: title, facilities: facilities });
+    setAddedList({
+      contentId: contentId,
+      title: title,
+      facilities: facilities,
+      mapx: mapx,
+      mapy: mapy,
+    });
   };
 
-  const { moveToPlaceDetail } = useCustomMove()
+  const { moveToPlaceDetail } = useCustomMove();
 
   return (
     <div>
+      {loading ? <TripAddLoadingModalComponent /> : <></>}
       <TripTopBannerComponent
         topText={"여행지 추가하기"}
         tid={tid}
@@ -121,6 +137,7 @@ const TripPlanAdd = () => {
         {numOfRows ? (
           <>
             <div className="grid grid-cols-3 gap-0 mt-10">
+              {console.log(tripList)}
               {tripList.map((item) => (
                 <div key={item.alt} className="flex justify-evenly mb-10">
                   <div className="flex flex-col" style={{ width: "90%" }}>
@@ -137,6 +154,14 @@ const TripPlanAdd = () => {
                       <div className="font-[Pretendard-Light] text-sm sm:text-lg text-gray-600">
                         {item.address}
                       </div>
+                      {item.facility.map((facil, index) => (
+                        <div
+                          key={index}
+                          className="font-[Pretendard-Light] text-xs sm:text-sm text-gray-600"
+                        >
+                          - {facil}
+                        </div>
+                      ))}
                     </div>
                     {/* button start */}
                     <div className="grid place-items-center">
@@ -167,10 +192,13 @@ const TripPlanAdd = () => {
                           type="button"
                           className="gap-3 mt-2 text-white bg-my-color-darkblue hover:bg-slate-500 hover:font-[Pretendard-ExtraBold] focus:ring-4 focus:outline-none focus:ring-gray-200 font-[Pretendard-SemiBold] rounded-md text-base px-5 py-2.5 text-center inline-flex items-center"
                           onClick={() =>
-                            addPlaceToTempList(item.contentId, item.title, [
-                              "시각",
-                              "청각",
-                            ])
+                            addPlaceToTempList(
+                              item.contentId,
+                              item.title,
+                              item.facility,
+                              item.mapx,
+                              item.mapy
+                            )
                           }
                         >
                           <svg

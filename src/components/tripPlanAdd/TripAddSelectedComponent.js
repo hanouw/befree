@@ -12,6 +12,7 @@ const TripAddSelectedComponent = ({ addedList, callBackFn }) => {
 
   // addedList가 바뀔 때 items 업데이트
   useEffect(() => {
+    console.log(addedList);
     if (addedList !== undefined) {
       setItems((prevItems) => {
         // addedList가 배열이 아닌 객체일 경우 배열로 변환
@@ -39,18 +40,22 @@ const TripAddSelectedComponent = ({ addedList, callBackFn }) => {
       <div className="container">
         <div className="added-list">
           <h2>추가 된 목록</h2>
-          {items.length == 0 ? (
+          {items.length === 0 ? (
             <div className="font-['Pretendard-Regular'] text-gray-500 text-center">
               담은 여행지가 없습니다
             </div>
-          ) : (
-            <></>
-          )}
+          ) : null}
           <div className="added-items">
             {items.map((item) => (
               <div className="item" key={item.contentId}>
                 <span>{item.title}</span>
-                <span className="details">{item.facilities}</span>
+                <span className="details">
+                  {item.facilities.map((facil, index) => (
+                    <span key={index} className="mr-2">
+                      {index + 1}. {facil}
+                    </span>
+                  ))}
+                </span>
                 <button
                   className="remove-btn"
                   onClick={() => removeItem(item.contentId)}
