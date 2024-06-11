@@ -34,7 +34,7 @@ const TripPlanAdd = () => {
   // 마지막으로 담긴 데이터
   const [addedList, setAddedList] = useState();
 
-  // 최종 전송용 데이터
+  // 최종 DB 전송용 데이터
   const [finalData, setFinalData] = useState();
 
   // 필터링 데이터 전달
@@ -46,7 +46,14 @@ const TripPlanAdd = () => {
     sigungu: null,
     keywordVal: null, // keyword
     facilityCodeArray: [], // 편의시설
+    pageInfo: [1], // 검색 시 초기화 / 이전, 다음 클릭 시 해당 번호로 요청
+    pageIndex: 0, // 현재 페이지 index를 저장
+    isBOF: true,
   });
+
+  // 페이지 데이터 pageIndexList[pageIndexData] 가 현재 페이지
+  const [pageIndexList, setPageIndexList] = useState([1]);
+  const [pageIndexData, setPageIndexData] = useState(0);
 
   // 콜백함수 FilterComponent 에서 호출
   const callBackFn = (
@@ -58,6 +65,10 @@ const TripPlanAdd = () => {
   ) => {
     console.log("TripPlanAdd callBackFn 실행됨");
 
+    // 페이지 정보 초기화
+    setPageIndexList([1]);
+    setPageIndexData(0);
+
     // useState에 필터링 결과 저장
     setRecentResult({
       category: selectedCategory, // contentTypeId
@@ -68,10 +79,13 @@ const TripPlanAdd = () => {
       sigungu: newSelectedRegionCode[0] ? newSelectedRegionCode[0].code : null, // sigungu
       keywordVal: keyword, // keyword
       facilityCodeArray: facilityCodeArray, // 편의시설
+      pageInfo: [1], // 검색을 하면 초기화 하고 이전, 다음 누르면 다음 번호로 요청
+      pageIndex: 0, // 현제 페이지 index를 저장
+      isBOF: true,
     });
   };
 
-  // 최종 추가하기 버튼 클릭 =============================================================================== 3
+  // 최종 추가하기 버튼 클릭
   const finalAddClicked = () => {
     console.log("===============최종클릭=================");
     addPlaceToTrip(tid, finalData).then((isSuccess) => {
@@ -92,8 +106,41 @@ const TripPlanAdd = () => {
     // mapx :"127.1109831778" mapy: "37.4960925880" title:"가락농수산물종합도매시장"}]
   };
 
+  // 이전 다음페이지 버튼 클릭
+  const backnextButtonClicked = (bf) => {
+    console.log(bf);
+    if (bf) {
+      // 다음페이지
+      console.log("다음페이지");
+      setRecentResult({
+        category: recentResult.category, // contentTypeId
+        imgNece: recentResult.imgNece, // arrange
+        region: recentResult.region, // areaCode
+        sigungu: recentResult.sigungu,
+        keywordVal: recentResult.keywordVal, // keyword
+        facilityCodeArray: recentResult.facilityCodeArray, // 편의시설
+        pageInfo: pageIndexList, // 검색 시 초기화 / 이전, 다음 클릭 시 해당 번호로 요청
+        pageIndex: pageIndexData, // 현재 페이지 index를 저장
+        isBOF: true,
+      });
+    } else {
+      // 이전페이지
+      console.log("이전페이지");
+      setRecentResult({
+        category: recentResult.category, // contentTypeId
+        imgNece: recentResult.imgNece, // arrange
+        region: recentResult.region, // areaCode
+        sigungu: recentResult.sigungu,
+        keywordVal: recentResult.keywordVal, // keyword
+        facilityCodeArray: recentResult.facilityCodeArray, // 편의시설
+        pageInfo: pageIndexList, // 검색 시 초기화 / 이전, 다음 클릭 시 해당 번호로 요청
+        pageIndex: pageIndexData - 1, // 현재 페이지 index를 저장
+        isBOF: false,
+      });
+    }
+  };
+
   useEffect(() => {
-    console.log(recentResult);
     setLoading(true);
     // API 전송 함수
     sendPlaceKeywordDataApi(recentResult).then((result) => {
@@ -103,6 +150,15 @@ const TripPlanAdd = () => {
       setNumOfRows(result.numOfRows);
       setTripList(result.newTripList);
       setLoading(false);
+
+      if (!result.isBOF) {
+        console.log("---------------------------------------");
+        setPageIndexData(pageIndexData - 1);
+      } else {
+        console.log("++++++++++++++++++++++++++++++++++++++");
+        pageIndexList.push(result.lastPageInfo);
+        setPageIndexData(pageIndexData + 1);
+      }
     });
   }, [recentResult]);
 
@@ -250,7 +306,10 @@ const TripPlanAdd = () => {
                 </div>
               ))}
             </div>
-            <NextBackPagenationComponent />
+            <NextBackPagenationComponent
+              page={pageIndexData}
+              backnextButtonFn={backnextButtonClicked}
+            />
           </>
         ) : (
           <div className="flex justify-center my-4 mt-48 text-gray-700 mb-52 font-[Pretendard-Regular]">

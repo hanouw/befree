@@ -45,7 +45,7 @@ const TripListDetailKakaoMapComponent = (props) => {
     // kakao.maps.event.addListener(mapInstance.current, "zoom_changed", () => {
     //   const level = mapInstance.current.getLevel();
     //   setCurrentLevel(level);
-    //   updateMarkers(); // 확대/축소 시 마커와 오버레이 업데이트
+    updateMarkers(); // 확대/축소 시 마커와 오버레이 업데이트
     // });
   };
 
