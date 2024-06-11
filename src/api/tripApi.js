@@ -25,6 +25,7 @@ export const disableData = async (contentId) => {
 	const response = await axios.get(
 		`http://apis.data.go.kr/B551011/KorWithService1/detailWithTour1?serviceKey=${serviceKey}&contentId=${contentId}&MobileOS=ETC&MobileApp=Befree&_type=json`
 	);
+	
 	return response.data;
 };
 
@@ -150,11 +151,11 @@ export const sendPlaceKeywordDataApi = async (recentResult) => {
 
 			for (let key in disableReturnData) {
 				if (disableReturnData[key].trim() && key != "contentid") {
-					let value = disableReturnData[key].replace("_무장애 편의시설", "");
-					value = value.replace("_시각장애인 편의시설", "");
-					value = value.replace("_청각장애인 편의시설", "");
-					value = value.replace("_지체장애인 편의시설", "");
-					tempFacil.push(value);
+					let val = disableReturnData[key];
+					if (val.includes("_")) {
+						val = val.split("_")[0];
+					}
+					tempFacil.push(val);
 				}
 			}
 			facilitiesList.push(tempFacil);
