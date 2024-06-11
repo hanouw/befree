@@ -24,8 +24,8 @@ export const deleteTrip = async (tid) => {
 };
 
 // 여행 상세 조회 (여행지 목록)
-export const getTripDetail = async (tid) => {
-  const response = await axios.get(`${trip}/${tid}`);
+export const getTripDetail = async (tid, page) => {
+  const response = await axios.get(`${trip}/detail/${tid}/${page}`);
   return response.data;
 };
 
