@@ -87,7 +87,7 @@ const TripPlanAdd = () => {
   // 여행지 추가되었을 때 리턴
   const selectedPlaceChange = (items) => {
     setFinalData(items);
-    // [{contentId: "132215"
+    // [{contentId: "132215" contentTypeId: 38
     // facilities: ["장애인 주차장 있음", "출입구까지 턱이 없어 휠체어 접근 가능함", "주출입구는 턱이 없어 휠체어 접근 가능함"]
     // mapx :"127.1109831778" mapy: "37.4960925880" title:"가락농수산물종합도매시장"}]
   };
@@ -106,10 +106,18 @@ const TripPlanAdd = () => {
     });
   }, [recentResult]);
 
-  const addPlaceToTempList = (contentId, title, facilities, mapx, mapy) => {
+  const addPlaceToTempList = (
+    contentId,
+    contentTypeId,
+    title,
+    facilities,
+    mapx,
+    mapy
+  ) => {
     alert("추가되었습니다");
     setAddedList({
       contentId: contentId,
+      contentTypeId: contentTypeId,
       title: title,
       facilities: facilities,
       mapx: mapx,
@@ -182,7 +190,12 @@ const TripPlanAdd = () => {
                         <button
                           type="button"
                           className=" mt-2 text-my-color-darkblue border-2 border-my-color-darkblue hover:bg-gray-100 hover:font-[Pretendard-ExtraBold] focus:ring-4 focus:outline-none focus:ring-gray-200 font-[Pretendard-SemiBold] rounded-md text-sm px-5 py-2.5 text-center inline-flex items-center"
-                          onClick={()=> moveToPlaceDetail(item.contentId, item.contentTypeId)}
+                          onClick={() =>
+                            moveToPlaceDetail(
+                              item.contentId,
+                              item.contentTypeId
+                            )
+                          }
                         >
                           자세히 보기
                           <svg
@@ -207,6 +220,7 @@ const TripPlanAdd = () => {
                           onClick={() =>
                             addPlaceToTempList(
                               item.contentId,
+                              item.contentTypeId,
                               item.title,
                               item.facility,
                               item.mapx,

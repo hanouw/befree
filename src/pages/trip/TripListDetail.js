@@ -29,7 +29,10 @@ const TripListDetail = () => {
   // hover
   const [isHover, setIsHover] = useState({});
 
-  const { moveToTripPlanAdd } = useCustomMove();
+  // 핀 사이 거리 데이터
+  const [amongPin, setAmongPin] = useState([]);
+
+  const { moveToTripPlanAdd, moveToPlaceDetail } = useCustomMove();
 
   const location = useLocation();
 
@@ -56,6 +59,11 @@ const TripListDetail = () => {
     });
   }, [page]);
 
+  const pinDistanceCallBack = (pinData) => {
+    setAmongPin(pinData);
+    console.log(pinData);
+  };
+
   return (
     <>
       <TripTopBannerComponent
@@ -70,6 +78,7 @@ const TripListDetail = () => {
           height="600px"
           map={mapData}
           region={region}
+          callBackFn={pinDistanceCallBack}
         />
       </div>
       <div className="flex justify-center items-center mt-10">
@@ -98,55 +107,88 @@ const TripListDetail = () => {
         <div className="w-[1200px] border-[1px] border-neutral-500"></div>
       </div>
 
-      <div className="pr-44 pl-44">
-        {items[0] ? (
-          <></>
-        ) : (
-          <>
-            <div className="flex justify-center my-4 mt-48 font-[Pretendard-Regular]">
-              추가한 일정이 없습니다
-            </div>
-            <div className="flex justify-center my-4 mt-4 mb-52 font-[Pretendard-Regular]">
-              “추가하기” 버튼을 눌러 여행지를 추가하세요
-            </div>
-          </>
-        )}
-        {items.map((item, index) => (
-          <div
-            className="flex justify-between items-center mt-10 mb-10 px-4 border border-my-color-darkblue rounded-md py-4 text-sm transition-all duration-300 hover:h-auto hover:py-8"
-            key={item.pid}
-            onMouseEnter={() =>
-              setIsHover((prevState) => ({ ...prevState, [index]: true }))
-            }
-            onMouseLeave={() =>
-              setIsHover((prevState) => ({ ...prevState, [index]: false }))
-            }
-          >
-            <span className="font-[Pretendard-Regular]">
-              {item.pid + 1}. {item.title}
-            </span>
-
-            {!isHover[index] ? (
-              <span className="peer-hover:hidden font-[Pretendard-Regular] text-gray-500">
-                {item.facilities[0]} 외 {item.facilities.length - 1} 개
-              </span>
+      <div className="flex justify-center">
+        <div>
+          <div className="w-[1200px]">
+            {items[0] ? (
+              <></>
             ) : (
-              <div className="peer-hover:visible font-[Pretendard-Regular] text-gray-500">
-                {item.facilities.map((facility, index) => (
-                  <div key={index}>
-                    {index + 1}. {facility}
-                  </div>
-                ))}
-              </div>
+              <>
+                <div className="flex justify-center my-4 mt-48 font-[Pretendard-Regular]">
+                  추가한 일정이 없습니다
+                </div>
+                <div className="flex justify-center my-4 mt-4 mb-52 font-[Pretendard-Regular]">
+                  “추가하기” 버튼을 눌러 여행지를 추가하세요
+                </div>
+              </>
             )}
+            {items.map((item, index) => (
+              <div
+                className="flex justify-between items-center mt-10 mb-10 px-4 border border-my-color-darkblue rounded-md py-4 text-sm transition-all duration-300 hover:h-auto hover:py-8 cursor-pointer"
+                key={item.pid}
+                onMouseEnter={() =>
+                  setIsHover((prevState) => ({ ...prevState, [index]: true }))
+                }
+                onMouseLeave={() =>
+                  setIsHover((prevState) => ({ ...prevState, [index]: false }))
+                }
+                onClick={() =>
+                  moveToPlaceDetail(item.contentId, item.contentTypeId)
+                }
+              >
+                <span className="font-[Pretendard-Regular]">
+                  {item.pid + 1}. {item.title}
+                </span>
+
+                {!isHover[index] || index == 0 ? (
+                  <></>
+                ) : (
+                  <div className="font-[Pretendard-Regular] text-gray-600">
+                    <ul className="dotOverlay distanceInfo font-[Pretendard-Light]">
+                      <li>
+                        <span className="label">
+                          직전 여행지로부터의 거리:{" "}
+                        </span>
+                        <span className="number">
+                          {amongPin[index - 1].distance}
+                        </span>
+                        m
+                      </li>
+                      <li>
+                        <span className="label">도보: </span>
+                        {amongPin[index - 1].walkTime}
+                      </li>
+                      <li>
+                        <span className="label">자전거: </span>
+                        {amongPin[index - 1].cycleTime}
+                      </li>
+                    </ul>
+                  </div>
+                )}
+
+                {!isHover[index] ? (
+                  <span className="font-[Pretendard-Regular] text-gray-500">
+                    {item.facilities[0]} 외 {item.facilities.length - 1} 개
+                  </span>
+                ) : (
+                  <div className="peer-hover:visible font-[Pretendard-Regular] text-gray-500">
+                    {item.facilities.map((facility, index) => (
+                      <div key={index}>
+                        {index + 1}. {facility}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
-        ))}
+          <PagenationComponent
+            page={page}
+            totalPage={totalPage}
+            numButtonClicked={numButtonClicked}
+          />
+        </div>
       </div>
-      <PagenationComponent
-        page={page}
-        totalPage={totalPage}
-        numButtonClicked={numButtonClicked}
-      />
     </>
   );
 };
