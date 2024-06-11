@@ -21,11 +21,12 @@ const noDrag = {
 
 // 무장애 기반
 export const disableData = async (contentId) => {
-  // 컨텐츠ID가 “129619”인 무장애여행 정보 조회
-  const response = await axios.get(
-    `http://apis.data.go.kr/B551011/KorWithService1/detailWithTour1?serviceKey=${serviceKey}&contentId=${contentId}&MobileOS=ETC&MobileApp=Befree&_type=json`
-  );
-  return response.data;
+	// 컨텐츠ID가 “129619”인 무장애여행 정보 조회
+	const response = await axios.get(
+		`http://apis.data.go.kr/B551011/KorWithService1/detailWithTour1?serviceKey=${serviceKey}&contentId=${contentId}&MobileOS=ETC&MobileApp=Befree&_type=json`
+	);
+	
+	return response.data;
 };
 
 // 지역 또는 키워드 기반
@@ -148,36 +149,36 @@ export const sendPlaceKeywordDataApi = async (recentResult) => {
       const disableReturnData =
         disableReturnTotalData.response.body.items.item[0];
 
-      for (let key in disableReturnData) {
-        if (disableReturnData[key].trim() && key != "contentid") {
-          let value = disableReturnData[key].replace("_무장애 편의시설", "");
-          value = value.replace("_시각장애인 편의시설", "");
-          value = value.replace("_청각장애인 편의시설", "");
-          value = value.replace("_지체장애인 편의시설", "");
-          tempFacil.push(value);
-        }
-      }
-      facilitiesList.push(tempFacil);
-    }
-  } else {
-    let pageNum = 1;
-    // while (pageNum < 6) {
-    while (placeDataList.length < 6) {
-      const data = await placeKeywordData(
-        pageNum, // pageNo
-        recentResult.imgNece || "A", //arrange
-        recentResult.keywordVal, //keyword
-        recentResult.category, //contentTypeId
-        recentResult.region, //areaCode
-        recentResult.sigungu, //sigunguCode
-        null, //cat1
-        null, //cat2
-        1 // 한번에 요청하는 개수
-      );
-      pageNum++;
-      if (data.response.body.items == "") {
-        break;
-      }
+			for (let key in disableReturnData) {
+				if (disableReturnData[key].trim() && key != "contentid") {
+					let val = disableReturnData[key];
+					if (val.includes("_")) {
+						val = val.split("_")[0];
+					}
+					tempFacil.push(val);
+				}
+			}
+			facilitiesList.push(tempFacil);
+		}
+	} else {
+		let pageNum = 1;
+		// while (pageNum < 6) {
+		while (placeDataList.length < 6) {
+			const data = await placeKeywordData(
+				pageNum, // pageNo
+				recentResult.imgNece || "A", //arrange
+				recentResult.keywordVal, //keyword
+				recentResult.category, //contentTypeId
+				recentResult.region, //areaCode
+				recentResult.sigungu, //sigunguCode
+				null, //cat1
+				null, //cat2
+				1 // 한번에 요청하는 개수
+			);
+			pageNum++;
+			if (data.response.body.items == "") {
+				break;
+			}
 
       // 장애에 따른 필터링
       if (!facilityTF) {

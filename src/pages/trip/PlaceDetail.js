@@ -45,12 +45,16 @@ const PlaceDetail = () => {
 				setPlaceImg(images);
 			} else {
 				console.log("이미지없");
-				placeImg.push(detail.firstimage);
+				placeImg.push(
+					detail.firstimage ||
+						detail.firstimage2 ||
+						process.env.PUBLIC_URL + "/assets/imgs/defaultImageStroke.png"
+				);
 			}
 
 			console.log("소개정보조회 결과:", intro);
-			matchIntro(contentTypeId, intro);
-			setPlaceIntro(intro);
+			const orderedList = matchIntro(contentTypeId, intro);
+			setPlaceIntro(orderedList);
 
 			console.log("무장애조회 결과:", withTour);
 			const orderedWithTour = new Map(Object.entries(withTour));
@@ -59,7 +63,7 @@ const PlaceDetail = () => {
 				let val = `${value}`;
 				if (val !== "" && `${name}` !== "contentid") {
 					if (val.includes("_")) {
-						val = val.split("_")[0]; // Get the part before "_"
+						val = val.split("_")[0];
 					}
 					orderedWithTourValue.push(val);
 				}
@@ -213,8 +217,17 @@ const PlaceDetail = () => {
 								{url}
 							</Link>
 						</li>
-						<li>입장료 : 무료</li>
-						<li>이용시간 : 연중무휴</li>
+						{Object.entries(placeIntro).length > 1 ? (
+							Object.entries(placeIntro).map(([key, value], index) => (
+								<li key={index}>
+									{key} : {value.replace(/<br>/g, '/')}
+								</li>
+							))
+						) : (
+							<li>
+								{Object.keys(placeIntro)[0]} : {Object.values(placeIntro)[0].replace(/<br>/g, '/')}
+							</li>
+						)}
 					</ul>
 				</section>
 				<section className="mb-8">
