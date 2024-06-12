@@ -95,7 +95,12 @@ const AccessibilityButtons = ({ types, selectedItems, toggleFunction }) =>
       }`}
       onClick={() => toggleFunction(type)}
     >
-      <img src={icon} alt={alt} />
+      <img
+        src={icon}
+        alt={alt}
+        className="mb-3 mt-3 font-[Pretendard-Regular]"
+      />
+      {type}
     </button>
   ));
 const FacilityButtons = ({ facilities, selectedFacilities, toggleFunction }) =>
@@ -281,6 +286,7 @@ const FilterComponent = ({ region, callBackFn }) => {
     setSelectedFacilities([]);
     setOnlyWithImages(false);
     setKeyword("");
+    setCurrentProvince("");
   };
 
   const handleToggleImageFilter = () => {

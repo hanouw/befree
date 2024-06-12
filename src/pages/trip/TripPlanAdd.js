@@ -152,10 +152,8 @@ const TripPlanAdd = () => {
       setLoading(false);
 
       if (!result.isBOF) {
-        console.log("---------------------------------------");
         setPageIndexData(pageIndexData - 1);
       } else {
-        console.log("++++++++++++++++++++++++++++++++++++++");
         pageIndexList.push(result.lastPageInfo);
         setPageIndexData(pageIndexData + 1);
       }

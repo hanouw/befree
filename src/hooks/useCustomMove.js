@@ -39,6 +39,21 @@ const useCustomMove = () => {
   };
 
   // 여행 계획 상세로 이동
+  const moveToTripListDetailModify = (tid, title, date, region) => {
+    navigate(
+      { pathname: `/trip/listdetailmodify/${tid}` },
+      {
+        state: {
+          tid: `${tid}`,
+          title: `${title}`,
+          date: `${date}`,
+          region: `${region}`,
+        },
+      }
+    );
+  };
+
+  // 여행 계획 추가로 이동
   const moveToTripPlanAdd = (tid, title, date, region) => {
     navigate(
       { pathname: `/trip/planadd/${tid}` },
@@ -87,6 +102,7 @@ const useCustomMove = () => {
     moveToMain,
     moveToTripList,
     moveToTripListDetail,
+    moveToTripListDetailModify,
     moveToTripPlanAdd,
     moveToPlaceDetail,
     moveToMyPage,
