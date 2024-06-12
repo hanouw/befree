@@ -1,5 +1,5 @@
 import { Suspense, lazy } from "react";
-import LoadingPage from "../components/common/LoadingPage";
+import LoadingPage from "../components/common/LoadingPageNoBasicLayout";
 
 const TripList = lazy(() => import("../pages/trip/TripList"));
 const TripListDetail = lazy(() => import("../pages/trip/TripListDetail"));
