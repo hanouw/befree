@@ -37,6 +37,7 @@ const loginSlice = createSlice({
 			return data;
 		},
 		logout: (state, action) => {
+			console.log("loginSlice logout 실행")
 			removeCookie("member");
 			return { ...initState };
 		},

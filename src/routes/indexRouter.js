@@ -64,7 +64,7 @@ const Router = () => {
       ),
     },
     {
-      path: "/delete",
+      path: "/confirm",
       element: (
         <Suspense fallback={<LoadingPage />}>
           <Delete />

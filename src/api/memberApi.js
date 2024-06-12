@@ -1,5 +1,6 @@
 import axios from "axios";
 import { BEFREE_API_SERVER_HOST } from "./befreeApi";
+import jwtAxios from "../util/jwtUtil";
 
 export const loginPost = async (loginParam) => {
 	const header = { Headers: { "Content-Type": "x-www-form-urlencoded" } };
@@ -29,13 +30,15 @@ export const register = async (input) => {
 	return response.data;
 };
 
-export const modify = async (val) => {
-	console.log("modify 실행", val);
-	const response = await axios.put(`${BEFREE_API_SERVER_HOST}/member/modify`, {
-		email: val.email,
-		password: val.password,
-		name: val.name,
-	});
+export const modify = async (data) => {
+	console.log("modify 실행", data);
+	const response = await jwtAxios.put(`${BEFREE_API_SERVER_HOST}/member/modify`, data);
+	return response.data;
+};
 
+export const confirm = async (data) => {
+	console.log("confirm 실행", data);
+	const response = await jwtAxios.put(`${BEFREE_API_SERVER_HOST}/member/confirm`, data);
+	console.log("confirm 결과", response.data)
 	return response.data;
 };

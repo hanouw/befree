@@ -5,23 +5,34 @@ import { useSelector } from "react-redux";
 import { modify } from "../../api/memberApi";
 
 const initState = {
-	email: "",
 	password: "",
+	accessToken: "",
+	refreshToken: "",
+	result: "",
 };
 
 const MyPage = () => {
-	const [member, setMember] = useState(initState);
+	const [data, setData] = useState(initState);
 	const loginInfo = useSelector((state) => state.loginSlice);
-  const { moveToMyPage } = useCustomMove();
+	const [password, setPassword] = useState(initState);
+	const { moveToMyPage } = useCustomMove();
 
 	const handleChange = (e) => {
-		member[e.target.name] = e.target.value;
-		setMember({ ...member, email: loginInfo.email, name: loginInfo.name });
+		password[e.target.name] = e.target.value;
+		setPassword({ ...password });
+		setData({
+			...password,
+			accessToken: loginInfo.accessToken,
+			refreshToken: loginInfo.refreshToken,
+			result: "modify",
+		});
 	};
 
 	const handleSave = () => {
-		modify(member).then(() => {
+		console.log(data);
+		modify(data).then(() => {
 			alert("완료");
+			moveToMyPage();
 		});
 	};
 

@@ -16,5 +16,6 @@ export const getCookie = (name) => {
 
 // 쿠키 삭제
 export const removeCookie = (name, path = "/") => {
+	console.log("쿠키삭제 name:", name)
 	cookies.remove(name, { path });
 };
