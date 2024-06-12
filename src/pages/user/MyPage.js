@@ -47,24 +47,12 @@ const MyPage = () => {
             disabled
 					/>
 				</div>
-				<div className="w-full sm:w-1/2 md:w-1/3 px-4 mb-4">
-					<span className="font-[Pretendard-Regular]">비밀번호</span>
-					<input
-						id="password"
-						name="password"
-						type="password"
-						className={inputClassName}
-						placeholder="8자리 이상의 비밀번호"
-						value={"********"}
-						disabled
-					/>
-				</div>
 				<div className="w-full sm:w-1/2 md:w-1/3 px-4 flex gap-10">
-					<button className={emptyButtonClassName} onClick={moveToDelete}>
+					<button className={emptyButtonClassName} onClick={()=> moveToDelete("delete")}>
 						회원 탈퇴
 					</button>
-					<button className={buttonClassName} onClick={moveToModify}>
-						정보수정
+					<button className={buttonClassName} onClick={()=> moveToDelete("modify")}>
+						비밀번호 변경
 					</button>
 				</div>
 			</div>

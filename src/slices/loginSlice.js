@@ -10,9 +10,10 @@ const initState = {
 // 쿠키있는지 확인 함수 추가
 const getMemberCookie = () => {
 	const memberInfo = getCookie("member");
-	if (memberInfo && memberInfo.nickname) {
+	console.log("memberInfo", memberInfo)
+	if (memberInfo && memberInfo.name) {
 		// 한글깨짐 대비
-		memberInfo.nickname = decodeURIComponent(memberInfo.nickname);
+		memberInfo.name = decodeURIComponent(memberInfo.name);
 	}
 	return memberInfo;
 };
@@ -36,6 +37,7 @@ const loginSlice = createSlice({
 			return data;
 		},
 		logout: (state, action) => {
+			console.log("loginSlice logout 실행")
 			removeCookie("member");
 			return { ...initState };
 		},

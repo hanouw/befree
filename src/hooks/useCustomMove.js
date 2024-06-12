@@ -92,8 +92,9 @@ const useCustomMove = () => {
     navigate({ pathname: `/modify` });
   };
   // 회원 삭제 확인 페이지로 이동
-  const moveToDelete = () => {
-    navigate({ pathname: `/delete` });
+  const moveToDelete = (val) => {
+    console.log("movaeTodelete val:", val);
+    navigate({ pathname: `/confirm` }, { state: { val: `${val}` } });
   };
 
   // 각 이동 함수를 리턴

@@ -1,6 +1,6 @@
 import axios from "axios";
-import { API_SERVER_HOST } from "../api/memberApi";
 import { getCookie, setCookie, removeCookie } from "./cookieUtil";
+import { BEFREE_API_SERVER_HOST } from "../api/befreeApi";
 
 // 1. 액세스 토큰 만료 시 자동 재발급
 // 2. 요청 및 응답 인터셉터 활용:
@@ -12,7 +12,7 @@ const jwtAxios = axios.create();
 // 토큰 갱신 함수
 const refreshJWT = async (accessToken, refreshToken) => {
   const header = { headers: { Authorization: `Bearer ${accessToken}` } };
-  const response = await axios.get(`${API_SERVER_HOST}/api/member/refresh?refreshToken=${refreshToken}`, header);
+  const response = await axios.get(`${BEFREE_API_SERVER_HOST}/member/refresh?refreshToken=${refreshToken}`, header);
   console.log("*******************");
   console.log(response.data);
   return response.data;
@@ -45,7 +45,7 @@ const beforeRes = async (res) => {
   console.log("before return response");
   console.log(res);
   const data = res.data; // API 서버에서 보내준 응답 데이터
-  if (data && data.error === "ERROR_ACCESS_TOKEN") {
+  if (data.error) {
     const memberCookie = getCookie("member");
     const result = await refreshJWT(memberCookie.accessToken, memberCookie.refreshToken);
     console.log("refreshed token : ", result);
