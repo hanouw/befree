@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getCookie, setCookie, removeCookie } from "./cookieUtil";
+import { getCookie, setCookie } from "./cookieUtil";
 import { BEFREE_API_SERVER_HOST } from "../api/befreeApi";
 
 // 1. 액세스 토큰 만료 시 자동 재발급

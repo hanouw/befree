@@ -128,7 +128,6 @@ const TripList = () => {
 
   useEffect(() => {
     console.log("useEffect 실행됨");
-    fetchTripList(page);
     console.log("isLogin:", isLogin);
     if (!isLogin) {
       const isConfirmed = window.confirm(
@@ -139,6 +138,9 @@ const TripList = () => {
       } else {
         moveToMain();
       }
+    }
+    if (isLogin) {
+      fetchTripList(page);
     }
   }, [page]);
 
