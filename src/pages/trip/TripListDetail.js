@@ -187,15 +187,16 @@ const TripListDetail = () => {
                 <span className="font-[Pretendard-Regular]">
                   {item.pid + 1}. {item.title}
                 </span>
-
+                {console.log(amongPin)}
                 {!isHover[index] ||
                 index == 0 ||
-                amongPin == [] ||
-                amongPin == undefined ||
-                amongPin == null ? (
+                amongPin[index - 1] == [] ||
+                amongPin[index - 1] == undefined ||
+                amongPin[index - 1] == null ? (
                   <></>
                 ) : (
                   <div className="font-[Pretendard-Regular] text-gray-600">
+                    {console.log(amongPin)}
                     <ul className="dotOverlay distanceInfo font-[Pretendard-Light]">
                       <li>
                         <span className="label">직전 여행지로부터의 거리:</span>
@@ -221,7 +222,6 @@ const TripListDetail = () => {
                     </ul>
                   </div>
                 )}
-
                 {!isHover[index] ? (
                   <span className="font-[Pretendard-Regular] text-gray-500">
                     {item.facilities[0]} 외 {item.facilities.length - 1} 개
