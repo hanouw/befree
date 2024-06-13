@@ -220,13 +220,13 @@ const PlaceDetail = () => {
             {Object.entries(placeIntro).length > 1 ? (
               Object.entries(placeIntro).map(([key, value], index) => (
                 <li key={index}>
-                  {key} : {value.replace(/<br>/g, "/")}
+                  {key} : {value.replace(/<br\s*\/?>/g, "/")}
                 </li>
               ))
             ) : (
               <li>
                 {Object.keys(placeIntro)[0]} :{" "}
-                {Object.values(placeIntro)[0].replace(/<br>/g, "/")}
+                {Object.values(placeIntro)[0].replace(/<br\s*\/?>/g, "/")}
               </li>
             )}
           </ul>

@@ -94,7 +94,7 @@ const MyPageDelete = () => {
 						name="password"
 						type="password"
 						className={inputClassName}
-						placeholder="비밀번호 8자리 이상"
+						placeholder="비밀번호 4자리 이상"
 						value={password.password}
 						onChange={handleChange}
 						required

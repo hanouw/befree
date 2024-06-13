@@ -160,7 +160,7 @@ const SignupPage = () => {
 						onChange={handleChange}
 						value={inputVal.password}
 						className={inputClassName}
-						placeholder="8자리 이상의 비밀번호"
+						placeholder="4자리 이상의 비밀번호"
 						required
 					/>
 				</div>
