@@ -11,6 +11,13 @@ export const createTrip = async (email, tripRequestDTO) => {
   return response.data;
 };
 
+// 여행 수정
+export const updateTrip = async (email, tripRequestDTO, tid) => {
+  console.log(tripRequestDTO);
+  const response = await axios.put(`${trip}/${email}/${tid}`, tripRequestDTO);
+  return response.data;
+};
+
 // 여행 목록 조회
 export const getTripList = async (email, page) => {
   const response = await axios.get(`${trip}/${email}/${page}`);

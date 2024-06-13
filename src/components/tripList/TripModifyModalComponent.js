@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { createTrip } from "../../api/befreeApi";
+import { createTrip, updateTrip } from "../../api/befreeApi";
 import { useSelector } from "react-redux";
 
 const TripAddModalComponent = ({
@@ -39,8 +39,7 @@ const TripAddModalComponent = ({
 
     if (gap > 0) {
       console.log("addButtonclicked email", loginInfo.email);
-      // createTrip(loginInfo.email, trip).then(() => handleClose()); // ========================================================================================
-      console.log(loginInfo.email, trip); // ========================================================================================
+      updateTrip(loginInfo.email, trip, tid).then(() => handleClose());
     } else {
       alert("올바른 시작일과 종료일을 입력해주세요");
     }
