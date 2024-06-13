@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import BasicLayout from "../../layouts/BasicLayout";
 import useCustomMove from "../../hooks/useCustomMove";
-import { register } from "../../api/memberApi";
+import { register, sendEmail } from "../../api/memberApi";
 import useCustomLogin from "../../hooks/useCustomLogin";
 
 const initState = {
 	email: "",
 	password: "",
 	name: "",
+	verify: "",
+	passwordVerify: "",
 };
 
 const SignupPage = () => {
@@ -15,24 +17,73 @@ const SignupPage = () => {
 	const { execLogin } = useCustomLogin();
 
 	const [inputVal, setInputVal] = useState({ ...initState });
+	const [key, setKey] = useState("");
+	const [keyResult, setKeyResult] = useState(false);
+	const [pwResult, setPwResult] = useState(false);
 
 	const handleChange = (e) => {
 		inputVal[e.target.name] = e.target.value;
 		setInputVal({ ...inputVal });
 	};
 
-	const handleClickRegister = () => {
-		console.log(inputVal);
-		register(inputVal).then((data) => {
-			console.log(data);
-			if (data.error) {
-				alert("이미 존재하는 이메일 입니다. 로그인을 해주세요.");
-			} else {
-				execLogin({ email: inputVal.email, password: inputVal.password });
-				alert("회원가입을 성공하였습니다.");
-				moveToMain();
+	const handleSendEmail = () => {
+		console.log("이메일 전송 클릭");
+		if (!inputVal.email) {
+			alert("이메일을 입력해주세요");
+			return;
+		}
+
+		const data = { email: inputVal.email };
+
+		sendEmail(data).then((response) => {
+			console.log("email result:", response.key);
+			if (response.key) {
+				setKey(response.key);
+				alert("이메일이 전송되었습니다.");
 			}
 		});
+	};
+
+	const handleClickVerify = () => {
+		console.log("handleClickVerify 실행");
+		if (inputVal.verify == key) {
+			console.log("입력, 인증키", inputVal.verify, key);
+			alert("인증 성공!");
+			setKeyResult(true);
+		} else {
+			alert("인증번호가 일치하지 않습니다.");
+		}
+	};
+
+	const passwordCheck = () => {
+		if (inputVal.password !== inputVal.passwordVerify) {
+			alert("비밀번호가 일치하지 않습니다.");
+		} else {
+			setPwResult(true);
+		}
+	};
+
+	const handleClickRegister = () => {
+		if (!keyResult) {
+			alert("이메일 인증을 해주세요.");
+		}
+		passwordCheck();
+		if (pwResult && keyResult) {
+			register({
+				email: inputVal.email,
+				password: inputVal.password,
+				name: inputVal.name,
+			}).then((data) => {
+				console.log(data);
+				if (data.error) {
+					alert("회원가입을 실패하였습니다. 다시 시도해주세요.");
+				} else {
+					execLogin({ email: inputVal.email, password: inputVal.password });
+					alert("회원가입을 성공하였습니다.");
+					moveToMain();
+				}
+			});
+		}
 	};
 	const inputClassName =
 		"bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 font-[Pretendard-Regular]";
@@ -41,14 +92,10 @@ const SignupPage = () => {
 
 	return (
 		<BasicLayout>
-			{/* 제목 */}
 			<div className="font-[Pretendard-Bold] text-3xl grid place-items-center mt-12 mb-12">
 				회원가입
 			</div>
-			{/* 전체 속성 */}
 			<div className="w-full grid place-items-center gap-5">
-				{/* text + input */}
-				{/* 이메일 주소 및 인증 */}
 				<div className="w-full sm:w-1/2 md:w-1/3 px-4">
 					<span className="font-[Pretendard-Regular]">이메일 주소</span>
 					<div className="flex">
@@ -61,21 +108,33 @@ const SignupPage = () => {
 							placeholder="Befree@befree.com"
 							required
 						/>
-						<button className="bg-my-color-lightgreen hover:bg-my-color-superlightgreen border-black text-black px-3 py-2 rounded-sm font-['Pretendard-Regular'] text-sm">
+						<button
+							onClick={handleSendEmail}
+							className="bg-my-color-lightgreen hover:bg-my-color-superlightgreen border-black text-black px-3 py-2 rounded-sm font-['Pretendard-Regular'] text-sm "
+						>
 							인증
 						</button>
 					</div>
 				</div>
 				<div className="w-full sm:w-1/2 md:w-1/3 px-4">
-					<input
-						name="verify"
-						type="text"
-						className={inputClassName}
-						placeholder="인증번호를 입력해주세요"
-						required
-					/>
+					<div className="flex">
+						<input
+							name="verify"
+							type="text"
+							className={inputClassName}
+							placeholder="인증번호를 입력해주세요"
+							value={inputVal.verify}
+							onChange={handleChange}
+							required
+						/>
+						<button
+							onClick={handleClickVerify}
+							className="bg-my-color-lightgreen hover:bg-my-color-superlightgreen border-black text-black px-3 py-2 rounded-sm font-['Pretendard-Regular'] text-sm"
+						>
+							확인
+						</button>
+					</div>
 				</div>
-				{/* 비밀번호 */}
 				<div className="w-full sm:w-1/2 md:w-1/3 px-4">
 					<span className="font-[Pretendard-Regular]">비밀번호</span>
 					<input
@@ -91,8 +150,10 @@ const SignupPage = () => {
 				<div className="w-full sm:w-1/2 md:w-1/3 px-4">
 					<span className="font-[Pretendard-Regular]">비밀번호 재확인</span>
 					<input
-						name="password"
+						name="passwordVerify"
 						type="password"
+						onChange={handleChange}
+						value={inputVal.passwordVerify}
 						className={inputClassName}
 						placeholder="같은 비밀번호를 입력해주세요"
 						required
