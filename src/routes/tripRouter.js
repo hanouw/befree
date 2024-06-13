@@ -1,8 +1,11 @@
 import { Suspense, lazy } from "react";
-import LoadingPage from "../components/common/LoadingPage";
+import LoadingPage from "../components/common/LoadingPageNoBasicLayout";
 
 const TripList = lazy(() => import("../pages/trip/TripList"));
 const TripListDetail = lazy(() => import("../pages/trip/TripListDetail"));
+const TripListDetailModify = lazy(() =>
+  import("../pages/trip/TripListDetailModify")
+);
 const TripplanAdd = lazy(() => import("../pages/trip/TripPlanAdd"));
 const PlaceDetail = lazy(() => import("../pages/trip/PlaceDetail"));
 
@@ -21,6 +24,14 @@ const tripRouter = () => {
       element: (
         <Suspense fallback={<LoadingPage />}>
           <TripListDetail />
+        </Suspense>
+      ),
+    },
+    {
+      path: "listdetailmodify/:tid", // 여행 상세 - 여행 계획짜기
+      element: (
+        <Suspense fallback={<LoadingPage />}>
+          <TripListDetailModify />
         </Suspense>
       ),
     },
