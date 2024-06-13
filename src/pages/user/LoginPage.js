@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import BasicLayout from "../../layouts/BasicLayout";
 import useCustomMove from "../../hooks/useCustomMove";
 import useCustomLogin from "../../hooks/useCustomLogin";
-import BasicLayoutUser from "../../layouts/BasicLayoutUser";
 
 const initState = {
 	email: "",
@@ -38,7 +37,7 @@ const LoginPage = () => {
 		"text-center w-full text-gray-900 inline-flex justify-center items-center bg-my-color-lightgreen hover:bg-my-color-superlightgreen border-black focus:ring-4 focus:outline-none focus:ring-my-color-lightgreen font-['Pretendard-Regular'] rounded-sm text-sm px-5 py-2.5";
 
 	return (
-		<BasicLayoutUser>
+		<BasicLayout>
 			<div className="font-[Pretendard-Bold] text-3xl grid place-items-center mt-36 mb-12">
 				로그인
 			</div>
@@ -78,7 +77,7 @@ const LoginPage = () => {
 					<button onClick={moveToSignup}>회원가입</button>
 				</div>
 			</div>
-		</BasicLayoutUser>
+		</BasicLayout>
 	);
 };
 
