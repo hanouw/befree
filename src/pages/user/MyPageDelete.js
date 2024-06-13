@@ -82,10 +82,10 @@ const MyPageDelete = () => {
 
 	return (
 		<BasicLayout>
-			<div className="font-[Pretendard-Bold] text-3xl grid place-items-center mt-12 mb-12">
+			<div className="font-[Pretendard-Bold] text-3xl grid place-items-center mt-44 mb-12">
 				{val === "modify" ? "비밀번호 변경하기" : "정말로 탈퇴하시겠습니까?"}
 			</div>
-			<div className="w-full grid place-items-center gap-5">
+			<div className="w-full grid place-items-center gap-5 mb-56">
 				<div className="w-full sm:w-1/2 md:w-1/3 px-4">
 					<span className="font-[Pretendard-Regular]">
 						비밀번호를 다시 한번 입력해주세요
@@ -101,10 +101,10 @@ const MyPageDelete = () => {
 					/>
 				</div>
 				<div className="w-full sm:w-1/2 md:w-1/3 px-4 flex gap-10">
-					<button className={emptyButtonClassName} onClick={handleClick}>
+					<button className={emptyButtonClassName} onClick={moveToMyPage}>
 						돌아가기
 					</button>
-					<button className={buttonClassName} onClick={moveToMyPage}>
+					<button className={buttonClassName} onClick={handleClick}>
             {val === "modify" ? "확인" : "탈퇴하기"}
 					</button>
 				</div>

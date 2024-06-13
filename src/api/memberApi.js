@@ -18,7 +18,7 @@ export const loginPost = async (loginParam) => {
 };
 
 export const register = async (input) => {
-	console.log("register 실행");
+	console.log("register 실행", input);
 	const header = { Headers: { "Content-Type": "application/json" } };
 
 	const response = await axios.post(
@@ -42,3 +42,16 @@ export const confirm = async (data) => {
 	console.log("confirm 결과", response.data)
 	return response.data;
 };
+
+export const sendEmail = async (data) => {
+	console.log("email 발송 데이터:" , data);
+	const header = { Headers: { "Content-Type": "application/json" } };
+
+	const response = await axios.post(
+		`${BEFREE_API_SERVER_HOST}/member/email`,
+		data,
+		header
+	);
+
+	return response.data;
+}

@@ -4,6 +4,7 @@ import useCustomMove from "../../hooks/useCustomMove";
 import PagenationComponent from "../../components/tripList/PagenationComponent";
 import { getTripList } from "../../api/befreeApi";
 import useCustomLogin from "../../hooks/useCustomLogin";
+import { useSelector } from "react-redux";
 
 // 여행 계획 목록
 const TripList = () => {
@@ -34,18 +35,20 @@ const TripList = () => {
     fetchTripList(page);
   };
 
-  const numButtonClicked = (buttonNumber) => {
-    setPage(buttonNumber);
-    console.log("눌림", buttonNumber);
-  };
+	const numButtonClicked = (buttonNumber) => {
+		setPage(buttonNumber);
+		console.log("눌림", buttonNumber);
+	};
 
-  const fetchTripList = (page) => {
-    console.log("fetchTripList 호출됨");
-    getTripList("befree@befree.com", page).then((data) => {
-      console.log("안쪽");
-      let dataResult = data.RESULT.paginatedTrips;
-      setTotalPage(data.RESULT.totalPage);
-      console.log(dataResult);
+	const loginInfo = useSelector((state) => state.loginSlice);
+
+	const fetchTripList = (page) => {
+		console.log("fetchTripList 호출됨 email", loginInfo.email);
+		getTripList(loginInfo.email, page).then((data) => {
+			console.log("안쪽");
+			let dataResult = data.RESULT.paginatedTrips;
+			setTotalPage(data.RESULT.totalPage);
+			console.log(dataResult);
 
       const tripListTemp = dataResult.map((trip) => {
         const tbegin = new Date(trip.tbegin);

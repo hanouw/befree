@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import { createTrip } from "../../api/befreeApi";
+import { useSelector } from "react-redux";
 
 const initState = {
   ttitle: "",
@@ -25,8 +26,11 @@ const TripAddModalComponent = ({ callbackFn }) => {
     console.log(trip);
   };
 
+  const loginInfo = useSelector((state) => state.loginSlice);
+
   const AddButtonClicked = () => {
-    createTrip("befree@befree.com", trip).then(() => handleClose());
+    console.log("addButtonclicked email", loginInfo.email);
+    createTrip(loginInfo.email, trip).then(() => handleClose());
   };
 
   return (
