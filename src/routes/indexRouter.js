@@ -17,6 +17,7 @@ const Modify = lazy(() => import("../pages/user/MyPageModify"));
 const Delete = lazy(() => import("../pages/user/MyPageDelete"));
 const Login = lazy(() => import("../pages/user/LoginPage"));
 const Signup = lazy(() => import("../pages/user/SignupPage"));
+const FindPassword = lazy(() => import("../pages/user/FindPassword"));
 
 // 경로 매핑하는 곳 (root)
 const Router = () => {
@@ -84,6 +85,14 @@ const Router = () => {
       element: (
         <Suspense fallback={<LoadingPage />}>
           <Signup />
+        </Suspense>
+      ),
+    },
+    {
+      path: "/findPassword",
+      element: (
+        <Suspense fallback={<LoadingPage />}>
+          <FindPassword />
         </Suspense>
       ),
     },

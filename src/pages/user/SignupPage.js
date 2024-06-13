@@ -3,6 +3,7 @@ import BasicLayout from "../../layouts/BasicLayout";
 import useCustomMove from "../../hooks/useCustomMove";
 import { register, sendEmail } from "../../api/memberApi";
 import useCustomLogin from "../../hooks/useCustomLogin";
+import { getCookie, removeCookie, setCookie } from "../../util/cookieUtil";
 
 const initState = {
 	email: "",
@@ -13,17 +14,26 @@ const initState = {
 };
 
 const SignupPage = () => {
-	const { moveToLogin, moveToMain } = useCustomMove();
+	const { moveToLogin, moveToMain, moveToFindPassword } = useCustomMove();
 	const { execLogin } = useCustomLogin();
 
 	const [inputVal, setInputVal] = useState({ ...initState });
-	const [key, setKey] = useState("");
 	const [keyResult, setKeyResult] = useState(false);
 	const [pwResult, setPwResult] = useState(false);
+	const [emailValid, setEmailValid] = useState(false);
 
 	const handleChange = (e) => {
 		inputVal[e.target.name] = e.target.value;
 		setInputVal({ ...inputVal });
+
+		if (e.target.name == "email") {
+			validateEmail(e.target.value);
+		}
+	};
+
+	const validateEmail = (email) => {
+		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		setEmailValid(emailRegex.test(email));
 	};
 
 	const handleSendEmail = () => {
@@ -33,21 +43,26 @@ const SignupPage = () => {
 			return;
 		}
 
+		if (!emailValid) {
+			alert("유효한 이메일 주소를 입력해주세요.");
+			return;
+		}
+
 		const data = { email: inputVal.email };
 
 		sendEmail(data).then((response) => {
 			console.log("email result:", response.key);
 			if (response.key) {
-				setKey(response.key);
+				setCookie("emailVerify", { key: response.key }, 1);
 				alert("이메일이 전송되었습니다.");
 			}
 		});
 	};
 
 	const handleClickVerify = () => {
-		console.log("handleClickVerify 실행");
-		if (inputVal.verify == key) {
-			console.log("입력, 인증키", inputVal.verify, key);
+		const cookie = getCookie("emailVerify");
+		console.log("handleClickVerify 실행 key:", cookie.key);
+		if (inputVal.verify == cookie.key) {
 			alert("인증 성공!");
 			setKeyResult(true);
 		} else {
@@ -79,12 +94,14 @@ const SignupPage = () => {
 					alert("회원가입을 실패하였습니다. 다시 시도해주세요.");
 				} else {
 					execLogin({ email: inputVal.email, password: inputVal.password });
+					removeCookie("emailVerify");
 					alert("회원가입을 성공하였습니다.");
 					moveToMain();
 				}
 			});
 		}
 	};
+
 	const inputClassName =
 		"bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 font-[Pretendard-Regular]";
 	const buttonClassName =
@@ -110,7 +127,7 @@ const SignupPage = () => {
 						/>
 						<button
 							onClick={handleSendEmail}
-							className="bg-my-color-lightgreen hover:bg-my-color-superlightgreen border-black text-black px-3 py-2 rounded-sm font-['Pretendard-Regular'] text-sm "
+							className="bg-my-color-lightgreen hover:bg-my-color-superlightgreen border-black text-black px-3 py-2 rounded-sm font-['Pretendard-Regular'] text-sm"
 						>
 							인증
 						</button>
@@ -177,8 +194,7 @@ const SignupPage = () => {
 					</button>
 				</div>
 				<div className="space-x-16 font-[Pretendard-Regular] mt-4">
-					<button>아이디 찾기</button>
-					<button>비밀번호 찾기</button>
+					<button onClick={moveToFindPassword}>비밀번호 찾기</button>
 					<button onClick={moveToLogin}>로그인하기</button>
 				</div>
 			</div>

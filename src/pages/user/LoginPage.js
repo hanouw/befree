@@ -9,7 +9,7 @@ const initState = {
 };
 
 const LoginPage = () => {
-	const { moveToSignup, moveToMain } = useCustomMove();
+	const { moveToSignup, moveToMain, moveToFindPassword } = useCustomMove();
 	const { execLogin } = useCustomLogin();
 
 	const [loginParam, setLoginParam] = useState({ ...initState });
@@ -72,8 +72,7 @@ const LoginPage = () => {
 					</button>
 				</div>
 				<div className="space-x-16 font-[Pretendard-Regular] mt-4">
-					<button>아이디 찾기</button>
-					<button>비밀번호 찾기</button>
+					<button onClick={moveToFindPassword}>비밀번호 찾기</button>
 					<button onClick={moveToSignup}>회원가입</button>
 				</div>
 			</div>

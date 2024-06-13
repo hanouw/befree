@@ -40,10 +40,12 @@ const TripList = () => {
 		console.log("눌림", buttonNumber);
 	};
 
-	const loginInfo = useSelector((state) => state.loginSlice);
-
+  const loginInfo = useSelector((state) => state.loginSlice);
+  
 	const fetchTripList = (page) => {
+
 		console.log("fetchTripList 호출됨 email", loginInfo.email);
+
 		getTripList(loginInfo.email, page).then((data) => {
 			console.log("안쪽");
 			let dataResult = data.RESULT.paginatedTrips;
@@ -82,7 +84,6 @@ const TripList = () => {
 
   useEffect(() => {
     console.log("useEffect 실행됨");
-    fetchTripList(page);
     console.log("isLogin:", isLogin);
     if (!isLogin) {
       const isConfirmed = window.confirm(
@@ -93,6 +94,9 @@ const TripList = () => {
       } else {
         moveToMain();
       }
+    }
+    if (isLogin) {
+      fetchTripList(page);
     }
   }, [page]);
 

@@ -96,6 +96,10 @@ const useCustomMove = () => {
     console.log("movaeTodelete val:", val);
     navigate({ pathname: `/confirm` }, { state: { val: `${val}` } });
   };
+  // 회원 비밀번호찾기 페이지로 이동
+  const moveToFindPassword = () => {
+    navigate({ pathname: `/findPassword` });
+  };
 
   // 각 이동 함수를 리턴
   return {
@@ -111,6 +115,7 @@ const useCustomMove = () => {
     moveToSignup,
     moveToModify,
     moveToDelete,
+    moveToFindPassword,
     refresh,
   };
 };
