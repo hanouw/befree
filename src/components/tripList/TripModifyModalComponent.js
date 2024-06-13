@@ -1,21 +1,25 @@
-import React, { useRef, useState } from "react";
-import { createTrip } from "../../api/befreeApi";
+import React, { useEffect, useRef, useState } from "react";
+import { createTrip, updateTrip } from "../../api/befreeApi";
 import { useSelector } from "react-redux";
 
-const initState = {
-  ttitle: "",
-  tregion: "",
-  tbegin: "",
-  tend: "",
-};
-
-const TripAddModalComponent = ({ callbackFn }) => {
-  const [trip, setTrip] = useState({ ...initState });
+const TripAddModalComponent = ({
+  tid,
+  title,
+  region,
+  begin,
+  end,
+  callbackFn,
+}) => {
+  const [trip, setTrip] = useState({
+    ttitle: title,
+    tregion: region,
+    tbegin: begin,
+    tend: end,
+  });
 
   const handleClose = () => {
     // 닫기 실행됨
-    console.log(callbackFn);
-    callbackFn();
+    callbackFn({ tid: null, title: null, region: null, date: null });
   };
 
   const handleChangeProduct = (e) => {
@@ -35,7 +39,7 @@ const TripAddModalComponent = ({ callbackFn }) => {
 
     if (gap > 0) {
       console.log("addButtonclicked email", loginInfo.email);
-      createTrip(loginInfo.email, trip).then(() => handleClose());
+      updateTrip(loginInfo.email, trip, tid).then(() => handleClose());
     } else {
       alert("올바른 시작일과 종료일을 입력해주세요");
     }
@@ -55,7 +59,7 @@ const TripAddModalComponent = ({ callbackFn }) => {
             {/* <!-- Modal header --> */}
             <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-200">
               <h3 className="text-lg font-['Pretendard-SemiBold'] text-gray-900 dark:text-white">
-                여행 추가하기
+                여행 정보 수정하기
               </h3>
               <button
                 type="button"
@@ -99,6 +103,7 @@ const TripAddModalComponent = ({ callbackFn }) => {
                     placeholder="여행 제목"
                     required
                     onChange={handleChangeProduct}
+                    value={trip.ttitle}
                   />
                 </div>
                 <div className="col-span-2">
@@ -113,7 +118,7 @@ const TripAddModalComponent = ({ callbackFn }) => {
                     name="tregion"
                     type="String"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-600 dark:text-gray-800 dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    defaultValue={""}
+                    value={trip.tregion}
                     onChange={handleChangeProduct}
                   >
                     <option className="font-[Pretendard-regular]" value="">
@@ -185,6 +190,7 @@ const TripAddModalComponent = ({ callbackFn }) => {
                     type="date"
                     className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-600 dark:text-gray-800 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     onChange={handleChangeProduct}
+                    value={trip.tbegin}
                   ></input>
                 </div>
                 <div className="col-span-2 sm:col-span-1">
@@ -200,6 +206,7 @@ const TripAddModalComponent = ({ callbackFn }) => {
                     type="date"
                     className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
                     onChange={handleChangeProduct}
+                    value={trip.tend}
                   ></input>
                 </div>
               </div>
@@ -220,7 +227,7 @@ const TripAddModalComponent = ({ callbackFn }) => {
                     clipRule="evenodd"
                   ></path>
                 </svg>
-                여행 추가하기
+                여행 수정하기
               </button>
             </form>
           </div>
