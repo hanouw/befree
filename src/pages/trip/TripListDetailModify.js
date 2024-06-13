@@ -7,17 +7,44 @@ import { useLocation } from "react-router-dom";
 import TripTopBannerComponent from "../../components/tripPlanAdd/TripTopBannerComponent";
 import { getTripDetail, updateTripDetail } from "../../api/befreeApi";
 import TripListDetailKakaoMapComponent from "../../components/map/TripListDetailKakaoMapComponent";
+import TripAddLoadingModalComponent from "../../components/tripPlanAdd/TripAddLoadingModalComponent";
+import TripListDetailDateMoveModalComponent from "../../components/tripList/TripListDetailDateMoveModalComponent";
 
 const ItemType = {
   CARD: "card",
 };
 
-const DraggableItem = ({ item, index, moveCard, placeDeleteButtonClick }) => {
+const DraggableItem = ({
+  item,
+  index,
+  moveCard,
+  placeDeleteButtonClick,
+  moveDateButtonClick,
+  totalPage,
+  page,
+  refresh,
+}) => {
   const placeDeleteButtonClickFn = (pid) => {
     placeDeleteButtonClick(pid);
   };
 
+  const moveDateButtonShow = (pid) => {
+    setShowMoveDateModal(!showMoveDateModal);
+    setSelectedPid(pid);
+  };
+
+  const moveDateButtonCilckFn = (whatDate) => {
+    moveDateButtonClick(selectedPid, whatDate);
+  };
+
+  const [showMoveDateModal, setShowMoveDateModal] = useState(false);
+  const [selectedPid, setSelectedPid] = useState(-1);
+
   const ref = React.useRef(null);
+
+  useEffect(() => {
+    setShowMoveDateModal(false);
+  }, [refresh]);
 
   const [, drop] = useDrop({
     accept: ItemType.CARD,
@@ -83,19 +110,30 @@ const DraggableItem = ({ item, index, moveCard, placeDeleteButtonClick }) => {
         <span className="font-[Pretendard-Regular] text-gray-500 mr-6">
           {item.facilities[0]} 외 {item.facilities.length - 1} 개
         </span>
-
-        <div className="mr-4 cursor-pointer" onClick={() => alert("구현중...")}>
+        {showMoveDateModal && selectedPid == item.pid ? (
+          <TripListDetailDateMoveModalComponent
+            totalPage={totalPage}
+            page={page}
+            callBackFn={moveDateButtonCilckFn}
+          />
+        ) : (
+          <></>
+        )}
+        <div
+          className="mr-4 cursor-pointer hover:mb-1"
+          onClick={() => moveDateButtonShow(item.pid)}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
-            stroke-width="1.5"
+            strokeWidth="1.5"
             stroke="currentColor"
-            class="size-7"
+            className="size-7"
           >
             <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z"
             />
           </svg>
@@ -130,6 +168,8 @@ const TripListDetail = () => {
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(5);
   const [allItems, setAllItems] = useState([]); // 이중 배열 상태 추가
+  const [loading, setLoading] = useState(false); // 로딩중인가
+  const [refresh, setRefresh] = useState(true); // 날짜 이동 드롭다운 닫기 위한 state
 
   const { moveToTripListDetail } = useCustomMove();
 
@@ -183,36 +223,48 @@ const TripListDetail = () => {
   };
 
   useEffect(() => {
+    setRefresh(!refresh);
     const days = splitDayAndCalculateDiff(date);
     setTotalPage(days);
-    for (let i = 0; i < days; i++) {}
-    setAllItems(new Array(days).fill([])); // 날짜 수에 비례한 이중 배열 생성
-  }, []);
 
-  useEffect(() => {
-    if (allItems[page - 1] && allItems[page - 1].length > 0) {
-      setItems(allItems[page - 1]);
-      getTripDetail(tid, page).then((data) => {
-        mapDataSetting(data);
-      });
-    } else {
-      getTripDetail(tid, page).then((data) => {
+    const fetchData = async () => {
+      let initAllItems = new Array(days).fill([]);
+
+      for (let i = 0; i < days; i++) {
+        const data = await getTripDetail(tid, i + 1); // 각 날에 대한 데이터를 가져옴
+        console.log(data);
         const formattedItems = data.RESULT.map((item, index) => ({
           ...item,
           pid: index,
         }));
-        setItems(formattedItems);
-        setAllItems((prevAllItems) => {
-          const newAllItems = [...prevAllItems];
-          newAllItems[page - 1] = formattedItems;
-          return newAllItems;
-        });
+        initAllItems[i] = formattedItems; // i번째 페이지에 데이터 할당
+        if (i == page - 1) {
+          setItems(formattedItems);
+        }
+      }
+
+      setAllItems(initAllItems); // 모든 데이터를 가져온 후 상태를 업데이트
+    };
+
+    setLoading(true);
+    fetchData().then(() => {
+      setLoading(false);
+      // setItems(allItems[page - 1]);
+    });
+  }, []);
+
+  useEffect(() => {
+    setRefresh(!refresh);
+    if (allItems[page - 1] && allItems[page - 1].length > 0) {
+      setItems(allItems[page - 1]);
+      getTripDetail(tid, page).then((data) => {
         mapDataSetting(data);
       });
     }
   }, [page, tid]);
 
   useEffect(() => {
+    setRefresh(!refresh);
     setAllItems((prevAllItems) => {
       const newAllItems = [...prevAllItems];
       newAllItems[page - 1] = items;
@@ -259,8 +311,32 @@ const TripListDetail = () => {
     });
   };
 
+  const moveDateButtonClick = (pid, whatDate) => {
+    setItems((prevItems) => {
+      const moveToPageTemp = [...allItems[whatDate - 1]]; // 이동하려는 페이지 복사
+      const newItems = [...prevItems]; // 현재 페이지 복사
+      allItems[whatDate - 1].push(
+        newItems
+          .filter((newItem) => newItem.pid === pid)
+          .map((item) => ({
+            ...item,
+            pid: moveToPageTemp.length,
+            days: whatDate,
+          }))[0]
+      );
+      newItems.splice(pid, 1);
+      const newReturnItems = newItems.map((item, index) => ({
+        ...item,
+        pid: index,
+      }));
+      console.log(allItems);
+      return newReturnItems;
+    });
+  };
+
   return (
     <>
+      {loading ? <TripAddLoadingModalComponent /> : <></>}
       <TripTopBannerComponent
         topText={"여행 계획 수정하기"}
         tid={tid}
@@ -321,13 +397,13 @@ const TripListDetail = () => {
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
-              stroke-width="1.5"
+              strokeWidth="1.5"
               stroke="currentColor"
-              class="size-6"
+              className="size-6"
             >
               <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z"
               />
             </svg>
@@ -358,6 +434,10 @@ const TripListDetail = () => {
                   index={index}
                   moveCard={moveCard}
                   placeDeleteButtonClick={placeDeleteButtonClick}
+                  moveDateButtonClick={moveDateButtonClick}
+                  totalPage={totalPage}
+                  page={page}
+                  refresh={refresh}
                 />
               ))
             )}

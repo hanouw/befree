@@ -38,6 +38,7 @@ const TripListDetail = () => {
 
   // 핀 사이 거리 데이터
   const [amongPin, setAmongPin] = useState([]);
+  let amongPinTemp = null;
 
   const { moveToTripPlanAdd, moveToPlaceDetail, moveToTripListDetailModify } =
     useCustomMove();
@@ -105,7 +106,7 @@ const TripListDetail = () => {
 
   const pinDistanceCallBack = (pinData) => {
     setAmongPin(pinData);
-    console.log(pinData);
+    amongPinTemp = pinData;
   };
 
   return (
@@ -187,27 +188,35 @@ const TripListDetail = () => {
                   {item.pid + 1}. {item.title}
                 </span>
 
-                {!isHover[index] || index == 0 || amongPin == [] ? (
+                {!isHover[index] ||
+                index == 0 ||
+                amongPin == [] ||
+                amongPin == undefined ||
+                amongPin == null ? (
                   <></>
                 ) : (
                   <div className="font-[Pretendard-Regular] text-gray-600">
                     <ul className="dotOverlay distanceInfo font-[Pretendard-Light]">
                       <li>
-                        <span className="label">
-                          직전 여행지로부터의 거리:{" "}
-                        </span>
+                        <span className="label">직전 여행지로부터의 거리:</span>
                         <span className="number">
-                          {amongPin[index - 1].distance}
+                          {amongPin[index - 1].distance != undefined
+                            ? amongPin[index - 1].distance
+                            : "???"}
                         </span>
                         m
                       </li>
                       <li>
                         <span className="label">도보: </span>
-                        {amongPin[index - 1].walkTime}
+                        {amongPin[index - 1].walkTime != undefined
+                          ? amongPin[index - 1].walkTime
+                          : "???"}
                       </li>
                       <li>
                         <span className="label">자전거: </span>
-                        {amongPin[index - 1].cycleTime}
+                        {amongPin[index - 1].cycleTime != undefined
+                          ? amongPin[index - 1].cycleTime
+                          : "???"}
                       </li>
                     </ul>
                   </div>

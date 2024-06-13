@@ -5,7 +5,7 @@ import TripAddSelectedComponent from "../../components/tripPlanAdd/TripAddSelect
 import { useLocation } from "react-router-dom";
 import { sendPlaceKeywordDataApi } from "../../api/tripApi";
 import KakaoMapComponent from "../../components/map/KakaoMapComponent";
-import NextBackPagenationComponent from "../../components/tripList/NextBackPagenationComponent";
+import NextBackPagenationComponent from "../../components/tripPlanAdd/NextBackPagenationComponent";
 import useCustomMove from "../../hooks/useCustomMove";
 import TripAddLoadingModalComponent from "../../components/tripPlanAdd/TripAddLoadingModalComponent";
 import { addPlaceToTrip } from "../../api/befreeApi";
