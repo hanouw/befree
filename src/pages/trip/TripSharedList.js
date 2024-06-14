@@ -41,19 +41,20 @@ const TripSharedList = () => {
           tend.getMonth() + 1
         }.${tend.getDate()}`;
 
-        return {
-          src:
-            process.env.PUBLIC_URL +
-            "/assets/imgs/trip_list_size_down_" +
-            trip.tid +
-            ".png",
-          alt: trip.tid,
-          date: formattedBeginDate + " ~ " + formattedEndDate,
-          title: trip.ttitle,
-          region: trip.tregion,
-          style: noDrag,
-        };
-      });
+				return {
+					src:
+						process.env.PUBLIC_URL +
+						"/assets/imgs/trip_list_size_down_" +
+						trip.tid +
+						".png",
+					alt: trip.tid,
+					date: formattedBeginDate + " ~ " + formattedEndDate,
+					title: trip.ttitle,
+					region: trip.tregion,
+					style: noDrag,
+					shared: "true",
+				};
+			});
 
       setTripList(tripListTemp);
     });
@@ -98,7 +99,8 @@ const TripSharedList = () => {
                       item.alt,
                       item.title,
                       item.date,
-                      item.region
+                      item.region,
+                      item.shared
                     )
                   }
                 ></img>
