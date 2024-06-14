@@ -84,7 +84,7 @@ const TripListDetailKakaoMapComponent = (props) => {
     const marker = new kakao.maps.Marker({
       map: mapInstance.current,
       position,
-      title,
+      // title,
     });
 
     const content = createOverlayContent(title, distanceInfo);
