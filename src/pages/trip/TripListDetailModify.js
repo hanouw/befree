@@ -82,7 +82,7 @@ const DraggableItem = ({
         transition: "transform 1s ease",
       }}
       className={`flex justify-between items-center mb-10 px-4 border border-my-color-darkblue rounded-md py-4 text-sm transition-all duration-300 ${
-        isDragging ? "bg-gray-100 m-3" : "bg-white"
+        isDragging ? "bg-gray-100 m-1" : "bg-white"
       }`}
     >
       <div className="flex items-center">
@@ -292,11 +292,7 @@ const TripListDetail = () => {
     const updatedItems = [...items];
     updatedItems.splice(dragIndex, 1);
     updatedItems.splice(hoverIndex, 0, draggedItem);
-    const reorderedItems = updatedItems.map((item, index) => ({
-      ...item,
-      pid: index,
-    }));
-    setItems(reorderedItems);
+    setItems(updatedItems);
   };
 
   const placeDeleteButtonClick = (pid) => {

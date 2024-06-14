@@ -332,7 +332,6 @@ const FilterComponent = ({ region, callBackFn }) => {
             <select
               onChange={(e) => handleProvinceChange(e.target.value)}
               className="mr-2 mb-2"
-              value={setSelectedCities}
             >
               <option value="">도/광역시 선택</option>
               {Object.keys(regions).map((province) => (
