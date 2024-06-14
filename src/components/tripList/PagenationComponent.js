@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 
 const PagenationComponent = ({ page, totalPage, numButtonClicked }) => {
+  const [currentPageGroup, setCurrentPageGroup] = useState(
+    Math.ceil(page / 10)
+  );
+
   const pageNumbers = [];
   const totalPages = Math.ceil(totalPage / 10);
-  const currentPageGroup = Math.ceil(page / 10);
 
   const startPage = (currentPageGroup - 1) * 10 + 1;
   const endPage = Math.min(currentPageGroup * 10, totalPage);
@@ -16,6 +19,33 @@ const PagenationComponent = ({ page, totalPage, numButtonClicked }) => {
     numButtonClicked(num);
   };
 
+  console.log(totalPage);
+  console.log(currentPageGroup);
+
+  const prevClicked = () => {
+    const prevCurrentPageGroup = currentPageGroup;
+    if (currentPageGroup > 1) {
+      setCurrentPageGroup(prevCurrentPageGroup - 1);
+      console.log(
+        "prevClicked if문 통과되어 실행됨 / {...currentPageGroup} - 1 : ",
+        prevCurrentPageGroup - 1
+      );
+      isClicked((prevCurrentPageGroup - 1) * 10 - 9);
+    }
+  };
+  const nextClicked = () => {
+    console.log("nextClicked", currentPageGroup, Math.ceil(totalPage / 10));
+    const prevCurrentPageGroup = currentPageGroup;
+    if (currentPageGroup < Math.ceil(totalPage / 10)) {
+      setCurrentPageGroup(prevCurrentPageGroup + 1);
+      console.log(
+        "nextClicked if문 통과되어 실행됨 / {...currentPageGroup} + 1 : ",
+        prevCurrentPageGroup + 1
+      );
+      isClicked((prevCurrentPageGroup + 1) * 10 - 9);
+    }
+  };
+
   return (
     <div>
       {/* Pagination */}
@@ -23,7 +53,7 @@ const PagenationComponent = ({ page, totalPage, numButtonClicked }) => {
       <div className="grid place-items-center">
         <nav aria-label="Page navigation example" className="hidden sm:block">
           <ul className="flex items-center -space-x-px h-10 text-base">
-            <li>
+            <li onClick={() => prevClicked()} className="cursor-pointer">
               <a className="flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white rounded-s-lg hover:bg-gray-100 hover:text-gray-700">
                 <span className="sr-only">Previous</span>
                 <svg
@@ -60,7 +90,7 @@ const PagenationComponent = ({ page, totalPage, numButtonClicked }) => {
                 </a>
               </li>
             ))}
-            <li>
+            <li onClick={() => nextClicked()} className="cursor-pointer">
               <a className="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white rounded-e-lg hover:bg-gray-100 hover:text-gray-700">
                 <span className="sr-only">Next</span>
                 <svg
