@@ -13,15 +13,15 @@ const FindPassword = () => {
 	const emptyButtonClassName =
 		"text-center w-full text-gray-900 inline-flex justify-center items-center border border-my-color-lightgreen hover:bg-my-color-superlightgreen focus:ring-4 focus:outline-none focus:ring-my-color-lightgreen font-['Pretendard-Regular'] rounded-sm text-sm px-5 py-2.5 bg-white";
 
-	const { moveToLogin, moveToMain } = useCustomMove();
+	const { moveToLogin, moveToMain, moveToSignup } = useCustomMove();
 
 	const [email, setEmail] = useState("");
 	const [emailValid, setEmailValid] = useState(false);
-  
-    const validateEmail = (email) => {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      setEmailValid(emailRegex.test(email));
-    };
+
+	const validateEmail = (email) => {
+		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		setEmailValid(emailRegex.test(email));
+	};
 
 	const handleChange = (e) => {
 		setEmail(e.target.value);
@@ -35,13 +35,18 @@ const FindPassword = () => {
 			alert("유효한 이메일 주소를 입력해주세요.");
 			return;
 		}
-    
+
 		sendNewPassword({ email: email }).then((result) => {
 			console.log("newPassword Result:", result);
-			alert(
-				"이메일이 발송되었습니다. 새로운 비밀번호로 로그인후, 비밀번호 변경을 해주세요."
-			);
-			moveToLogin();
+			if (result) {
+				alert(
+					"이메일이 발송되었습니다. 새로운 비밀번호로 로그인후, 비밀번호 변경을 해주세요."
+				);
+				moveToLogin();
+			} else {
+				alert("가입이력이 없습니다. 회원가입을 해주세요!");
+				moveToSignup();
+			}
 		});
 	};
 

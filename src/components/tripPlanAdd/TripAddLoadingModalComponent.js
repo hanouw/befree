@@ -16,7 +16,7 @@ const TripAddLoadingModalComponent = () => {
             {/* <!-- Modal header --> */}
             <div className="items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-200">
               <h3 className="text-lg font-['Pretendard-SemiBold'] text-gray-900 dark:text-white mb-2">
-                불러오는 중...
+                잠시 기다려주세요...
               </h3>
 
               <div className="text-center">

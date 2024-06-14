@@ -4,6 +4,7 @@ import useCustomMove from "../../hooks/useCustomMove";
 import { register, sendEmail } from "../../api/memberApi";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import { getCookie, removeCookie, setCookie } from "../../util/cookieUtil";
+import TripAddLoadingModalComponent from "../../components/tripPlanAdd/TripAddLoadingModalComponent";
 
 const initState = {
 	email: "",
@@ -21,6 +22,7 @@ const SignupPage = () => {
 	const [keyResult, setKeyResult] = useState(false);
 	const [pwResult, setPwResult] = useState(false);
 	const [emailValid, setEmailValid] = useState(false);
+	const [isSending, setIsSending] = useState(false);
 
 	const handleChange = (e) => {
 		inputVal[e.target.name] = e.target.value;
@@ -48,18 +50,27 @@ const SignupPage = () => {
 			return;
 		}
 
+		setIsSending(true);
 		const data = { email: inputVal.email };
 
 		sendEmail(data).then((response) => {
-			console.log("email result:", response.key);
+			setIsSending(false);
 			if (response.key) {
 				setCookie("emailVerify", { key: response.key }, 1);
+				console.log(response.key);
 				alert("이메일이 전송되었습니다.");
+			} else {
+				alert("이미 가입된 회원입니다. 로그인을 해주세요!");
+				moveToLogin();
 			}
 		});
 	};
 
 	const handleClickVerify = () => {
+		if (inputVal.verify == null) {
+			alert("인증번호를 다시 확인해주세요.");
+			return;
+		}
 		const cookie = getCookie("emailVerify");
 		console.log("handleClickVerify 실행 key:", cookie.key);
 		if (inputVal.verify == cookie.key) {
@@ -71,8 +82,16 @@ const SignupPage = () => {
 	};
 
 	const passwordCheck = () => {
+		console.log("passwordCheck", inputVal.password.length);
+		if (inputVal.password.length < 4) {
+			setPwResult(false);
+			console.log(pwResult);
+			alert("4자리 이상의 비밀번호를 입력해주세요.");
+			return;
+		}
 		if (inputVal.password !== inputVal.passwordVerify) {
 			alert("비밀번호가 일치하지 않습니다.");
+			setPwResult(false);
 		} else {
 			setPwResult(true);
 		}
@@ -81,8 +100,12 @@ const SignupPage = () => {
 	const handleClickRegister = () => {
 		if (!keyResult) {
 			alert("이메일 인증을 해주세요.");
+			return;
 		}
 		passwordCheck();
+		if (!pwResult) {
+			return;
+		}
 		if (pwResult && keyResult) {
 			register({
 				email: inputVal.email,
@@ -109,6 +132,7 @@ const SignupPage = () => {
 
 	return (
 		<BasicLayout>
+			{isSending ? <TripAddLoadingModalComponent /> : <></>}
 			<div className="font-[Pretendard-Bold] text-3xl grid place-items-center mt-12 mb-12">
 				회원가입
 			</div>

@@ -1,7 +1,6 @@
 import React from "react";
-import BasicLayout from "../../layouts/BasicLayout";
 
-const LoadingPage = () => {
+const LoadingPageNoBasicLayout = () => {
   return (
     <div className="grid place-content-center mt-20">
       <div className="font-[Pretendard-SemiBold] text-xl text-center mb-9">
@@ -29,4 +28,4 @@ const LoadingPage = () => {
   );
 };
 
-export default LoadingPage;
+export default LoadingPageNoBasicLayout;
