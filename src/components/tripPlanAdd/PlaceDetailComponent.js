@@ -5,7 +5,7 @@ import {
   getPlaceDetail,
   getPlaceDetailImg,
   getPlaceDetailIntro,
-  getPlaceDetailWithTour,
+  disableData,
 } from "../../api/tripApi";
 import TripAddLoadingModalComponent from "./TripAddLoadingModalComponent";
 import { matchIntro } from "../../util/parameterData";
@@ -37,7 +37,7 @@ const PlaceDetailComponent = ({ contentId, contentTypeId, callBackFn }) => {
       getPlaceDetail(contentId),
       getPlaceDetailImg(contentId),
       getPlaceDetailIntro(contentId, contentTypeId),
-      getPlaceDetailWithTour(contentId),
+      disableData(contentId),
     ]).then(([detail, imgs, intro, withTour]) => {
       console.log("공통정보조회 결과:", detail);
       setPlaceDetail(detail);

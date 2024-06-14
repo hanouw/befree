@@ -77,10 +77,10 @@ const TripPlanAdd = () => {
     setRecentResult({
       category: selectedCategory, // contentTypeId
       imgNece: onlyWithImages, // arrange
-      region: newSelectedRegionCode[0]
-        ? newSelectedRegionCode[0].areaCode
+      region: newSelectedRegionCode
+        ? newSelectedRegionCode.areaCode
         : region, // areaCode
-      sigungu: newSelectedRegionCode[0] ? newSelectedRegionCode[0].code : null, // sigungu
+      sigungu: newSelectedRegionCode ? newSelectedRegionCode.code : null, // sigungu
       keywordVal: keyword, // keyword
       facilityCodeArray: facilityCodeArray, // 편의시설
       pageInfo: [1], // 검색을 하면 초기화 하고 이전, 다음 누르면 다음 번호로 요청
