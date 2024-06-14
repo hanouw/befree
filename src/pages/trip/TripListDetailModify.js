@@ -190,8 +190,19 @@ const TripListDetail = () => {
   const saveModifyClicked = () => {
     const newAllItems = [...allItems];
     newAllItems[page - 1] = items;
-    console.log("Saved items:", newAllItems);
-    updateTripDetail(tid, newAllItems).then((dt) => {
+
+    console.log(newAllItems);
+
+    const newFinalResultAllItems = newAllItems.map((finalItems) => {
+      console.log(finalItems);
+      return finalItems.map((item, index) => ({
+        ...item,
+        pid: index,
+      }));
+    });
+
+    console.log("Saved items:", newFinalResultAllItems);
+    updateTripDetail(tid, newFinalResultAllItems).then((dt) => {
       if (dt.RESULT) {
         alert("저장되었습니다");
         moveToTripListDetail(tid, title, date, region);
