@@ -109,35 +109,17 @@ const TripPlanAdd = () => {
   // 이전 다음페이지 버튼 클릭
   const backnextButtonClicked = (bf) => {
     console.log(bf);
-    if (bf) {
-      // 다음페이지
-      console.log("다음페이지");
-      setRecentResult({
-        category: recentResult.category, // contentTypeId
-        imgNece: recentResult.imgNece, // arrange
-        region: recentResult.region, // areaCode
-        sigungu: recentResult.sigungu,
-        keywordVal: recentResult.keywordVal, // keyword
-        facilityCodeArray: recentResult.facilityCodeArray, // 편의시설
-        pageInfo: pageIndexList, // 검색 시 초기화 / 이전, 다음 클릭 시 해당 번호로 요청
-        pageIndex: pageIndexData, // 현재 페이지 index를 저장
-        isBOF: true,
-      });
-    } else {
-      // 이전페이지
-      console.log("이전페이지");
-      setRecentResult({
-        category: recentResult.category, // contentTypeId
-        imgNece: recentResult.imgNece, // arrange
-        region: recentResult.region, // areaCode
-        sigungu: recentResult.sigungu,
-        keywordVal: recentResult.keywordVal, // keyword
-        facilityCodeArray: recentResult.facilityCodeArray, // 편의시설
-        pageInfo: pageIndexList, // 검색 시 초기화 / 이전, 다음 클릭 시 해당 번호로 요청
-        pageIndex: pageIndexData - 1, // 현재 페이지 index를 저장
-        isBOF: false,
-      });
-    }
+    setRecentResult({
+      category: recentResult.category, // contentTypeId
+      imgNece: recentResult.imgNece, // arrange
+      region: recentResult.region, // areaCode
+      sigungu: recentResult.sigungu,
+      keywordVal: recentResult.keywordVal, // keyword
+      facilityCodeArray: recentResult.facilityCodeArray, // 편의시설
+      pageInfo: pageIndexList, // 검색 시 초기화 / 이전, 다음 클릭 시 해당 번호로 요청
+      pageIndex: bf ? pageIndexData : pageIndexData - 1, // 현재 페이지 index를 저장
+      isBOF: bf,
+    });
   };
 
   useEffect(() => {

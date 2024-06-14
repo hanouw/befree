@@ -91,7 +91,7 @@ const PlaceDetail = () => {
 
   return (
     <>
-      <div className="w-2/3 lg:w-mywidth1200 mx-auto p-4 font-['Pretendard']">
+      <div className="w-2/3 lg:w-mywidth1200 mx-auto p-4 font-[Pretendard]">
         <header className="text-center mb-8">
           <h2 className="text-2xl font-bold mt-2">{placeDetail.title}</h2>
 
@@ -184,7 +184,7 @@ const PlaceDetail = () => {
             </ul>
           ) : (
             <ul className="text-gray-700">
-              <li></li>
+              <li>정보가 없습니다</li>
             </ul>
           )}
         </section>

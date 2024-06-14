@@ -27,6 +27,9 @@ const TripListDetail = () => {
   // map 데이터
   const [mapData, setMapData] = useState([]);
 
+  // map에 항상 보여줄 것인지
+  const [isAlwaysView, setIsAlwaysView] = useState(false);
+
   // 페이지네이션 ( ?일차 )
   const [page, setPage] = useState(1);
 
@@ -102,7 +105,7 @@ const TripListDetail = () => {
     });
 
     setTotalPage(splitDayAndCalculateDiff(date));
-  }, [page]);
+  }, [page, isAlwaysView]);
 
   const pinDistanceCallBack = (pinData) => {
     setAmongPin(pinData);
@@ -124,6 +127,7 @@ const TripListDetail = () => {
           map={mapData}
           region={region}
           callBackFn={pinDistanceCallBack}
+          isAlwaysView={isAlwaysView}
         />
       </div>
       <div className="flex justify-center items-center mt-10">
@@ -132,6 +136,19 @@ const TripListDetail = () => {
             {page} 일차
           </span>
           <div className="flex space-x-4">
+            <div className="items-center flex">
+              <label className="cursor-pointer">
+                <input
+                  type="checkbox"
+                  className="sr-only peer"
+                  onClick={() => setIsAlwaysView(!isAlwaysView)}
+                />
+                <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-1 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-my-color-darkblue"></div>
+              </label>
+              <span className="font-['Pretendard-Regular'] ml-3 text-sm text-gray-600">
+                마우스 올려 보기 / 항상 보기
+              </span>
+            </div>
             <button
               onClick={() =>
                 moveToTripListDetailModify(tid, title, date, region)
