@@ -24,7 +24,7 @@ const useCustomMove = () => {
   };
 
   // 여행 계획 상세로 이동
-  const moveToTripListDetail = (tid, title, date, region) => {
+  const moveToTripListDetail = (tid, title, date, region, shared) => {
     navigate(
       { pathname: `/trip/listdetail/${tid}` },
       {
@@ -33,12 +33,13 @@ const useCustomMove = () => {
           title: `${title}`,
           date: `${date}`,
           region: `${region}`,
+          shared: `${shared}`,
         },
       }
     );
   };
 
-  // 여행 계획 상세로 이동
+  // 여행 계획 수정으로 이동
   const moveToTripListDetailModify = (tid, title, date, region) => {
     navigate(
       { pathname: `/trip/listdetailmodify/${tid}` },

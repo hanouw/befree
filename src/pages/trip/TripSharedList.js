@@ -52,6 +52,7 @@ const TripSharedList = () => {
 					title: trip.ttitle,
 					region: trip.tregion,
 					style: noDrag,
+					shared: "true",
 				};
 			});
 
@@ -90,7 +91,8 @@ const TripSharedList = () => {
 									item.alt,
 									item.title,
 									item.date,
-									item.region
+									item.region,
+									item.shared
 								)
 							}
 						></img>
@@ -102,7 +104,8 @@ const TripSharedList = () => {
 										item.alt,
 										item.title,
 										item.date,
-										item.region
+										item.region,
+										item.shared
 									)
 								}
 							>
