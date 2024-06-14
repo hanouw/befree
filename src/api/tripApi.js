@@ -279,7 +279,6 @@ export const getPlaceDetail = async (contentId) => {
     `${contentId}` +
     `&defaultYN=Y&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y&_type=json`;
   const response = await axios.get(link);
-  // return response.data;
   return response.data.response.body.items.item[0];
 };
 

@@ -9,6 +9,7 @@ import NextBackPagenationComponent from "../../components/tripPlanAdd/NextBackPa
 import useCustomMove from "../../hooks/useCustomMove";
 import TripAddLoadingModalComponent from "../../components/tripPlanAdd/TripAddLoadingModalComponent";
 import { addPlaceToTrip } from "../../api/befreeApi";
+import PlaceDetailComponent from "../../components/tripPlanAdd/PlaceDetailComponent";
 
 // 여행 계획 추가
 const TripPlanAdd = () => {
@@ -24,6 +25,9 @@ const TripPlanAdd = () => {
 
   // 로딩중 모달 여부
   const [loading, setLoading] = useState(true);
+
+  // place detail 모달 여부
+  const [showPlaceDetail, setShowPlaceDetail] = useState([]);
 
   // 지도 데이터 전달
   const [map, setMap] = useState([]);
@@ -124,6 +128,7 @@ const TripPlanAdd = () => {
 
   useEffect(() => {
     setLoading(true);
+    setShowPlaceDetail([]);
     // API 전송 함수
     sendPlaceKeywordDataApi(recentResult).then((result) => {
       console.log("sendPlaceKeywordDataApi 리턴 데이터", result);
@@ -161,11 +166,28 @@ const TripPlanAdd = () => {
     });
   };
 
-  const { moveToPlaceDetail } = useCustomMove();
+  // placedetail 모달 띄우기
+  const placeDetailButtonClick = (contentId, contentTypeId) => {
+    setShowPlaceDetail([contentId, contentTypeId]);
+  };
+
+  // placeDetail 모달 닫기
+  const placeDetailModalClose = () => {
+    setShowPlaceDetail([]);
+  };
 
   return (
     <div>
       {loading ? <TripAddLoadingModalComponent /> : <></>}
+      {showPlaceDetail.length == 0 ? (
+        <></>
+      ) : (
+        <PlaceDetailComponent
+          contentId={showPlaceDetail[0]}
+          contentTypeId={showPlaceDetail[1]}
+          callBackFn={placeDetailModalClose}
+        />
+      )}
       <TripTopBannerComponent
         topText={"여행지 추가하기"}
         tid={tid}
@@ -227,7 +249,7 @@ const TripPlanAdd = () => {
                           type="button"
                           className=" mt-2 text-my-color-darkblue border-2 border-my-color-darkblue hover:bg-gray-100 hover:font-[Pretendard-ExtraBold] focus:ring-4 focus:outline-none focus:ring-gray-200 font-[Pretendard-SemiBold] rounded-md text-sm px-5 py-2.5 text-center inline-flex items-center"
                           onClick={() =>
-                            moveToPlaceDetail(
+                            placeDetailButtonClick(
                               item.contentId,
                               item.contentTypeId
                             )
