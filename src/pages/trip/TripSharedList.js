@@ -78,10 +78,10 @@ const TripSharedList = () => {
         <div className="w-2/3 lg:w-mywidth1200 my-[1%] border-[1px] border-neutral-500"></div>
       </div>
       <div className="grid place-items-center lg:mt-10 mt-3">
-        {tripList.length == 0 ? (
+        {tripList.length == 0 || tripList == [] ? (
           <>
             <div className="flex justify-center my-4 mt-40 mb-40 font-[Pretendard-Regular]">
-              아직 아무도 여행 목록을 공유하지 않았습니다!
+              아직 아무도 여행 목록을 공유하지 않았습니다
             </div>
           </>
         ) : (
