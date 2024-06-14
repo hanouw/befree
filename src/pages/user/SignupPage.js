@@ -72,12 +72,16 @@ const SignupPage = () => {
 			return;
 		}
 		const cookie = getCookie("emailVerify");
-		console.log("handleClickVerify 실행 key:", cookie.key);
-		if (inputVal.verify == cookie.key) {
-			alert("인증 성공!");
-			setKeyResult(true);
+		if (cookie) {
+			console.log("handleClickVerify 실행 key:", cookie.key);
+			if (inputVal.verify == cookie.key) {
+				alert("인증 성공!");
+				setKeyResult(true);
+			} else {
+				alert("인증번호를 다시 확인해주세요");
+			}
 		} else {
-			alert("인증번호가 일치하지 않습니다.");
+			alert("인증번호를 다시 확인해주세요");
 		}
 	};
 
