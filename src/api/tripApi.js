@@ -1,9 +1,9 @@
 import axios from "axios";
 
-// const serviceKey =
-//   "uO3hkVTS0Jua91aVTLwTYLDL9n1Tta108iwJEvwieZmxcwtzO32Fk9cyhgaKc5A22IM%2FREUAIyCVKvoTbvnfmg%3D%3D";
 const serviceKey =
-	"K2%2FtyPnwaOZfrMCvSUG10bEQaU8GaFxghNI2voZCpUhGx2UALE2Hn3aXUw4cc0xBYxt%2FWGf%2FoSPRSzd8XuhKvA%3D%3D";
+	"uO3hkVTS0Jua91aVTLwTYLDL9n1Tta108iwJEvwieZmxcwtzO32Fk9cyhgaKc5A22IM%2FREUAIyCVKvoTbvnfmg%3D%3D";
+// const serviceKey =
+// 	"K2%2FtyPnwaOZfrMCvSUG10bEQaU8GaFxghNI2voZCpUhGx2UALE2Hn3aXUw4cc0xBYxt%2FWGf%2FoSPRSzd8XuhKvA%3D%3D";
 
 // 이미지 드래그 못하게 하는 style
 const noDrag = {
@@ -29,7 +29,7 @@ export const disableData = async (contentId) => {
 	const data = response.data.response.body.items.item[0];
 	if (data !== null) {
 		const list = new Map(Object.entries(data));
-		let ordredList = [];
+		let ordredList = {};
 		for (const [name, value] of list) {
 			let eName = `${name}`;
 			let val = `${value}`;
@@ -42,9 +42,13 @@ export const disableData = async (contentId) => {
 				} else if (eName == "helpdog") {
 					val = "안내견 동반 가능";
 				} else if (eName == "stroller") {
-					val = "휠체어 대여 가능";
-				}
-        ordredList.push(val);
+					val = "유모차 대여 가능";
+				} else if (eName == "exit") {
+					val = "출입통로 : " + `${value}`;
+				} else if(eName == "publictransport") {
+          val = "접근로 : " + `${value}`;
+        }
+				ordredList[eName] = val;
 			}
 		}
 		return ordredList;
