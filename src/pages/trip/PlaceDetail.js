@@ -98,22 +98,14 @@ const PlaceDetail = () => {
           <p className="text-gray-600 mt-1">{placeDetail.addr1}</p>
         </header>
 
-        <nav className="flex justify-center mb-6">
-          <button className="px-4 py-2 border-b-4 border-blue-500 font-semibold">
-            사진
-          </button>
-          <button className="px-4 py-2">편의시설 정보</button>
-          <button className="px-4 py-2">기본정보</button>
-          <button className="px-4 py-2">상세정보</button>
-          <button className="px-4 py-2">지도</button>
-        </nav>
+        <nav className="flex justify-center mb-3"></nav>
 
         <section className="flex flex-col items-center justify-center mb-8">
           <div className="mb-4 flex justify-center">
             <img
               src={placeImg[selectedImageIndex]}
               alt="Large Display"
-              className="w-[800px] h-[400px] rounded-md mb-4"
+              className="w-[800px] h-[400px] object-cover rounded-md mb-4"
             />
           </div>
           <div className="flex justify-center space-x-4">
