@@ -1,6 +1,7 @@
 import { Suspense, lazy } from "react";
 import LoadingPage from "../components/common/LoadingPageNoBasicLayout";
 
+const TripSharedList = lazy(() => import("../pages/trip/TripSharedList"));
 const TripList = lazy(() => import("../pages/trip/TripList"));
 const TripListDetail = lazy(() => import("../pages/trip/TripListDetail"));
 const TripListDetailModify = lazy(() =>
@@ -16,6 +17,14 @@ const tripRouter = () => {
       element: (
         <Suspense fallback={<LoadingPage />}>
           <TripList />
+        </Suspense>
+      ),
+    },
+    {
+      path: "shared", // 공유된 여행 계획 목록
+      element: (
+        <Suspense fallback={<LoadingPage />}>
+          <TripSharedList />
         </Suspense>
       ),
     },
