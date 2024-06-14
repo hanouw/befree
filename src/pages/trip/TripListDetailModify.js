@@ -34,6 +34,7 @@ const DraggableItem = ({
   };
 
   const moveDateButtonCilckFn = (whatDate) => {
+    console.log(selectedPid, whatDate);
     moveDateButtonClick(selectedPid, whatDate);
   };
 
@@ -260,7 +261,10 @@ const TripListDetail = () => {
       getTripDetail(tid, page).then((data) => {
         mapDataSetting(data);
       });
+    } else {
+      setItems([]);
     }
+    console.log(allItems);
   }, [page, tid]);
 
   useEffect(() => {
