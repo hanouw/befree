@@ -41,20 +41,20 @@ const TripSharedList = () => {
           tend.getMonth() + 1
         }.${tend.getDate()}`;
 
-				return {
-					src:
-						process.env.PUBLIC_URL +
-						"/assets/imgs/trip_list_size_down_" +
-						trip.tid +
-						".png",
-					alt: trip.tid,
-					date: formattedBeginDate + " ~ " + formattedEndDate,
-					title: trip.ttitle,
-					region: trip.tregion,
-					style: noDrag,
-					shared: "true",
-				};
-			});
+        return {
+          src:
+            process.env.PUBLIC_URL +
+            "/assets/imgs/trip_list_size_down_" +
+            trip.tid +
+            ".png",
+          alt: trip.tid,
+          date: formattedBeginDate + " ~ " + formattedEndDate,
+          title: trip.ttitle,
+          region: trip.tregion,
+          style: noDrag,
+          shared: "true",
+        };
+      });
 
       setTripList(tripListTemp);
     });
@@ -74,7 +74,7 @@ const TripSharedList = () => {
     <>
       <div className="grid place-items-center">
         <span className="font-['Pretendard-Medium'] sm:text-2xl text-base mt-24">
-          공유된 여행 목록
+          공유된 여행 코스
         </span>
         <div className="w-2/3 lg:w-mywidth1200 my-[1%] border-[1px] border-neutral-500"></div>
       </div>
@@ -134,6 +134,7 @@ const TripSharedList = () => {
         page={page}
         totalPage={totalPage}
         numButtonClicked={numButtonClicked}
+        withDays={false}
       />
     </>
   );

@@ -296,6 +296,7 @@ const TripList = () => {
         page={page}
         totalPage={totalPage}
         numButtonClicked={numButtonClicked}
+        withDays={false}
       />
     </>
   );

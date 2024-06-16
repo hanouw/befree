@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 
-const PagenationComponent = ({ page, totalPage, numButtonClicked }) => {
+const PagenationComponent = ({
+  page,
+  totalPage,
+  numButtonClicked,
+  withDays = true,
+}) => {
   const [currentPageGroup, setCurrentPageGroup] = useState(
     Math.ceil(page / 10)
   );
@@ -53,26 +58,30 @@ const PagenationComponent = ({ page, totalPage, numButtonClicked }) => {
       <div className="grid place-items-center">
         <nav aria-label="Page navigation example" className="hidden sm:block">
           <ul className="flex items-center -space-x-px h-10 text-base">
-            <li onClick={() => prevClicked()} className="cursor-pointer">
-              <a className="flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white rounded-s-lg hover:bg-gray-100 hover:text-gray-700">
-                <span className="sr-only">Previous</span>
-                <svg
-                  className="w-3 h-3 rtl:rotate-180"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 6 10"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M5 1 1 5l4 4"
-                  />
-                </svg>
-              </a>
-            </li>
+            {currentPageGroup > 1 ? (
+              <li onClick={() => prevClicked()} className="cursor-pointer">
+                <a className="flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white rounded-s-lg hover:bg-gray-100 hover:text-gray-700">
+                  <span className="sr-only">Previous</span>
+                  <svg
+                    className="w-3 h-3 rtl:rotate-180"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 6 10"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M5 1 1 5l4 4"
+                    />
+                  </svg>
+                </a>
+              </li>
+            ) : (
+              <></>
+            )}
             {pageNumbers.map((num) => (
               <li
                 key={num}
@@ -80,36 +89,48 @@ const PagenationComponent = ({ page, totalPage, numButtonClicked }) => {
                 className="cursor-pointer"
               >
                 <a
-                  className={`flex items-center justify-center px-4 h-10 leading-tight ${
+                  className={`flex items-center px-4 h-10 leading-tight ${
                     num === page
-                      ? "underline underline-offset-8 text-black"
-                      : "text-gray-500"
+                      ? // ? "underline underline-offset-8 font-[Pretendard-Medium] text-black"
+                        "border-b-2 border-black font-[Pretendard-Medium] text-black"
+                      : "text-gray-500 font-[Pretendard-Medium]"
                   } bg-white hover:bg-gray-100 hover:text-gray-700`}
                 >
                   {num}
+                  {withDays ? (
+                    <span className="font-[Pretendard-Regular] text-xs">
+                      일차
+                    </span>
+                  ) : (
+                    <span></span>
+                  )}
                 </a>
               </li>
             ))}
-            <li onClick={() => nextClicked()} className="cursor-pointer">
-              <a className="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white rounded-e-lg hover:bg-gray-100 hover:text-gray-700">
-                <span className="sr-only">Next</span>
-                <svg
-                  className="w-3 h-3 rtl:rotate-180"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 6 10"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="m1 9 4-4-4-4"
-                  />
-                </svg>
-              </a>
-            </li>
+            {currentPageGroup < Math.ceil(totalPage / 10) ? (
+              <li onClick={() => nextClicked()} className="cursor-pointer">
+                <a className="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white rounded-e-lg hover:bg-gray-100 hover:text-gray-700">
+                  <span className="sr-only">Next</span>
+                  <svg
+                    className="w-3 h-3 rtl:rotate-180"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 6 10"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="m1 9 4-4-4-4"
+                    />
+                  </svg>
+                </a>
+              </li>
+            ) : (
+              <></>
+            )}
           </ul>
         </nav>
       </div>
