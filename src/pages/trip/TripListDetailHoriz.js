@@ -44,7 +44,6 @@ const TripListDetail = () => {
 
   // 핀 사이 거리 데이터
   const [amongPin, setAmongPin] = useState([]);
-  let amongPinTemp = null;
 
   const { moveToTripPlanAdd, moveToPlaceDetail, moveToTripListDetailModify } =
     useCustomMove();
@@ -59,8 +58,13 @@ const TripListDetail = () => {
 
   // 다른 날짜로 이동
   const numButtonClicked = (buttonNumber) => {
-    setPage(buttonNumber);
-    console.log("눌림", buttonNumber);
+    new Promise((resolve) => {
+      setMapData([]);
+      resolve();
+    }).then(() => {
+      setPage(buttonNumber);
+      console.log("눌림", buttonNumber);
+    });
   };
 
   const formatDate = (dateString) => {
@@ -113,7 +117,6 @@ const TripListDetail = () => {
 
   const pinDistanceCallBack = (pinData) => {
     setAmongPin(pinData);
-    amongPinTemp = pinData;
   };
 
   return (
@@ -129,7 +132,6 @@ const TripListDetail = () => {
       {isXY ? (
         <>
           <div className="container-noline">
-            {console.log(mapData)}
             <TripListDetailKakaoMapComponent
               width="1200px"
               height="600px"
