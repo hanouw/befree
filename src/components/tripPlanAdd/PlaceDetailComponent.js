@@ -167,7 +167,7 @@ const PlaceDetailComponent = ({ contentId, contentTypeId, callBackFn }) => {
               {placeWithTour.length > 1 ? (
                 <ul className="text-gray-700">
                   {placeWithTour.map((data, index) => (
-                    <li key={index}>{data}</li>
+                    <li key={index}>{data.replace(/<br\s*\/?>/g, "/")}</li>
                   ))}
                 </ul>
               ) : (

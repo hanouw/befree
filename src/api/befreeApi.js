@@ -19,7 +19,7 @@ export const updateTrip = async (email, tripRequestDTO, tid) => {
 	return response.data;
 };
 
-// 여행 수정
+// 여행 공유
 export const shareTrip = async (email, tid) => {
 	console.log(email, tid);
 	const response = await axios.put(`${trip}/${email}/${tid}/share`);

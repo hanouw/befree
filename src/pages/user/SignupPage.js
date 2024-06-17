@@ -31,11 +31,24 @@ const SignupPage = () => {
 		if (e.target.name == "email") {
 			validateEmail(e.target.value);
 		}
+
+		if (e.target.name === "password" || e.target.name === "passwordVerify") {
+			validatePassword();
+		}
 	};
 
 	const validateEmail = (email) => {
 		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 		setEmailValid(emailRegex.test(email));
+	};
+
+	const validatePassword = () => {
+		const { password, passwordVerify } = inputVal;
+		if (password.length >= 4 && password === passwordVerify) {
+			setPwResult(true);
+		} else {
+			setPwResult(false);
+		}
 	};
 
 	const handleSendEmail = () => {
@@ -85,31 +98,31 @@ const SignupPage = () => {
 		}
 	};
 
-	const passwordCheck = () => {
-		console.log("passwordCheck", inputVal.password.length);
-		if (inputVal.password.length < 4) {
-			setPwResult(false);
-			console.log(pwResult);
-			alert("4자리 이상의 비밀번호를 입력해주세요.");
-			return;
-		}
-		if (inputVal.password !== inputVal.passwordVerify) {
-			alert("비밀번호가 일치하지 않습니다.");
-			setPwResult(false);
-		} else {
-			setPwResult(true);
-		}
-	};
+	// const passwordCheck = () => {
+	// 	console.log("passwordCheck", inputVal.password.length);
+	// };
 
 	const handleClickRegister = () => {
+		// passwordCheck();
 		if (!keyResult) {
 			alert("이메일 인증을 해주세요.");
 			return;
 		}
-		passwordCheck();
 		if (!pwResult) {
-			return;
+			if (inputVal.password.length < 4) {
+				setPwResult(false);
+				console.log(pwResult);
+				alert("4자리 이상의 비밀번호를 입력해주세요.");
+				return;
+			}
+			if (inputVal.password !== inputVal.passwordVerify) {
+				alert("비밀번호가 일치하지 않습니다.");
+				setPwResult(false);
+			} else {
+				setPwResult(true);
+			}
 		}
+		console.log("pwResult keyResult", pwResult, keyResult);
 		if (pwResult && keyResult) {
 			register({
 				email: inputVal.email,
@@ -142,7 +155,9 @@ const SignupPage = () => {
 			</div>
 			<div className="w-full grid place-items-center gap-5">
 				<div className="w-full sm:w-1/2 md:w-1/3 px-4">
-					<span className="font-[Pretendard-Regular]">이메일 주소</span>
+					<span className="font-[Pretendard-Regular]">
+						이메일 주소<span className="text-red-500 text-sm"> 필수</span>
+					</span>
 					<div className="flex">
 						<input
 							name="email"
@@ -181,7 +196,9 @@ const SignupPage = () => {
 					</div>
 				</div>
 				<div className="w-full sm:w-1/2 md:w-1/3 px-4">
-					<span className="font-[Pretendard-Regular]">비밀번호</span>
+					<span className="font-[Pretendard-Regular]">
+						비밀번호<span className="text-red-500 text-sm"> 필수</span>
+					</span>
 					<input
 						name="password"
 						type="password"
@@ -193,7 +210,9 @@ const SignupPage = () => {
 					/>
 				</div>
 				<div className="w-full sm:w-1/2 md:w-1/3 px-4">
-					<span className="font-[Pretendard-Regular]">비밀번호 재확인</span>
+					<span className="font-[Pretendard-Regular]">
+						비밀번호 재확인<span className="text-red-500 text-sm"> 필수</span>
+					</span>
 					<input
 						name="passwordVerify"
 						type="password"
