@@ -24,9 +24,6 @@ const PagenationComponent = ({
     numButtonClicked(num);
   };
 
-  console.log(totalPage);
-  console.log(currentPageGroup);
-
   const prevClicked = () => {
     const prevCurrentPageGroup = currentPageGroup;
     if (currentPageGroup > 1) {

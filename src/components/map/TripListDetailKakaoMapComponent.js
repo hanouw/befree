@@ -38,6 +38,8 @@ const TripListDetailKakaoMapComponent = (props) => {
       zoomControl,
       kakao.maps.ControlPosition.RIGHT
     );
+
+    updateMarkers();
   };
 
   const clearMapElements = () => {
@@ -84,7 +86,6 @@ const TripListDetailKakaoMapComponent = (props) => {
     const marker = new kakao.maps.Marker({
       map: mapInstance.current,
       position,
-      // title,
     });
 
     const content = createOverlayContent(title, distanceInfo);
@@ -112,52 +113,55 @@ const TripListDetailKakaoMapComponent = (props) => {
   };
 
   const updateMarkers = () => {
-    clearMapElements();
-    setPinDistance([]);
+    return new Promise((resolve) => {
+      clearMapElements();
+      setPinDistance([]);
 
-    if (Array.isArray(map) && map.length > 0) {
-      bounds.current = new kakao.maps.LatLngBounds();
-      map.forEach((el, index) => {
-        const position = new kakao.maps.LatLng(el.mapy, el.mapx);
-        const marker = new kakao.maps.Marker({
-          map: mapInstance.current,
-          position,
-          title: el.title,
-        });
-
-        markers.current.push(marker);
-        bounds.current.extend(position);
-
-        if (index > 0) {
-          const prevPosition = new kakao.maps.LatLng(
-            map[index - 1].mapy,
-            map[index - 1].mapx
-          );
-          const line = new kakao.maps.Polyline({
+      if (Array.isArray(map) && map.length > 0) {
+        bounds.current = new kakao.maps.LatLngBounds();
+        map.forEach((el, index) => {
+          const position = new kakao.maps.LatLng(el.mapy, el.mapx);
+          const marker = new kakao.maps.Marker({
             map: mapInstance.current,
-            path: [prevPosition, position],
-            strokeWeight: 3,
-            strokeColor: "#FF0000",
-            strokeOpacity: 0.7,
-            strokeStyle: "solid",
+            position,
+            title: el.title,
           });
 
-          polylines.current.push(line);
+          markers.current.push(marker);
+          bounds.current.extend(position);
 
-          const distance = line.getLength();
-          const distanceInfo = calculateTimesAndDistance(distance);
-          setPinDistance((prevDistances) => [...prevDistances, distanceInfo]);
-          createMarkerWithOverlay(position, el.title, distanceInfo);
-        } else {
-          createMarkerWithOverlay(position, el.title, {
-            distance: 0,
-            walkTime: "0분",
-            cycleTime: "0분",
-          });
-        }
-      });
-      mapInstance.current.setBounds(bounds.current);
-    }
+          if (index > 0) {
+            const prevPosition = new kakao.maps.LatLng(
+              map[index - 1].mapy,
+              map[index - 1].mapx
+            );
+            const line = new kakao.maps.Polyline({
+              map: mapInstance.current,
+              path: [prevPosition, position],
+              strokeWeight: 3,
+              strokeColor: "#FF0000",
+              strokeOpacity: 0.7,
+              strokeStyle: "solid",
+            });
+
+            polylines.current.push(line);
+
+            const distance = line.getLength();
+            const distanceInfo = calculateTimesAndDistance(distance);
+            setPinDistance((prevDistances) => [...prevDistances, distanceInfo]);
+            createMarkerWithOverlay(position, el.title, distanceInfo);
+          } else {
+            createMarkerWithOverlay(position, el.title, {
+              distance: 0,
+              walkTime: "0분",
+              cycleTime: "0분",
+            });
+          }
+        });
+        mapInstance.current.setBounds(bounds.current);
+      }
+      resolve();
+    });
   };
 
   useEffect(() => {
@@ -174,13 +178,15 @@ const TripListDetailKakaoMapComponent = (props) => {
     } else {
       center = new kakao.maps.LatLng(37.554715, 126.970796);
     }
-    if (!mapInstance.current) {
-      initializeMap(center);
-    } else {
+    if (mapInstance.current) {
       mapInstance.current.setCenter(center);
       if (map.length !== 0) {
         updateMarkers();
+      } else {
+        initializeMap(center);
       }
+    } else {
+      initializeMap(center);
     }
   }, [map, region]);
 
