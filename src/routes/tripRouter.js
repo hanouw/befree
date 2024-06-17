@@ -3,9 +3,9 @@ import LoadingPage from "../components/common/LoadingPageNoBasicLayout";
 
 const TripSharedList = lazy(() => import("../pages/trip/TripSharedList"));
 const TripList = lazy(() => import("../pages/trip/TripList"));
-const TripListDetail = lazy(() => import("../pages/trip/TripListDetail"));
+const TripListDetail = lazy(() => import("../pages/trip/TripListDetailHoriz"));
 const TripListDetailModify = lazy(() =>
-  import("../pages/trip/TripListDetailModify")
+  import("../pages/trip/TripListDetailModifyHoriz")
 );
 const TripplanAdd = lazy(() => import("../pages/trip/TripPlanAdd"));
 const PlaceDetail = lazy(() => import("../pages/trip/PlaceDetail"));
