@@ -155,7 +155,7 @@ const FilterComponent = ({ region, callBackFn }) => {
     );
 
     if (provinceData) {
-      const areaCode = provinceData.areaCode;
+      const areaCode = selectedCities == "" ? region : provinceData.areaCode;
       const regionData = provinceData.regions.find(
         (region) => region.name === cityName
       );
