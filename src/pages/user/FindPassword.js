@@ -29,7 +29,6 @@ const FindPassword = () => {
 	};
 
 	const handleClick = () => {
-		console.log("email:", email);
 
 		if (!emailValid) {
 			alert("유효한 이메일 주소를 입력해주세요.");
@@ -37,7 +36,6 @@ const FindPassword = () => {
 		}
 
 		sendNewPassword({ email: email }).then((result) => {
-			console.log("newPassword Result:", result);
 			if (result) {
 				alert(
 					"이메일이 발송되었습니다. 새로운 비밀번호로 로그인후, 비밀번호 변경을 해주세요."

@@ -102,6 +102,17 @@ const useCustomMove = () => {
     navigate({ pathname: `/findPassword` });
   };
 
+  const moveToCodePage = (pageName) => {
+    navigate(
+      { pathname: `/code` },
+      {
+        state: {
+          pageName: pageName,
+        },
+      }
+    );
+  };
+
   // 각 이동 함수를 리턴
   return {
     moveToBack,
@@ -117,6 +128,7 @@ const useCustomMove = () => {
     moveToModify,
     moveToDelete,
     moveToFindPassword,
+    moveToCodePage,
     refresh,
   };
 };

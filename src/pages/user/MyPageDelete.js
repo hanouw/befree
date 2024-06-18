@@ -41,11 +41,8 @@ const MyPageDelete = () => {
 	}, []);
 
 	const handleClick = () => {
-		console.log(data);
 		if (val === "modify") {
-			console.log("modiii");
 			confirm(data).then((result) => {
-				console.log("modi confirm result:", result);
 				if (result == "success") {
 					moveToModify();
 				} else {
@@ -55,9 +52,7 @@ const MyPageDelete = () => {
 			});
 		} else {
 			confirm(data).then((result) => {
-				console.log("confirm result:", result);
 				if (result == "success") {
-					console.log("탈퇴 성공이다");
 					execLogout();
 					alert("탈퇴가 완료되었습니다");
 					moveToMain();

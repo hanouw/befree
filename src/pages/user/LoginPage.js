@@ -21,7 +21,6 @@ const LoginPage = () => {
 
 	const handleClickLogin = () => {
 		execLogin(loginParam).then((data) => {
-			console.log(data);
 			if (data.error) {
 				alert("이메일과 비밀번호를 다시 확인하세요!");
 			} else {

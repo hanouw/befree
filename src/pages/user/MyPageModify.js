@@ -29,7 +29,6 @@ const MyPage = () => {
 	};
 
 	const handleSave = () => {
-		console.log(data);
 		modify(data).then(() => {
 			alert("변경되었습니다.");
 			moveToMyPage();

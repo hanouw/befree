@@ -15,7 +15,7 @@ const initState = {
 };
 
 const SignupPage = () => {
-	const { moveToLogin, moveToMain, moveToFindPassword } = useCustomMove();
+	const { moveToLogin, moveToMain, moveToFindPassword, moveToCodePage } = useCustomMove();
 	const { execLogin } = useCustomLogin();
 
 	const [inputVal, setInputVal] = useState({ ...initState });
@@ -62,7 +62,6 @@ const SignupPage = () => {
 	};
 
 	const handleSendEmail = () => {
-		console.log("이메일 전송 클릭");
 		if (!inputVal.email) {
 			alert("이메일을 입력해주세요");
 			return;
@@ -84,7 +83,6 @@ const SignupPage = () => {
 					{ key: response.key, email: response.email },
 					1
 				);
-				console.log(response.key);
 				alert("이메일이 전송되었습니다.");
 			} else {
 				alert("이미 가입된 회원입니다. 로그인을 해주세요!");
@@ -100,9 +98,7 @@ const SignupPage = () => {
 		}
 		const cookie = getCookie("emailVerify");
 		if (cookie) {
-			console.log("handleClickVerify 실행 key:", cookie.key);
 			if (inputVal.verify == cookie.key && inputVal.email == cookie.email) {
-				console.log(inputVal.verify, inputVal.email);
 				alert("인증 성공!");
 				setKeyResult(true);
 			} else {
@@ -113,10 +109,6 @@ const SignupPage = () => {
 		}
 	};
 
-	// const passwordCheck = () => {
-	// 	console.log("passwordCheck", inputVal.password.length);
-	// };
-
 	const handleClickRegister = () => {
 		// passwordCheck();
 		if (!keyResult) {
@@ -126,7 +118,6 @@ const SignupPage = () => {
 		if (!pwResult) {
 			if (inputVal.password.length < 4) {
 				setPwResult(false);
-				console.log(pwResult);
 				alert("4자리 이상의 비밀번호를 입력해주세요.");
 				return;
 			}
@@ -137,7 +128,6 @@ const SignupPage = () => {
 				setPwResult(true);
 			}
 		}
-		console.log("pwResult keyResult", pwResult, keyResult);
 		if (pwResult && keyResult) {
 			register({
 				email: inputVal.email,
@@ -165,6 +155,12 @@ const SignupPage = () => {
 	return (
 		<BasicLayout>
 			{isSending ? <TripAddLoadingModalComponent /> : <></>}
+			<button
+				className="fixed bottom-9 right-9 w-24 h-12 border-2 bg-white border-black text-black rounded-lg shadow-xl hover:bg-black hover:text-white font-[Pretendard-Medium]"
+				onClick={() => moveToCodePage("Signup")}
+			>
+				코드보기
+			</button>
 			<div className="font-[Pretendard-Bold] text-3xl grid place-items-center mt-12 mb-12">
 				회원가입
 			</div>
