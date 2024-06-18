@@ -7,59 +7,60 @@ import { getCookie, removeCookie, setCookie } from "../../util/cookieUtil";
 import TripAddLoadingModalComponent from "../../components/tripPlanAdd/TripAddLoadingModalComponent";
 
 const initState = {
-	email: "",
-	password: "",
-	name: "",
-	verify: "",
-	passwordVerify: "",
+  email: "",
+  password: "",
+  name: "",
+  verify: "",
+  passwordVerify: "",
 };
 
 const SignupPage = () => {
-	const { moveToLogin, moveToMain, moveToFindPassword, moveToCodePage } = useCustomMove();
-	const { execLogin } = useCustomLogin();
+  const { moveToLogin, moveToMain, moveToFindPassword, moveToCodePage } =
+    useCustomMove();
+  const { execLogin } = useCustomLogin();
 
-	const [inputVal, setInputVal] = useState({ ...initState });
-	const [keyResult, setKeyResult] = useState(false);
-	const [pwResult, setPwResult] = useState(false);
-	const [emailValid, setEmailValid] = useState(false);
-	const [isSending, setIsSending] = useState(false);
+  const [inputVal, setInputVal] = useState({ ...initState });
+  const [keyResult, setKeyResult] = useState(false);
+  const [pwResult, setPwResult] = useState(false);
+  const [emailValid, setEmailValid] = useState(false);
+  const [isSending, setIsSending] = useState(false);
 
-	const handleChange = (e) => {
-		inputVal[e.target.name] = e.target.value;
-		setInputVal({ ...inputVal });
+  const handleChange = (e) => {
+    inputVal[e.target.name] = e.target.value;
+    setInputVal({ ...inputVal });
 
-		if (e.target.name == "email") {
-			validateEmail(e.target.value);
-			validateVerifyEmail(e.target.value);
-		}
+    if (e.target.name == "email") {
+      validateEmail(e.target.value);
+      validateVerifyEmail(e.target.value);
+    }
 
-		if (e.target.name === "password" || e.target.name === "passwordVerify") {
-			validatePassword();
-		}
-	};
+    if (e.target.name === "password" || e.target.name === "passwordVerify") {
+      validatePassword();
+    }
+  };
 
-	const validateEmail = (email) => {
-		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-		setEmailValid(emailRegex.test(email));
-	};
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    setEmailValid(emailRegex.test(email));
+  };
 
-	const validatePassword = () => {
-		const { password, passwordVerify } = inputVal;
-		if (password.length >= 4 && password === passwordVerify) {
-			setPwResult(true);
-		} else {
-			setPwResult(false);
-		}
-	};
+  const validatePassword = () => {
+    const { password, passwordVerify } = inputVal;
+    if (password.length >= 4 && password === passwordVerify) {
+      setPwResult(true);
+    } else {
+      setPwResult(false);
+    }
+  };
 
-	const validateVerifyEmail = (email) => {
-		const cookie = getCookie("emailVerify");
-		if (cookie) {
-			if (cookie.email !== email) {
-				setKeyResult(false);
-			}
-		}
-	};
+  const validateVerifyEmail = (email) => {
+    const cookie = getCookie("emailVerify");
+    if (cookie) {
+      if (cookie.email !== email) {
+        setKeyResult(false);
+      }
+    }
+  };
 
 	const handleSendEmail = () => {
 		if (!inputVal.email) {
@@ -67,13 +68,13 @@ const SignupPage = () => {
 			return;
 		}
 
-		if (!emailValid) {
-			alert("유효한 이메일 주소를 입력해주세요.");
-			return;
-		}
+    if (!emailValid) {
+      alert("유효한 이메일 주소를 입력해주세요.");
+      return;
+    }
 
-		setIsSending(true);
-		const data = { email: inputVal.email };
+    setIsSending(true);
+    const data = { email: inputVal.email };
 
 		sendEmail(data).then((response) => {
 			setIsSending(false);
@@ -147,10 +148,10 @@ const SignupPage = () => {
 		}
 	};
 
-	const inputClassName =
-		"bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 font-[Pretendard-Regular]";
-	const buttonClassName =
-		"text-center w-full text-gray-900 inline-flex justify-center items-center bg-my-color-lightgreen hover:bg-my-color-superlightgreen border-black focus:ring-4 focus:outline-none focus:ring-my-color-lightgreen font-['Pretendard-Regular'] rounded-sm text-sm px-5 py-2.5";
+  const inputClassName =
+    "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 font-[Pretendard-Regular]";
+  const buttonClassName =
+    "text-center w-full text-gray-900 inline-flex justify-center items-center bg-my-color-lightgreen hover:bg-my-color-superlightgreen border-black focus:ring-4 focus:outline-none focus:ring-my-color-lightgreen font-['Pretendard-Regular'] rounded-sm text-sm px-5 py-2.5";
 
 	return (
 		<BasicLayout>

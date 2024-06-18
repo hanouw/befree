@@ -373,6 +373,12 @@ const TripListDetail = () => {
 			>
 				코드보기
 			</button>
+      <button
+        className="fixed bottom-9 right-9 w-24 h-12 border-2 bg-white border-black text-black rounded-lg shadow-xl hover:bg-black hover:text-white font-[Pretendard-Medium]"
+        onClick={() => moveToCodePage("TripListDetailModify")}
+      >
+        코드보기
+      </button>
 			{isXY ? (
 				<>
 					<div className="container-noline">
