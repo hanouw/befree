@@ -31,6 +31,7 @@ const SignupPage = () => {
 
     if (e.target.name == "email") {
       validateEmail(e.target.value);
+      validateVerifyEmail(e.target.value);
     }
 
     if (e.target.name === "password" || e.target.name === "passwordVerify") {
@@ -52,6 +53,15 @@ const SignupPage = () => {
     }
   };
 
+  const validateVerifyEmail = (email) => {
+    const cookie = getCookie("emailVerify");
+    if (cookie) {
+      if (cookie.email !== email) {
+        setKeyResult(false);
+      }
+    }
+  };
+
   const handleSendEmail = () => {
     console.log("이메일 전송 클릭");
     if (!inputVal.email) {
@@ -70,7 +80,11 @@ const SignupPage = () => {
     sendEmail(data).then((response) => {
       setIsSending(false);
       if (response.key) {
-        setCookie("emailVerify", { key: response.key }, 1);
+        setCookie(
+          "emailVerify",
+          { key: response.key, email: response.email },
+          1
+        );
         console.log(response.key);
         alert("이메일이 전송되었습니다.");
       } else {
@@ -88,7 +102,8 @@ const SignupPage = () => {
     const cookie = getCookie("emailVerify");
     if (cookie) {
       console.log("handleClickVerify 실행 key:", cookie.key);
-      if (inputVal.verify == cookie.key) {
+      if (inputVal.verify == cookie.key && inputVal.email == cookie.email) {
+        console.log(inputVal.verify, inputVal.email);
         alert("인증 성공!");
         setKeyResult(true);
       } else {
