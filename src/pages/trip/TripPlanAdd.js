@@ -73,13 +73,13 @@ const TripPlanAdd = () => {
     setPageIndexList([1]);
     setPageIndexData(0);
 
+    console.log(newSelectedRegionCode, region);
+
     // useState에 필터링 결과 저장
     setRecentResult({
       category: selectedCategory, // contentTypeId
       imgNece: onlyWithImages, // arrange
-      region: newSelectedRegionCode
-        ? newSelectedRegionCode.areaCode
-        : region, // areaCode
+      region: newSelectedRegionCode ? newSelectedRegionCode.areaCode : region, // areaCode
       sigungu: newSelectedRegionCode ? newSelectedRegionCode.code : null, // sigungu
       keywordVal: keyword, // keyword
       facilityCodeArray: facilityCodeArray, // 편의시설
