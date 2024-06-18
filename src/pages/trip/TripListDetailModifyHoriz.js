@@ -173,7 +173,7 @@ const TripListDetail = () => {
   const [loading, setLoading] = useState(false); // 로딩중인가
   const [refresh, setRefresh] = useState(true); // 날짜 이동 드롭다운 닫기 위한 state
 
-  const { moveToTripListDetail } = useCustomMove();
+  const { moveToTripListDetail, moveToCodePage } = useCustomMove();
 
   // map 데이터
   const [mapData, setMapData] = useState([]);
@@ -367,6 +367,12 @@ const TripListDetail = () => {
         date={date}
         callBackFn={saveModifyClicked}
       />
+      <button
+        className="fixed bottom-9 right-9 w-24 h-12 border-2 bg-white border-black text-black rounded-lg shadow-xl hover:bg-black hover:text-white font-[Pretendard-Medium]"
+        onClick={() => moveToCodePage("TripListDetailModify")}
+      >
+        코드보기
+      </button>
       {isXY ? (
         <>
           <div className="container-noline">

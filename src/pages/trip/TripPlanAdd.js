@@ -29,6 +29,9 @@ const TripPlanAdd = () => {
   // place detail 모달 여부
   const [showPlaceDetail, setShowPlaceDetail] = useState([]);
 
+  // moveToTop 여부
+  const [isMoveToTop, setIsMoveToTop] = useState(false);
+
   // 지도 데이터 전달
   const [map, setMap] = useState([]);
 
@@ -58,6 +61,20 @@ const TripPlanAdd = () => {
   // 페이지 데이터 pageIndexList[pageIndexData] 가 현재 페이지
   const [pageIndexList, setPageIndexList] = useState([1]);
   const [pageIndexData, setPageIndexData] = useState(0);
+
+  // 스크롤 감지 후 moveToTop 보여줌
+  const handleScroll = () => {
+    const scrolled = window.scrollY;
+    setIsMoveToTop(scrolled > 0);
+  };
+
+  // moveToTop 버튼 클릭 시 실행시킬 함수
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
 
   // 콜백함수 FilterComponent 에서 호출
   const callBackFn = (
@@ -145,6 +162,13 @@ const TripPlanAdd = () => {
         setPageIndexData(pageIndexData + 1);
       }
     });
+    // 컴포넌트가 마운트될 때 이벤트 리스너 추가
+    window.addEventListener("scroll", handleScroll);
+
+    // 클린업 함수: 컴포넌트가 언마운트될 때 이벤트 리스너 제거
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, [recentResult]);
 
   const addPlaceToTempList = (
@@ -187,6 +211,14 @@ const TripPlanAdd = () => {
           contentTypeId={showPlaceDetail[1]}
           callBackFn={placeDetailModalClose}
         />
+      )}
+      {isMoveToTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-9 right-9 w-24 h-12 border-2 bg-white border-black text-black rounded-lg shadow-xl hover:bg-black hover:text-white transition-opacity font-[Pretendard-Medium]"
+        >
+          추가된 목록
+        </button>
       )}
       <TripTopBannerComponent
         topText={"여행지 추가하기"}
