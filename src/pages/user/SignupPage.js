@@ -62,11 +62,11 @@ const SignupPage = () => {
     }
   };
 
-	const handleSendEmail = () => {
-		if (!inputVal.email) {
-			alert("이메일을 입력해주세요");
-			return;
-		}
+  const handleSendEmail = () => {
+    if (!inputVal.email) {
+      alert("이메일을 입력해주세요");
+      return;
+    }
 
     if (!emailValid) {
       alert("유효한 이메일 주소를 입력해주세요.");
@@ -76,77 +76,77 @@ const SignupPage = () => {
     setIsSending(true);
     const data = { email: inputVal.email };
 
-		sendEmail(data).then((response) => {
-			setIsSending(false);
-			if (response.key) {
-				setCookie(
-					"emailVerify",
-					{ key: response.key, email: response.email },
-					1
-				);
-				alert("이메일이 전송되었습니다.");
-			} else {
-				alert("이미 가입된 회원입니다. 로그인을 해주세요!");
-				moveToLogin();
-			}
-		});
-	};
+    sendEmail(data).then((response) => {
+      setIsSending(false);
+      if (response.key) {
+        setCookie(
+          "emailVerify",
+          { key: response.key, email: response.email },
+          1
+        );
+        alert("이메일이 전송되었습니다.");
+      } else {
+        alert("이미 가입된 회원입니다. 로그인을 해주세요!");
+        moveToLogin();
+      }
+    });
+  };
 
-	const handleClickVerify = () => {
-		if (inputVal.verify == null) {
-			alert("인증번호를 다시 확인해주세요.");
-			return;
-		}
-		const cookie = getCookie("emailVerify");
-		if (cookie) {
-			if (inputVal.verify == cookie.key && inputVal.email == cookie.email) {
-				alert("인증 성공!");
-				setKeyResult(true);
-			} else {
-				alert("인증번호를 다시 확인해주세요");
-			}
-		} else {
-			alert("인증번호를 다시 확인해주세요");
-		}
-	};
+  const handleClickVerify = () => {
+    if (inputVal.verify == null) {
+      alert("인증번호를 다시 확인해주세요.");
+      return;
+    }
+    const cookie = getCookie("emailVerify");
+    if (cookie) {
+      if (inputVal.verify == cookie.key && inputVal.email == cookie.email) {
+        alert("인증 성공!");
+        setKeyResult(true);
+      } else {
+        alert("인증번호를 다시 확인해주세요");
+      }
+    } else {
+      alert("인증번호를 다시 확인해주세요");
+    }
+  };
 
-	const handleClickRegister = () => {
-		// passwordCheck();
-		if (!keyResult) {
-			alert("이메일 인증을 해주세요.");
-			return;
-		}
-		if (!pwResult) {
-			if (inputVal.password.length < 4) {
-				setPwResult(false);
-				alert("4자리 이상의 비밀번호를 입력해주세요.");
-				return;
-			}
-			if (inputVal.password !== inputVal.passwordVerify) {
-				alert("비밀번호가 일치하지 않습니다.");
-				setPwResult(false);
-			} else {
-				setPwResult(true);
-			}
-		}
-		if (pwResult && keyResult) {
-			register({
-				email: inputVal.email,
-				password: inputVal.password,
-				name: inputVal.name,
-			}).then((data) => {
-				console.log(data);
-				if (data.error) {
-					alert("회원가입을 실패하였습니다. 다시 시도해주세요.");
-				} else {
-					execLogin({ email: inputVal.email, password: inputVal.password });
-					removeCookie("emailVerify");
-					alert("회원가입을 성공하였습니다.");
-					moveToMain();
-				}
-			});
-		}
-	};
+  const handleClickRegister = () => {
+    // passwordCheck();
+    if (!keyResult) {
+      alert("이메일 인증을 해주세요.");
+      return;
+    }
+    if (!pwResult) {
+      if (inputVal.password.length < 4) {
+        setPwResult(false);
+        alert("4자리 이상의 비밀번호를 입력해주세요.");
+        return;
+      }
+      if (inputVal.password !== inputVal.passwordVerify) {
+        alert("비밀번호가 일치하지 않습니다.");
+        setPwResult(false);
+      } else {
+        setPwResult(true);
+      }
+    }
+    if (pwResult && keyResult) {
+      register({
+        email: inputVal.email,
+        password: inputVal.password,
+        name: inputVal.name,
+      }).then((data) => {
+        console.log(data);
+        if (data.error) {
+          alert("회원가입을 실패하였습니다. 다시 시도해주세요.");
+        } else {
+          execLogin({ email: inputVal.email, password: inputVal.password });
+          removeCookie("emailVerify");
+          alert("회원가입을 성공하였습니다.");
+          moveToMain();
+        }
+      });
+    }
+  };
 
   const inputClassName =
     "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 font-[Pretendard-Regular]";

@@ -203,10 +203,10 @@ const TripList = () => {
       <div className="grid place-items-center lg:mt-10 mt-3">
         {tripList.length == 0 ? (
           <>
-            <div className="flex justify-center my-4 mt-48 font-[Pretendard-Regular]">
+            <div className="flex justify-center my-2 lg:my-4 mt-10 lg:mt-48 font-[Pretendard-Regular] text-sm lg:text-lg">
               아직 추가한 여행이 없습니다
             </div>
-            <div className="flex justify-center my-4 mt-4 mb-52 font-[Pretendard-Regular]">
+            <div className="flex justify-center my-2 lg:my-4 mt-4 mb-10 lg:mb-52 font-[Pretendard-Regular] text-sm lg:text-lg">
               위 이미지를 눌러 여행을 추가하세요
             </div>
           </>
