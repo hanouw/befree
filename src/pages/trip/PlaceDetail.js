@@ -9,6 +9,7 @@ import {
 } from "../../api/tripApi";
 import TripAddLoadingModalComponent from "../../components/tripPlanAdd/TripAddLoadingModalComponent";
 import { matchIntro } from "../../util/parameterData";
+import useCustomMove from "../../hooks/useCustomMove";
 
 // 여행지 상세 페이지
 const PlaceDetail = () => {
@@ -18,10 +19,10 @@ const PlaceDetail = () => {
   const [placeImg, setPlaceImg] = useState([]);
   const [placeIntro, setPlaceIntro] = useState(null);
   const [placeWithTour, setPlaceWithTour] = useState(null);
-
   const [loading, setLoading] = useState(true);
-
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+
+  const { moveToErrorPage } = useCustomMove()
 
   const handleThumbnailClick = (index) => {
     setSelectedImageIndex(index);
@@ -47,8 +48,8 @@ const PlaceDetail = () => {
         console.log("이미지없");
         placeImg.push(
           detail.firstimage ||
-            detail.firstimage2 ||
-            process.env.PUBLIC_URL + "/assets/imgs/defaultImage84.png"
+          detail.firstimage2 ||
+          process.env.PUBLIC_URL + "/assets/imgs/defaultImage84.png"
         );
       }
 
@@ -72,6 +73,8 @@ const PlaceDetail = () => {
       setPlaceWithTour(orderedWithTourValue);
 
       setLoading(false);
+    }).catch((error) => {
+      moveToErrorPage()
     });
   }, [contentId, contentTypeId]);
 
@@ -116,11 +119,10 @@ const PlaceDetail = () => {
                   key={index}
                   src={image}
                   alt={`Thumbnail ${index + 1}`}
-                  className={`w-24 h-16 rounded-md cursor-pointer transition-all ${
-                    selectedImageIndex === index
-                      ? "border-2 border-green-500"
-                      : "border-none"
-                  }`}
+                  className={`w-24 h-16 rounded-md cursor-pointer transition-all ${selectedImageIndex === index
+                    ? "border-2 border-green-500"
+                    : "border-none"
+                    }`}
                   onClick={() => handleThumbnailClick(index)}
                 />
               ))
@@ -150,7 +152,7 @@ const PlaceDetail = () => {
         <section className="mb-8">
           <h3 className="text-xl font-semibold mb-4">기본정보</h3>
           <div className="w-[100%] my-[1%] border-[1px] border-neutral-500"></div>
-          <p className="text-gray-700">{placeDetail.overview}</p>
+          <p className="text-gray-700">{placeDetail.overview.replace(/<br\s*\/?>/gi, '\n')}</p>
         </section>
 
         <section className="mb-8">

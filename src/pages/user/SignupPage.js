@@ -156,12 +156,12 @@ const SignupPage = () => {
 	return (
 		<BasicLayout>
 			{isSending ? <TripAddLoadingModalComponent /> : <></>}
-			<button
+			{/* <button
 				className="fixed bottom-9 right-9 w-24 h-12 border-2 bg-white border-black text-black rounded-lg shadow-xl hover:bg-black hover:text-white font-[Pretendard-Medium]"
 				onClick={() => moveToCodePage("Signup")}
 			>
 				코드보기
-			</button>
+			</button> */}
 			<div className="font-[Pretendard-Bold] text-3xl grid place-items-center mt-12 mb-12">
 				회원가입
 			</div>

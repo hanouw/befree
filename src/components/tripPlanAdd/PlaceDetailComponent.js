@@ -9,6 +9,9 @@ import {
 } from "../../api/tripApi";
 import TripAddLoadingModalComponent from "./TripAddLoadingModalComponent";
 import { matchIntro } from "../../util/parameterData";
+import { useErrorBoundary } from 'react-error-boundary';
+import useCustomMove from "../../hooks/useCustomMove";
+
 
 // 여행지 상세 페이지
 const PlaceDetailComponent = ({ contentId, contentTypeId, callBackFn }) => {
@@ -20,6 +23,8 @@ const PlaceDetailComponent = ({ contentId, contentTypeId, callBackFn }) => {
   const [loading, setLoading] = useState(true);
 
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+
+  const { moveToErrorPage } = useCustomMove()
 
   const handleThumbnailClick = (index) => {
     setSelectedImageIndex(index);
@@ -33,6 +38,7 @@ const PlaceDetailComponent = ({ contentId, contentTypeId, callBackFn }) => {
     console.log("useEffect", contentId, contentTypeId);
     placeImg.length = 0;
     setLoading(true);
+
     Promise.all([
       getPlaceDetail(contentId),
       getPlaceDetailImg(contentId),
@@ -49,8 +55,8 @@ const PlaceDetailComponent = ({ contentId, contentTypeId, callBackFn }) => {
         console.log("이미지없");
         placeImg.push(
           detail.firstimage ||
-            detail.firstimage2 ||
-            process.env.PUBLIC_URL + "/assets/imgs/defaultImage84.png"
+          detail.firstimage2 ||
+          process.env.PUBLIC_URL + "/assets/imgs/defaultImage84.png"
         );
       }
 
@@ -73,7 +79,9 @@ const PlaceDetailComponent = ({ contentId, contentTypeId, callBackFn }) => {
       setPlaceWithTour(orderedWithTourValue);
 
       setLoading(false);
-    });
+    }).catch((error) => {
+        moveToErrorPage()
+      });
   }, [contentId, contentTypeId]);
 
   if (loading) {
@@ -102,7 +110,7 @@ const PlaceDetailComponent = ({ contentId, contentTypeId, callBackFn }) => {
         <div className="relative w-full max-w-7xl p-6 mx-auto bg-white rounded-lg shadow-lg">
           <div className="flex items-center justify-between pb-3 mb-4 border-b">
             <h3 className="text-lg font-semibold text-gray-900">
-              여행 정보 수정하기
+              여행지 상세 정보
             </h3>
             <button
               type="button"
@@ -140,7 +148,7 @@ const PlaceDetailComponent = ({ contentId, contentTypeId, callBackFn }) => {
                   src={placeImg[selectedImageIndex]}
                   alt="Large Display"
                   className="w-[800px] h-[400px] object-cover rounded-md mb-4"
-                  // className="w-full max-w-3xl h-auto rounded-md mb-4"
+                // className="w-full max-w-3xl h-auto rounded-md mb-4"
                 />
               </div>
               <div className="flex justify-center space-x-2">
@@ -150,11 +158,10 @@ const PlaceDetailComponent = ({ contentId, contentTypeId, callBackFn }) => {
                       key={index}
                       src={image}
                       alt={`Thumbnail ${index + 1}`}
-                      className={`w-24 h-16 rounded-md cursor-pointer transition-all ${
-                        selectedImageIndex === index
-                          ? "border-2 border-green-500"
-                          : "border-none"
-                      }`}
+                      className={`w-24 h-16 rounded-md cursor-pointer transition-all ${selectedImageIndex === index
+                        ? "border-2 border-green-500"
+                        : "border-none"
+                        }`}
                       onClick={() => handleThumbnailClick(index)}
                     />
                   ))}

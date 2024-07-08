@@ -14,7 +14,7 @@ import PlaceDetailComponent from "../../components/tripPlanAdd/PlaceDetailCompon
 // 여행 계획 추가
 const TripPlanAdd = () => {
   // 페이지 이동
-  const { moveToTripListDetail } = useCustomMove();
+  const { moveToTripListDetail, moveToErrorPage } = useCustomMove();
 
   // navigate를 통한 데이터 전달
   const location = useLocation();
@@ -161,6 +161,8 @@ const TripPlanAdd = () => {
         pageIndexList.push(result.lastPageInfo);
         setPageIndexData(pageIndexData + 1);
       }
+    }).catch(()=> {
+      moveToErrorPage()
     });
     // 컴포넌트가 마운트될 때 이벤트 리스너 추가
     window.addEventListener("scroll", handleScroll);
