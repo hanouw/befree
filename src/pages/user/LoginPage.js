@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import BasicLayout from "../../layouts/BasicLayout";
 import useCustomMove from "../../hooks/useCustomMove";
 import useCustomLogin from "../../hooks/useCustomLogin";
+import TripAddLoadingModalComponent from "../../components/tripPlanAdd/TripAddLoadingModalComponent";
 
 const initState = {
   email: "",
@@ -13,6 +14,7 @@ const LoginPage = () => {
   const { execLogin } = useCustomLogin();
 
   const [loginParam, setLoginParam] = useState({ ...initState });
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     loginParam[e.target.name] = e.target.value;
@@ -20,10 +22,12 @@ const LoginPage = () => {
   };
 
   const handleClickLogin = () => {
+    setIsLoading(true)
     execLogin(loginParam).then((data) => {
       if (data.error) {
         alert("이메일과 비밀번호를 다시 확인하세요!");
       } else {
+        setIsLoading(false)
         moveToMain();
       }
     });
@@ -36,6 +40,7 @@ const LoginPage = () => {
 
   return (
     <BasicLayout>
+      {isLoading ? <TripAddLoadingModalComponent /> : <></>}
       <div className="font-[Pretendard-Bold] text-3xl grid place-items-center mt-36 mb-12">
         로그인
       </div>
