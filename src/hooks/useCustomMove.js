@@ -115,6 +115,10 @@ const useCustomMove = () => {
     );
   };
 
+  const moveToErrorPage = () => {
+    navigate({ pathname: `/error` })
+  }
+
   // 각 이동 함수를 리턴
   return {
     moveToBack,
@@ -133,6 +137,7 @@ const useCustomMove = () => {
     moveToCodePage,
     refresh,
     moveToCodePage,
+    moveToErrorPage,
   };
 };
 

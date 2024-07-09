@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import BasicLayout from "../layouts/BasicLayout";
-import { disableData } from "../api/tripApi";
 
 const InfoPage = () => {
   const a = [[], [1, 2]];

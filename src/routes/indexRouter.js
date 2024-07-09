@@ -2,6 +2,7 @@ import { useRoutes } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import LoadingPage from "../components/common/LoadingPage";
 import tripRouter from "./tripRouter";
+import ErrorPage from "../pages/ErrorPage";
 
 const Main = lazy(() => import("../pages/MainPage"));
 // const Main = lazy(() => {
@@ -104,6 +105,12 @@ const Router = () => {
 				<Suspense fallback={<LoadingPage />}>
 					<CodePage />
 				</Suspense>
+			),
+		},
+		{
+			path: "/error",
+			element: (
+					<ErrorPage />
 			),
 		},
 	]);
