@@ -198,7 +198,7 @@ const TripList = () => {
         <span className="font-['Pretendard-Medium'] sm:text-2xl text-base">
           여행 목록
         </span>
-        <div className="w-2/3 lg:w-mywidth1200 my-[1%] border-[1px] border-neutral-500"></div>
+        <div className="w-full max-w-sm lg:max-w-6xl my-[1%] border-[1px] border-neutral-500"></div>
       </div>
       <div className="grid place-items-center lg:mt-10 mt-3">
         {tripList.length == 0 ? (
@@ -213,7 +213,7 @@ const TripList = () => {
         ) : (
           <div>
             {tripList.map((item) => (
-              <div className="w-2/3 lg:w-mywidth1200" key={item.src}>
+              <div className="max-w-sm lg:max-w-6xl" key={item.src}>
                 <img
                   src={item.src}
                   alt={item.alt}
@@ -228,7 +228,7 @@ const TripList = () => {
                     )
                   }
                 ></img>
-                <div className="flex justify-between">
+                <div className="flex justify-between p-1 lg:p-0">
                   <div
                     className="sm:mt-2 mb-4 hover:cursor-pointer"
                     onClick={() =>
@@ -240,11 +240,18 @@ const TripList = () => {
                       )
                     }
                   >
-                    <span className="font-[Pretendard-Light] text-sm sm:text-lg">
+                    <span className="font-[Pretendard-Light] text-xs lg:text-lg hidden lg:inline">
                       {item.date}
                     </span>
-                    <div className="font-[Pretendard-Light] text-sm sm:text-lg text-gray-600">
-                      {item.title}
+                    <div className="flex font-[Pretendard-Light] text-sm lg:text-lg text-gray-600 bg-green-50">
+                      <div className="overflow-x-hidden max-w-32 lg:max-w-52 bg-red-100">
+                        {item.title}
+                      </div>
+                      <span
+                        className={item.title.length > 20 ? "inline" : "hidden"}
+                      >
+                        ...
+                      </span>
                     </div>
                   </div>
                   <div className="flex items-center sm:mt-2 mb-4">
@@ -257,7 +264,7 @@ const TripList = () => {
                       viewBox="0 0 24 24"
                       strokeWidth="1.5"
                       stroke="currentColor"
-                      className="size-7 mr-4 cursor-pointer hover:mb-1 peer"
+                      className="size-4 lg:size-7 mr-4 cursor-pointer hover:mb-1 peer"
                       onClick={() => handleClickShare(item.alt)}
                     >
                       <path
@@ -275,7 +282,7 @@ const TripList = () => {
                       viewBox="0 0 24 24"
                       strokeWidth="1.5"
                       stroke="currentColor"
-                      className="size-8 mr-4 cursor-pointer hover:mb-1"
+                      className="size-4 lg:size-8 cursor-pointer hover:mb-1"
                       onClick={() =>
                         modifyModalStateChange({
                           tid: item.alt,
