@@ -22,7 +22,7 @@ const PlaceDetail = () => {
   const [loading, setLoading] = useState(true);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
-  const { moveToErrorPage } = useCustomMove()
+  const { moveToErrorPage } = useCustomMove();
 
   const handleThumbnailClick = (index) => {
     setSelectedImageIndex(index);
@@ -37,45 +37,47 @@ const PlaceDetail = () => {
       getPlaceDetailImg(contentId),
       getPlaceDetailIntro(contentId, contentTypeId),
       disableData(contentId),
-    ]).then(([detail, imgs, intro, withTour]) => {
-      console.log("공통정보조회 결과:", detail);
-      setPlaceDetail(detail);
+    ])
+      .then(([detail, imgs, intro, withTour]) => {
+        console.log("공통정보조회 결과:", detail);
+        setPlaceDetail(detail);
 
-      if (imgs.numOfRows > 0) {
-        const images = imgs.items.item.map((item) => item.originimgurl);
-        setPlaceImg(images);
-      } else {
-        console.log("이미지없");
-        placeImg.push(
-          detail.firstimage ||
-          detail.firstimage2 ||
-          process.env.PUBLIC_URL + "/assets/imgs/defaultImage84.png"
-        );
-      }
-
-      console.log("소개정보조회 결과:", intro);
-      const orderedList = matchIntro(contentTypeId, intro);
-      setPlaceIntro(orderedList);
-
-      console.log("무장애조회 결과:", withTour);
-
-      const orderedWithTour = new Map(Object.entries(withTour));
-      let orderedWithTourValue = [];
-      for (const [name, value] of orderedWithTour) {
-        let val = `${value}`;
-        if (val !== "" && `${name}` !== "contentid") {
-          if (val.includes("_")) {
-            val = val.split("_")[0];
-          }
-          orderedWithTourValue.push(val);
+        if (imgs.numOfRows > 0) {
+          const images = imgs.items.item.map((item) => item.originimgurl);
+          setPlaceImg(images);
+        } else {
+          console.log("이미지없");
+          placeImg.push(
+            detail.firstimage ||
+              detail.firstimage2 ||
+              process.env.PUBLIC_URL + "/assets/imgs/defaultImage84.png"
+          );
         }
-      }
-      setPlaceWithTour(orderedWithTourValue);
 
-      setLoading(false);
-    }).catch((error) => {
-      moveToErrorPage()
-    });
+        console.log("소개정보조회 결과:", intro);
+        const orderedList = matchIntro(contentTypeId, intro);
+        setPlaceIntro(orderedList);
+
+        console.log("무장애조회 결과:", withTour);
+
+        const orderedWithTour = new Map(Object.entries(withTour));
+        let orderedWithTourValue = [];
+        for (const [name, value] of orderedWithTour) {
+          let val = `${value}`;
+          if (val !== "" && `${name}` !== "contentid") {
+            if (val.includes("_")) {
+              val = val.split("_")[0];
+            }
+            orderedWithTourValue.push(val);
+          }
+        }
+        setPlaceWithTour(orderedWithTourValue);
+
+        setLoading(false);
+      })
+      .catch((error) => {
+        moveToErrorPage();
+      });
   }, [contentId, contentTypeId]);
 
   if (loading) {
@@ -95,9 +97,11 @@ const PlaceDetail = () => {
 
   return (
     <>
-      <div className="w-2/3 lg:w-mywidth1200 mx-auto p-4 font-[Pretendard]">
+      <div className="max-w-sm lg:max-w-6xl mx-auto p-4 font-[Pretendard]">
         <header className="text-center mb-8">
-          <h2 className="text-2xl font-bold mt-2">{placeDetail.title}</h2>
+          <h2 className="text-2xl font-[Pretendard-Bold] mt-2">
+            {placeDetail.title}
+          </h2>
 
           <p className="text-gray-600 mt-1">{placeDetail.addr1}</p>
         </header>
@@ -119,10 +123,11 @@ const PlaceDetail = () => {
                   key={index}
                   src={image}
                   alt={`Thumbnail ${index + 1}`}
-                  className={`w-24 h-16 rounded-md cursor-pointer transition-all ${selectedImageIndex === index
-                    ? "border-2 border-green-500"
-                    : "border-none"
-                    }`}
+                  className={`w-24 h-16 rounded-md cursor-pointer transition-all ${
+                    selectedImageIndex === index
+                      ? "border-2 border-green-500"
+                      : "border-none"
+                  }`}
                   onClick={() => handleThumbnailClick(index)}
                 />
               ))
@@ -152,7 +157,9 @@ const PlaceDetail = () => {
         <section className="mb-8">
           <h3 className="text-xl font-semibold mb-4">기본정보</h3>
           <div className="w-[100%] my-[1%] border-[1px] border-neutral-500"></div>
-          <p className="text-gray-700">{placeDetail.overview.replace(/<br\s*\/?>/gi, '\n')}</p>
+          <p className="text-gray-700">
+            {placeDetail.overview.replace(/<br\s*\/?>/gi, "\n")}
+          </p>
         </section>
 
         <section className="mb-8">

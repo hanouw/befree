@@ -76,7 +76,7 @@ const TripSharedList = () => {
         <span className="font-['Pretendard-Medium'] sm:text-2xl text-base mt-24">
           공유된 여행 코스
         </span>
-        <div className="w-2/3 lg:w-mywidth1200 my-[1%] border-[1px] border-neutral-500"></div>
+        <div className="max-w-sm lg:max-w-6xl my-[1%] border-[1px] border-neutral-500"></div>
       </div>
       <div className="grid place-items-center lg:mt-10 mt-3">
         {tripList.length == 0 || tripList == [] ? (
@@ -88,7 +88,7 @@ const TripSharedList = () => {
         ) : (
           <div>
             {tripList.map((item) => (
-              <div className="w-2/3 lg:w-mywidth1200" key={item.src}>
+              <div className="max-w-sm lg:max-w-6xl" key={item.src}>
                 <img
                   src={item.src}
                   alt={item.alt}

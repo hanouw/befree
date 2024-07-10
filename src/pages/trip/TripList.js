@@ -243,8 +243,8 @@ const TripList = () => {
                     <span className="font-[Pretendard-Light] text-xs lg:text-lg hidden lg:inline">
                       {item.date}
                     </span>
-                    <div className="flex font-[Pretendard-Light] text-sm lg:text-lg text-gray-600 bg-green-50">
-                      <div className="overflow-x-hidden max-w-32 lg:max-w-52 bg-red-100">
+                    <div className="flex font-[Pretendard-Light] text-sm lg:text-lg text-gray-600">
+                      <div className="overflow-x-hidden max-w-32 lg:max-w-52">
                         {item.title}
                       </div>
                       <span
