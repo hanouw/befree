@@ -244,9 +244,9 @@ const PlaceDetailComponent = ({ contentId, contentTypeId, callBackFn }) => {
             <section className="mb-6">
               <h3 className="text-xl font-semibold mb-4">지도</h3>
               <div className="border-t border-gray-300 mb-4"></div>
-              {/* <div className="w-full" style={{ height: "300px" }}>
-                <KakaoMapComponent width="100%" height="100%" map={map} />
-              </div> */}
+              {/* <div className="w-full" style={{ height: "300px" }}> */}
+                <KakaoMapComponent width="600px" height="300px" map={map} />
+              {/* </div> */}
             </section>
           </div>
         </div>
