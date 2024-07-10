@@ -15,7 +15,6 @@ module.exports = {
         "my-color-beige": "#FFF5E0",
       },
       width: {
-        mywidth1200: "1200px",
         mywidth90: "90vw",
       },
     },

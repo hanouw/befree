@@ -22,10 +22,9 @@ const noDrag = {
 // 무장애 기반
 export const disableData = async (contentId) => {
   // 컨텐츠ID가 “129619”인 무장애여행 정보 조회
-  
   const response = await axios.get(
-      `http://apis.data.go.kr/B551011/KorWithService1/detailWithTour1?serviceKey=${serviceKey}&contentId=${contentId}&MobileOS=ETC&MobileApp=Befree&_type=json`
-    );
+    `http://apis.data.go.kr/B551011/KorWithService1/detailWithTour1?serviceKey=${serviceKey}&contentId=${contentId}&MobileOS=ETC&MobileApp=Befree&_type=json`
+  );
 
   const data = response.data.response.body.items.item[0];
   if (data !== null) {

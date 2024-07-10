@@ -91,3 +91,26 @@ http://scripts.sil.org/OFL
     url(./fonts/woff2/Pretendard-Thin.woff2) format("woff2"),
     url(./fonts/woff/Pretendard-Thin.woff) format("woff");
 }
+
+/* 모든 스크롤바에 스타일 적용 */
+* {
+  scrollbar-width: thin;
+}
+
+*::-webkit-scrollbar {
+  width: 4px;
+  height: px;
+}
+
+*::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 4px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
