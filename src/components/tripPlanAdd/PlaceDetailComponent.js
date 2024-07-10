@@ -9,9 +9,9 @@ import {
 } from "../../api/tripApi";
 import TripAddLoadingModalComponent from "./TripAddLoadingModalComponent";
 import { matchIntro } from "../../util/parameterData";
-import { useErrorBoundary } from 'react-error-boundary';
 import useCustomMove from "../../hooks/useCustomMove";
-
+import { Carousel } from 'react-responsive-carousel';
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 // 여행지 상세 페이지
 const PlaceDetailComponent = ({ contentId, contentTypeId, callBackFn }) => {
@@ -24,7 +24,7 @@ const PlaceDetailComponent = ({ contentId, contentTypeId, callBackFn }) => {
 
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
-  const { moveToErrorPage } = useCustomMove()
+  const { moveToErrorPage } = useCustomMove();
 
   const handleThumbnailClick = (index) => {
     setSelectedImageIndex(index);
@@ -44,43 +44,45 @@ const PlaceDetailComponent = ({ contentId, contentTypeId, callBackFn }) => {
       getPlaceDetailImg(contentId),
       getPlaceDetailIntro(contentId, contentTypeId),
       disableData(contentId),
-    ]).then(([detail, imgs, intro, withTour]) => {
-      console.log("공통정보조회 결과:", detail);
-      setPlaceDetail(detail);
+    ])
+      .then(([detail, imgs, intro, withTour]) => {
+        console.log("공통정보조회 결과:", detail);
+        setPlaceDetail(detail);
 
-      if (imgs.numOfRows > 0) {
-        const images = imgs.items.item.map((item) => item.originimgurl);
-        setPlaceImg(images);
-      } else {
-        console.log("이미지없");
-        placeImg.push(
-          detail.firstimage ||
-          detail.firstimage2 ||
-          process.env.PUBLIC_URL + "/assets/imgs/defaultImage84.png"
-        );
-      }
-
-      console.log("소개정보조회 결과:", intro);
-      const orderedList = matchIntro(contentTypeId, intro);
-      setPlaceIntro(orderedList);
-
-      console.log("무장애조회 결과:", withTour);
-      const orderedWithTour = new Map(Object.entries(withTour));
-      let orderedWithTourValue = [];
-      for (const [name, value] of orderedWithTour) {
-        let val = `${value}`;
-        if (val !== "" && `${name}` !== "contentid") {
-          if (val.includes("_")) {
-            val = val.split("_")[0];
-          }
-          orderedWithTourValue.push(val);
+        if (imgs.numOfRows > 0) {
+          const images = imgs.items.item.map((item) => item.originimgurl);
+          setPlaceImg(images);
+        } else {
+          console.log("이미지없");
+          placeImg.push(
+            detail.firstimage ||
+            detail.firstimage2 ||
+            process.env.PUBLIC_URL + "/assets/imgs/defaultImage84.png"
+          );
         }
-      }
-      setPlaceWithTour(orderedWithTourValue);
 
-      setLoading(false);
-    }).catch((error) => {
-        moveToErrorPage()
+        console.log("소개정보조회 결과:", intro);
+        const orderedList = matchIntro(contentTypeId, intro);
+        setPlaceIntro(orderedList);
+
+        console.log("무장애조회 결과:", withTour);
+        const orderedWithTour = new Map(Object.entries(withTour));
+        let orderedWithTourValue = [];
+        for (const [name, value] of orderedWithTour) {
+          let val = `${value}`;
+          if (val !== "" && `${name}` !== "contentid") {
+            if (val.includes("_")) {
+              val = val.split("_")[0];
+            }
+            orderedWithTourValue.push(val);
+          }
+        }
+        setPlaceWithTour(orderedWithTourValue);
+
+        setLoading(false);
+      })
+      .catch((error) => {
+        moveToErrorPage();
       });
   }, [contentId, contentTypeId]);
 
@@ -107,7 +109,7 @@ const PlaceDetailComponent = ({ contentId, contentTypeId, callBackFn }) => {
         aria-hidden="true"
         className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
       >
-        <div className="relative w-full max-w-7xl p-6 mx-auto bg-white rounded-lg shadow-lg">
+        <div className="relative w-full max-w-xs sm:max-w-md md:max-w-3xl lg:max-w-6xl p-4 sm:p-6 mx-auto bg-white rounded-lg shadow-lg">
           <div className="flex items-center justify-between pb-3 mb-4 border-b">
             <h3 className="text-lg font-semibold text-gray-900">
               여행지 상세 정보
@@ -147,11 +149,24 @@ const PlaceDetailComponent = ({ contentId, contentTypeId, callBackFn }) => {
                 <img
                   src={placeImg[selectedImageIndex]}
                   alt="Large Display"
-                  className="w-[800px] h-[400px] object-cover rounded-md mb-4"
-                // className="w-full max-w-3xl h-auto rounded-md mb-4"
+                  className="w-full max-w-3xl h-auto object-cover rounded-md mb-4"
                 />
               </div>
-              <div className="flex justify-center space-x-2">
+              <div className="carousel-container sm:hidden">
+                <Carousel
+                  showThumbs={false}
+                  showStatus={false}
+                  onChange={(index) => handleThumbnailClick(index)}
+                  selectedItem={selectedImageIndex}
+                >
+                  {placeImg.map((image, index) => (
+                    <div key={index}>
+                      <img src={image} alt={`Thumbnail ${index + 1}`} />
+                    </div>
+                  ))}
+                </Carousel>
+              </div>
+              <div className="thumbnails-container hidden sm:flex justify-center space-x-2">
                 {placeImg.length > 1 &&
                   placeImg.map((image, index) => (
                     <img
@@ -229,7 +244,9 @@ const PlaceDetailComponent = ({ contentId, contentTypeId, callBackFn }) => {
             <section className="mb-6">
               <h3 className="text-xl font-semibold mb-4">지도</h3>
               <div className="border-t border-gray-300 mb-4"></div>
-              <KakaoMapComponent width="full" height="600px" map={map} />
+              {/* <div className="w-full" style={{ height: "300px" }}>
+                <KakaoMapComponent width="100%" height="100%" map={map} />
+              </div> */}
             </section>
           </div>
         </div>
