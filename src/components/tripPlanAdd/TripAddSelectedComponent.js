@@ -40,9 +40,11 @@ const TripAddSelectedComponent = ({ addedList, callBackFn }) => {
     <>
       <div className="container">
         <div className="added-list">
-          <h2>추가 된 목록</h2>
+          <div className="text-center font-['Pretendard-Medium'] text-lg lg:text-2xl p-3">
+            추가 된 목록
+          </div>
           {items.length === 0 ? (
-            <div className="font-['Pretendard-Regular'] text-gray-500 text-center">
+            <div className="font-['Pretendard-Regular'] text-gray-500 text-center text-base lg:text-lg">
               담은 여행지가 없습니다
             </div>
           ) : null}

@@ -86,13 +86,14 @@ const SelectionButtons = ({ items, selectedItem, toggleFunction }) =>
     </button>
   ));
 
-const AccessibilityButtons = ({ types, selectedItems, toggleFunction }) =>
+const AccessibilityButtons = ({ types, selectedItems, toggleFunction }) => (
   <div className="flex flex-wrap justify-center gap-2 sm:gap-4">
     {types.map(({ type, icon, alt }) => (
       <button
         key={type}
-        className={`accessibility-button ${selectedItems.includes(type) ? "selected" : ""
-          } text-xs sm:text-sm w-15 sm:w-28 py-1.5 sm:py-2.5`}
+        className={`accessibility-button ${
+          selectedItems.includes(type) ? "selected" : ""
+        } text-xs sm:text-sm w-15 sm:w-28 py-1.5 sm:py-2.5`}
         onClick={() => toggleFunction(type)}
       >
         <img
@@ -104,14 +105,15 @@ const AccessibilityButtons = ({ types, selectedItems, toggleFunction }) =>
       </button>
     ))}
   </div>
-
+);
 
 const FacilityButtons = ({ facilities, selectedFacilities, toggleFunction }) =>
   facilities.map(({ type, id, cat }) => (
     <button
       key={id}
-      className={`facility-button ${selectedFacilities.includes(type) ? "selected" : ""
-        }`}
+      className={`facility-button ${
+        selectedFacilities.includes(type) ? "selected" : ""
+      }`}
       onClick={() => toggleFunction(type)}
     >
       {type}
@@ -217,10 +219,10 @@ const FilterComponent = ({ region, callBackFn }) => {
       setSelectedProvince(province);
       const options = regions[province]
         ? regions[province].map((city) => (
-          <option key={city} value={city}>
-            {city}
-          </option>
-        ))
+            <option key={city} value={city}>
+              {city}
+            </option>
+          ))
         : [];
       setCityOptions(options);
       setCurrentProvince(province);
@@ -298,9 +300,11 @@ const FilterComponent = ({ region, callBackFn }) => {
   };
 
   return (
-    <div className="container font-['Pretendard'] text-center">
+    <div className="container font-['Pretendard'] text-center max-w-xs lg:max-w-6xl">
       <div className="page-header">
-        <h1>검색</h1>
+        <div className="text-center font-['Pretendard-Medium'] text-lg lg:text-2xl p-3">
+          검색
+        </div>
         <p>조건에 맞는 여행지를 탐색해보세요</p>
       </div>
 

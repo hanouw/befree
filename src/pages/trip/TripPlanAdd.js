@@ -148,23 +148,25 @@ const TripPlanAdd = () => {
     setLoading(true);
     setShowPlaceDetail([]);
     // API 전송 함수
-    sendPlaceKeywordDataApi(recentResult).then((result) => {
-      console.log("sendPlaceKeywordDataApi 리턴 데이터", result);
-      setMap(result.newMap); // 상태 변수 업데이트
-      console.log("TripPlanAdd updated map:", result.newMap);
-      setNumOfRows(result.numOfRows);
-      setTripList(result.newTripList);
-      setLoading(false);
+    sendPlaceKeywordDataApi(recentResult)
+      .then((result) => {
+        console.log("sendPlaceKeywordDataApi 리턴 데이터", result);
+        setMap(result.newMap); // 상태 변수 업데이트
+        console.log("TripPlanAdd updated map:", result.newMap);
+        setNumOfRows(result.numOfRows);
+        setTripList(result.newTripList);
+        setLoading(false);
 
-      if (!result.isBOF) {
-        setPageIndexData(pageIndexData - 1);
-      } else {
-        pageIndexList.push(result.lastPageInfo);
-        setPageIndexData(pageIndexData + 1);
-      }
-    }).catch(() => {
-      moveToErrorPage()
-    });
+        if (!result.isBOF) {
+          setPageIndexData(pageIndexData - 1);
+        } else {
+          pageIndexList.push(result.lastPageInfo);
+          setPageIndexData(pageIndexData + 1);
+        }
+      })
+      .catch(() => {
+        moveToErrorPage();
+      });
     // 컴포넌트가 마운트될 때 이벤트 리스너 추가
     window.addEventListener("scroll", handleScroll);
 
@@ -206,151 +208,154 @@ const TripPlanAdd = () => {
   return (
     <div>
       <BasicLayout>
-        {loading ? <TripAddLoadingModalComponent /> : <></>}
-        {showPlaceDetail.length == 0 ? (
-          <></>
-        ) : (
-          <PlaceDetailComponent
-            contentId={showPlaceDetail[0]}
-            contentTypeId={showPlaceDetail[1]}
-            callBackFn={placeDetailModalClose}
-          />
-        )}
-        {isMoveToTop && (
-          <button
-            onClick={scrollToTop}
-            className="fixed bottom-9 right-9 w-24 h-12 border-2 bg-white border-black text-black rounded-lg shadow-xl hover:bg-black hover:text-white transition-opacity font-[Pretendard-Medium]"
-          >
-            추가된 목록
-          </button>
-        )}
-        <TripTopBannerComponent
-          topText={"여행지 추가하기"}
-          tid={tid}
-          title={title}
-          date={date}
-          callBackFn={finalAddClicked}
+      {loading ? <TripAddLoadingModalComponent /> : <></>}
+      {showPlaceDetail.length == 0 ? (
+        <></>
+      ) : (
+        <PlaceDetailComponent
+          contentId={showPlaceDetail[0]}
+          contentTypeId={showPlaceDetail[1]}
+          callBackFn={placeDetailModalClose}
         />
-        <TripAddSelectedComponent
-          addedList={addedList}
-          callBackFn={selectedPlaceChange}
+      )}
+      {isMoveToTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-9 right-9 w-24 h-12 border-2 bg-white border-black text-black rounded-lg shadow-xl hover:bg-black hover:text-white transition-opacity font-[Pretendard-Medium] hidden lg:inline"
+        >
+          추가된 목록
+        </button>
+      )}
+      <TripTopBannerComponent
+        topText={"여행지 추가하기"}
+        tid={tid}
+        title={title}
+        date={date}
+        callBackFn={finalAddClicked}
+      />
+      <TripAddSelectedComponent
+        addedList={addedList}
+        callBackFn={selectedPlaceChange}
+      />
+      <FilterComponent region={region} callBackFn={callBackFn} />
+      {/* 모바일 */}
+      <div className="inline lg:hidden">
+        <KakaoMapComponent
+          width="412px"
+          height="250px"
+          map={map}
+          region={region}
         />
-        <FilterComponent region={region} callBackFn={callBackFn} />
-        {/* 모바일 */}
-        <div className="inline lg:hidden">
-          <KakaoMapComponent
-            width="412px"
-            height="250px"
-            map={map}
-            region={region}
-          />
+      </div>
+      {/* 모니터 */}
+      <div className="hidden lg:inline">
+        <KakaoMapComponent
+          width="1200px"
+          height="600px"
+          map={map}
+          region={region}
+        />
+      </div>
+      {/* 기존 FoundListComponent */}
+      <div className="container-noline-list">
+        <div className="page-header">
+          <h1>목록</h1>
+          <div className="w-[100%] my-[1%] border-[1px] border-neutral-500"></div>
         </div>
-        {/* 모니터 */}
-        <div className="hidden lg:inline">
-          <KakaoMapComponent
-            width="1200px"
-            height="600px"
-            map={map}
-            region={region}
-          />
-        </div>
-        {/* 기존 FoundListComponent */}
-        <div className="container-noline-list">
-          <div className="page-header">
-            <h1>목록</h1>
-            <div className="w-[100%] my-[1%] border-[1px] border-neutral-500"></div>
-          </div>
-          {numOfRows ? (
-            <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-10">
-                {tripList.map((item) => (
-                  <div key={item.alt} className="flex justify-evenly mb-10">
-                    <div className="flex flex-col" style={{ width: "90%" }}>
-                      <img
-                        src={item.src}
-                        alt={item.alt}
-                        style={{ ...item.style, height: "300px" }}
-                        className="rounded-md h-24 sm:h-full"
-                      ></img>
-                      <div className="sm:mt-2">
-                        <span className="font-[Pretendard-Light] text-sm sm:text-lg">
-                          {item.title}
-                        </span>
-                        <div className="font-[Pretendard-Light] text-sm sm:text-lg text-gray-600">
-                          {item.address}
-                        </div>
-                        {item.facility.map((facil, index) => (
-                          <div
-                            key={index}
-                            className="font-[Pretendard-Light] text-xs sm:text-sm text-gray-600"
-                          >
-                            - {facil}
-                          </div>
-                        ))}
+        {numOfRows ? (
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-10">
+              {tripList.map((item) => (
+                <div key={item.alt} className="flex justify-evenly mb-10">
+                  <div className="flex flex-col" style={{ width: "90%" }}>
+                    <img
+                      src={item.src}
+                      alt={item.alt}
+                      style={{ ...item.style, height: "300px" }}
+                      className="rounded-md h-24 sm:h-full"
+                    ></img>
+                    <div className="sm:mt-2">
+                      <span className="font-[Pretendard-Light] text-sm sm:text-lg">
+                        {item.title}
+                      </span>
+                      <div className="font-[Pretendard-Light] text-sm sm:text-lg text-gray-600">
+                        {item.address}
                       </div>
-                      {/* button start */}
-                      <div className="grid place-items-center pt-4">
-                        <div className="flex items-center justify-between w-full h-10 text-base">
-                          <button
-                            type="button"
-                            className="mt-2 text-my-color-darkblue border-2 border-my-color-darkblue hover:bg-gray-100 hover:font-[Pretendard-ExtraBold] focus:ring-4 focus:outline-none focus:ring-gray-200 font-[Pretendard-SemiBold] rounded-md px-5 py-2.5 text-center inline-flex items-center"
-                            onClick={() =>
-                              placeDetailButtonClick(item.contentId, item.contentTypeId)
-                            }
-                          >
-                            자세히 보기
-                            <svg
-                              className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
-                              aria-hidden="true"
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 14 10"
-                            >
-                              <path
-                                stroke="currentColor"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M1 5h12m0 0L9 1m4 4L9 9"
-                              />
-                            </svg>
-                          </button>
-                          <button
-                            type="button"
-                            className="gap-3 mt-2 text-white bg-my-color-darkblue hover:bg-slate-500 hover:font-[Pretendard-ExtraBold] focus:ring-4 focus:outline-none focus:ring-gray-200 font-[Pretendard-SemiBold] rounded-md text-base px-5 py-2.5 text-center inline-flex items-center"
-                            onClick={() =>
-                              addPlaceToTempList(
-                                item.contentId,
-                                item.contentTypeId,
-                                item.title,
-                                item.facility,
-                                item.mapx,
-                                item.mapy
-                              )
-                            }
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              strokeWidth="1.5"
-                              stroke="currentColor"
-                              className="w-6 h-6"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                              />
-                            </svg>
-                            추가하기
-                          </button>
+                      {item.facility.map((facil, index) => (
+                        <div
+                          key={index}
+                          className="font-[Pretendard-Light] text-xs sm:text-sm text-gray-600"
+                        >
+                          - {facil}
                         </div>
+                      ))}
+                    </div>
+                    {/* button start */}
+                    <div className="grid place-items-center pt-4">
+                      <div className="flex items-center justify-between w-full h-10 text-base">
+                        <button
+                          type="button"
+                          className="mt-2 text-my-color-darkblue border-2 border-my-color-darkblue hover:bg-gray-100 hover:font-[Pretendard-ExtraBold] focus:ring-4 focus:outline-none focus:ring-gray-200 font-[Pretendard-SemiBold] rounded-md px-5 py-2.5 text-center inline-flex items-center"
+                          onClick={() =>
+                            placeDetailButtonClick(
+                              item.contentId,
+                              item.contentTypeId
+                            )
+                          }
+                        >
+                          자세히 보기
+                          <svg
+                            className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 14 10"
+                          >
+                            <path
+                              stroke="currentColor"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="M1 5h12m0 0L9 1m4 4L9 9"
+                            />
+                          </svg>
+                        </button>
+                        <button
+                          type="button"
+                          className="gap-3 mt-2 text-white bg-my-color-darkblue hover:bg-slate-500 hover:font-[Pretendard-ExtraBold] focus:ring-4 focus:outline-none focus:ring-gray-200 font-[Pretendard-SemiBold] rounded-md text-base px-5 py-2.5 text-center inline-flex items-center"
+                          onClick={() =>
+                            addPlaceToTempList(
+                              item.contentId,
+                              item.contentTypeId,
+                              item.title,
+                              item.facility,
+                              item.mapx,
+                              item.mapy
+                            )
+                          }
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth="1.5"
+                            stroke="currentColor"
+                            className="w-6 h-6"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                            />
+                          </svg>
+                          추가하기
+                        </button>
                       </div>
                     </div>
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
+            </div>
 
               <NextBackPagenationComponent
                 page={pageIndexData}
