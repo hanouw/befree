@@ -116,13 +116,7 @@ export const placeKeywordData = async (
   };
   const requestLink = final();
   if (requestLink) {
-    let response = "";
-    try {
-      response = await axios.get(requestLink);
-    } catch {
-      throw new Error("Error");
-    }
-
+    const response = await axios.get(requestLink);
     return response.data;
   }
 };
@@ -309,13 +303,7 @@ export const getPlaceDetail = async (contentId) => {
     `&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&contentId=` +
     `${contentId}` +
     `&defaultYN=Y&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y&_type=json`;
-  let response = "";
-  try {
-    response = await axios.get(link);
-  } catch {
-    throw new Error("Error");
-  }
-
+    const  response = await axios.get(link);
   return response.data.response.body.items.item[0];
 };
 
@@ -326,12 +314,7 @@ export const getPlaceDetailImg = async (contentId) => {
     `&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&contentId=` +
     `${contentId}` +
     `&imageYN=Y&subImageYN=Y&_type=json`;
-  let response = "";
-  try {
-    response = await axios.get(link);
-  } catch {
-    throw new Error("Error");
-  }
+    const  response = await axios.get(link);
 
   return response.data.response.body;
 };
@@ -344,12 +327,7 @@ export const getPlaceDetailIntro = async (contentId, contentTypeId) => {
     `${contentId}` +
     `&contentTypeId=` +
     `${contentTypeId}`;
-  let response = "";
-  try {
-    response = await axios.get(link);
-  } catch {
-    throw new Error("Error");
-  }
+    const  response = await axios.get(link);
 
   return response.data.response.body.items.item[0];
 };

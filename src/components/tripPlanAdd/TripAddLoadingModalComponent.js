@@ -10,7 +10,7 @@ const TripAddLoadingModalComponent = () => {
         aria-hidden="true"
         className="overflow-y-auto overflow-x-hidden fixed z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full grid place-items-center backdrop-blur-md hover:cursor-wait"
       >
-        <div className="relative p-4 w-full max-w-md max-h-full">
+        <div className="relative p-4 relative w-full max-w-xs sm:max-w-md md:max-w-3xl lg:max-w-6xl">
           {/* <!-- Modal content --> */}
           <div className="relative bg-white rounded-lg shadow dark:bg-gray-950">
             {/* <!-- Modal header --> */}

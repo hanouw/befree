@@ -3,7 +3,7 @@ import BasicLayout from "../layouts/BasicLayout";
 import useCustomMove from "../hooks/useCustomMove";
 
 const MainPage = () => {
-  // 페이지 슬라이드
+  // 페이지 슬라이드 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   // 페이지 이동

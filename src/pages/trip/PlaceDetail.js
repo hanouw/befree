@@ -10,6 +10,7 @@ import {
 import TripAddLoadingModalComponent from "../../components/tripPlanAdd/TripAddLoadingModalComponent";
 import { matchIntro } from "../../util/parameterData";
 import useCustomMove from "../../hooks/useCustomMove";
+import { Carousel } from "react-responsive-carousel";
 
 // 여행지 상세 페이지
 const PlaceDetail = () => {
@@ -116,21 +117,34 @@ const PlaceDetail = () => {
               className="w-[800px] h-[400px] object-cover rounded-md mb-4"
             />
           </div>
-          <div className="flex justify-center space-x-4">
+          <div className="max-w-sm lg:max-w-6xl flex justify-center space-x-4">
             {placeImg.length > 1 ? (
-              placeImg.map((image, index) => (
-                <img
-                  key={index}
-                  src={image}
-                  alt={`Thumbnail ${index + 1}`}
-                  className={`w-24 h-16 rounded-md cursor-pointer transition-all ${
-                    selectedImageIndex === index
-                      ? "border-2 border-green-500"
-                      : "border-none"
-                  }`}
-                  onClick={() => handleThumbnailClick(index)}
-                />
-              ))
+              // placeImg.map((image, index) => (
+              //   <img
+              //     key={index}
+              //     src={image}
+              //     alt={`Thumbnail ${index + 1}`}
+              //     className={`w-24 h-16 rounded-md cursor-pointer transition-all ${selectedImageIndex === index
+              //       ? "border-2 border-green-500"
+              //       : "border-none"
+              //       }`}
+              //     onClick={() => handleThumbnailClick(index)}
+              //   />
+              // ))
+              <div className="carousel-container sm:hidden">
+                <Carousel
+                  showThumbs={false}
+                  showStatus={false}
+                  onChange={(index) => handleThumbnailClick(index)}
+                  selectedItem={selectedImageIndex}
+                >
+                  {placeImg.map((image, index) => (
+                    <div key={index}>
+                      <img src={image} alt={`Thumbnail ${index + 1}`} />
+                    </div>
+                  ))}
+                </Carousel>
+              </div>
             ) : (
               <> </>
             )}

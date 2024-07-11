@@ -1,7 +1,6 @@
 import axios from "axios";
 
-// export const BEFREE_API_SERVER_HOST = "http://192.168.100.155:8085";
-export const BEFREE_API_SERVER_HOST = "http://localhost:8085";
+export const BEFREE_API_SERVER_HOST = "http://3.36.84.228:8085";
 
 const trip = `${BEFREE_API_SERVER_HOST}/trip`;
 
