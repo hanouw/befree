@@ -32,23 +32,23 @@ const TripTopBannerComponent = (data) => {
 
   return (
     <div className="flex place-content-center">
-      <div className=" font-['Pretendard-Regular'] max-w-sm lg:max-w-6xl w-full">
+      <div className=" font-['Pretendard-Regular'] max-w-xs lg:max-w-6xl w-full">
         {data.topText == "여행 계획" ? (
           <header className="header">
-            <h1 className="text-lg">{data.topText}</h1>
+            <h1 className="text-xs lg:text-lg">{data.topText}</h1>
             {!data.isShared ? (
               <div className="flex space-x-4">
                 <button
-                  onClick={() => moveToBack()}
-                  className="text-center w-10 lg:w-28 text-gray-900 inline-flex justify-center border border-my-color-darkblue hover:bg-slate-100 focus:ring-2 focus:outline-none focus:ring-slate-400 font-['Pretendard-Regular'] rounded-sm text-xs lg:text-sm py-2 lg:py-2.5 bg-white"
+                  onClick={() => moveToTripList()}
+                  className="text-center w-10 lg:w-28 text-gray-900 inline-flex justify-center border border-my-color-darkblue hover:bg-slate-100 focus:ring-2 focus:outline-none focus:ring-slate-400 font-['Pretendard-Regular'] rounded-sm text-sm py-1 lg:py-2.5 bg-white"
                 >
                   취소
                 </button>
                 <button
-                  onClick={() => callBackFnClicked()}
-                  className="text-center w-10 lg:w-28 text-white inline-flex justify-center items-center bg-my-color-darkblue hover:bg-gray-500 border-black focus:ring-2 focus:outline-none focus:ring-slate-400 font-['Pretendard-Regular'] rounded-sm text-xs lg:text-sm py-2 lg:py-2.5"
+                  onClick={() => deleteClicked()}
+                  className="text-center w-10 lg:w-28 text-white inline-flex justify-center items-center bg-my-color-darkblue hover:bg-gray-500 border-black focus:ring-2 focus:outline-none focus:ring-slate-400 font-['Pretendard-Regular'] rounded-sm text-sm py-1 lg:py-2.5"
                 >
-                  저장
+                  삭제
                 </button>
               </div>
             ) : (
@@ -84,7 +84,7 @@ const TripTopBannerComponent = (data) => {
         {data.topText == "여행 계획 수정하기" ? (
           <>
             <header className="header">
-              <h1>{data.topText}</h1>
+              <h1 className="text-xs lg:text-lg">{data.topText}</h1>
               <div className="flex space-x-4">
                 <button
                   onClick={() => moveToBack()}
@@ -106,15 +106,23 @@ const TripTopBannerComponent = (data) => {
           <></>
         )}
 
-        <div className="banner max-w-sm lg:max-w-6xl w-full">
+        <div className="banner relative max-w-xs lg:max-w-6xl w-full">
           <img
             src={`/assets/imgs/trip_list_size_down_${data.tid}.png`}
             alt="Banner"
+            className="w-full h-auto object-cover"
             style={noDrag}
           />
-          <div className="banner-text" style={noDrag}>
-            <p className="text-sm lg:text-base">{data.date}</p>
-            <p className="text-sm lg:text-base">{data.title}</p>
+          <div
+            className="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center text-white bg-black bg-opacity-40 rounded-lg"
+            style={noDrag}
+          >
+            <p className="text-sm font-[Pretendard-Regular] lg:text-lg lg:font-[Pretendard-Bold]">
+              {data.date}
+            </p>
+            <p className="text-lg font-[Pretendard-Medium] lg:text-2xl lg:font-[Pretendard-Bold]">
+              {data.title}
+            </p>
           </div>
 
         </div>
