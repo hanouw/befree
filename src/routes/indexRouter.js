@@ -1,7 +1,6 @@
 import { useRoutes } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import LoadingPage from "../components/common/LoadingPage";
-import tripRouter from "./tripRouter";
 import ErrorPage from "../pages/ErrorPage";
 
 const Main = lazy(() => import("../pages/MainPage"));
@@ -12,7 +11,6 @@ const Main = lazy(() => import("../pages/MainPage"));
 // });
 const Info = lazy(() => import("../pages/InfoPage"));
 
-const TripIndex = lazy(() => import("../pages/trip/TripIndex"));
 const MyPage = lazy(() => import("../pages/user/MyPage"));
 const Modify = lazy(() => import("../pages/user/MyPageModify"));
 const Delete = lazy(() => import("../pages/user/MyPageDelete"));
@@ -20,6 +18,13 @@ const Login = lazy(() => import("../pages/user/LoginPage"));
 const Signup = lazy(() => import("../pages/user/SignupPage"));
 const FindPassword = lazy(() => import("../pages/user/FindPassword"));
 const TripSharedList = lazy(() => import("../pages/trip/TripSharedList"));
+const TripList = lazy(() => import("../pages/trip/TripList"));
+const TripListDetail = lazy(() => import("../pages/trip/TripListDetailHoriz"));
+const TripListDetailModify = lazy(() =>
+	import("../pages/trip/TripListDetailModifyHoriz")
+);
+const TripplanAdd = lazy(() => import("../pages/trip/TripPlanAdd"));
+const PlaceDetail = lazy(() => import("../pages/trip/PlaceDetail"));
 
 const CodePage = lazy(() => import("../pages/CodePage"));
 
@@ -43,16 +48,6 @@ const Router = () => {
 			),
 		},
 		{
-			// 여행관련
-			path: "/trip",
-			element: (
-				<Suspense fallback={<LoadingPage />}>
-					<TripIndex />
-				</Suspense>
-			),
-			children: tripRouter(),
-		},
-		{
 			path: "/shared", // 공유된 여행 계획 목록
 			element: (
 				<Suspense fallback={<LoadingPage />}>
@@ -60,6 +55,48 @@ const Router = () => {
 				</Suspense>
 			),
 		},
+		////////////////////////////////////////////// 여행관련
+		{
+      path: "/trip/list", // 여행 계획 목록 - 이전 여행 및 클릭해서 새로운 여행 계획하기 페이지
+      element: (
+        <Suspense fallback={<LoadingPage />}>
+          <TripList />
+        </Suspense>
+      ),
+    },
+    {
+      path: "/trip/listdetail/:tid", // 여행 상세 - 여행 계획짜기
+      element: (
+        <Suspense fallback={<LoadingPage />}>
+          <TripListDetail />
+        </Suspense>
+      ),
+    },
+    {
+      path: "/trip/listdetailmodify/:tid", // 여행 상세 - 여행 계획짜기
+      element: (
+        <Suspense fallback={<LoadingPage />}>
+          <TripListDetailModify />
+        </Suspense>
+      ),
+    },
+    {
+      path: "/trip/planadd/:tid", // 여행에 여행지 추가
+      element: (
+        <Suspense fallback={<LoadingPage />}>
+          <TripplanAdd />
+        </Suspense>
+      ),
+    },
+    {
+      path: "/trip/placedetail/:contentId/:contentTypeId", // 여행지 상세
+      element: (
+        <Suspense fallback={<LoadingPage />}>
+          <PlaceDetail />
+        </Suspense>
+      ),
+    },
+		//////////////////////////////// 마이페이지
 		{
 			path: "/mypage",
 			element: (

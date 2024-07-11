@@ -5,6 +5,7 @@ import useCustomMove from "../../hooks/useCustomMove";
 import { useLocation } from "react-router-dom";
 import TripTopBannerComponent from "../../components/tripPlanAdd/TripTopBannerComponent";
 import { getTripDetail } from "../../api/befreeApi";
+import BasicLayout from "../../layouts/BasicLayout";
 
 const noDrag = {
   userSelect: "none",
@@ -117,14 +118,14 @@ const TripListDetail = () => {
 
   return (
     <>
-      <TripTopBannerComponent
-        topText={"여행 계획"}
-        tid={tid}
-        title={title}
-        date={date}
-        isShared={isShared}
-      />
-      <>
+      <BasicLayout>
+        <TripTopBannerComponent
+          topText={"여행 계획"}
+          tid={tid}
+          title={title}
+          date={date}
+          isShared={isShared}
+        />
         <div className="container-noline">
           <TripListDetailKakaoMapComponent
             width="1200px"
@@ -225,10 +226,10 @@ const TripListDetail = () => {
                   </span>
                   {console.log(amongPin)}
                   {!isHover[index] ||
-                  index == 0 ||
-                  amongPin[index - 1] == [] ||
-                  amongPin[index - 1] == undefined ||
-                  amongPin[index - 1] == null ? (
+                    index == 0 ||
+                    amongPin[index - 1] == [] ||
+                    amongPin[index - 1] == undefined ||
+                    amongPin[index - 1] == null ? (
                     <></>
                   ) : (
                     <div className="font-[Pretendard-Regular] text-gray-600">
@@ -278,12 +279,12 @@ const TripListDetail = () => {
             </div>
           </div>
         </div>{" "}
-      </>
-      <PagenationComponent
-        page={page}
-        totalPage={totalPage}
-        numButtonClicked={numButtonClicked}
-      />
+        <PagenationComponent
+          page={page}
+          totalPage={totalPage}
+          numButtonClicked={numButtonClicked}
+        />
+      </BasicLayout>
     </>
   );
 };
