@@ -10,6 +10,7 @@ import useCustomMove from "../../hooks/useCustomMove";
 import TripAddLoadingModalComponent from "../../components/tripPlanAdd/TripAddLoadingModalComponent";
 import { addPlaceToTrip } from "../../api/befreeApi";
 import PlaceDetailComponent from "../../components/tripPlanAdd/PlaceDetailComponent";
+import BasicLayout from "../../layouts/BasicLayout";
 
 // 여행 계획 추가
 const TripPlanAdd = () => {
@@ -206,6 +207,7 @@ const TripPlanAdd = () => {
 
   return (
     <div>
+      <BasicLayout>
       {loading ? <TripAddLoadingModalComponent /> : <></>}
       {showPlaceDetail.length == 0 ? (
         <></>
@@ -355,17 +357,18 @@ const TripPlanAdd = () => {
               ))}
             </div>
 
-            <NextBackPagenationComponent
-              page={pageIndexData}
-              backnextButtonFn={backnextButtonClicked}
-            />
-          </>
-        ) : (
-          <div className="flex justify-center my-4 mt-48 text-gray-700 mb-52 font-[Pretendard-Regular]">
-            검색 결과가 없습니다.
-          </div>
-        )}
-      </div>
+              <NextBackPagenationComponent
+                page={pageIndexData}
+                backnextButtonFn={backnextButtonClicked}
+              />
+            </>
+          ) : (
+            <div className="flex justify-center my-4 mt-48 text-gray-700 mb-52 font-[Pretendard-Regular]">
+              검색 결과가 없습니다.
+            </div>
+          )}
+        </div>
+      </BasicLayout>
     </div>
   );
 };

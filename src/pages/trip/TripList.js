@@ -6,6 +6,7 @@ import PagenationComponent from "../../components/tripList/PagenationComponent";
 import { getTripList, shareTrip } from "../../api/befreeApi";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import { useSelector } from "react-redux";
+import BasicLayout from "../../layouts/BasicLayout";
 
 // 여행 계획 목록
 const TripList = () => {
@@ -109,12 +110,10 @@ const TripList = () => {
       const tripListTemp = dataResult.map((trip) => {
         const tbegin = new Date(trip.tbegin);
         const tend = new Date(trip.tend);
-        const formattedBeginDate = `${tbegin.getFullYear()}.${
-          tbegin.getMonth() + 1
-        }.${tbegin.getDate()}`;
-        const formattedEndDate = `${tend.getFullYear()}.${
-          tend.getMonth() + 1
-        }.${tend.getDate()}`;
+        const formattedBeginDate = `${tbegin.getFullYear()}.${tbegin.getMonth() + 1
+          }.${tbegin.getDate()}`;
+        const formattedEndDate = `${tend.getFullYear()}.${tend.getMonth() + 1
+          }.${tend.getDate()}`;
 
         return {
           src:
@@ -156,42 +155,43 @@ const TripList = () => {
 
   return (
     <>
-      {showModal ? (
-        <TripAddModalComponent callbackFn={modalStateChange} />
-      ) : (
-        <></>
-      )}
-      {showModifyModal ? (
-        <TripModifyModalComponent
-          tid={modifyModalData.tid}
-          title={modifyModalData.title}
-          region={modifyModalData.region}
-          begin={modifyModalData.begin}
-          end={modifyModalData.end}
-          callbackFn={modifyModalStateChange}
-        />
-      ) : (
-        <></>
-      )}
-      {/* 상단 이미지 */}
-      <div
-        className="w-full mb-8 sm:mb-24 flex justify-center items-center"
-        onClick={modalStateChange}
-      >
-        <img
-          // 이미지 드래그 막기
-          style={{ ...noDrag, objectFit: "cover" }}
-          className="hover:cursor-pointer hidden sm:block w-full"
-          src={process.env.PUBLIC_URL + "/assets/imgs/trip_plan_top_img_01.png"}
-          alt="Trip Plan Top Image 01"
-        />
-        <img
-          style={{ ...noDrag, objectFit: "cover" }}
-          className="hover:cursor-pointer block sm:hidden w-full"
-          src={process.env.PUBLIC_URL + "/assets/imgs/trip_plan_top_img_02.png"}
-          alt="Trip Plan Top Image 02"
-        />
-      </div>
+      <BasicLayout>
+        {showModal ? (
+          <TripAddModalComponent callbackFn={modalStateChange} />
+        ) : (
+          <></>
+        )}
+        {showModifyModal ? (
+          <TripModifyModalComponent
+            tid={modifyModalData.tid}
+            title={modifyModalData.title}
+            region={modifyModalData.region}
+            begin={modifyModalData.begin}
+            end={modifyModalData.end}
+            callbackFn={modifyModalStateChange}
+          />
+        ) : (
+          <></>
+        )}
+        {/* 상단 이미지 */}
+        <div
+          className="w-full mb-8 sm:mb-24 flex justify-center items-center"
+          onClick={modalStateChange}
+        >
+          <img
+            // 이미지 드래그 막기
+            style={{ ...noDrag, objectFit: "cover" }}
+            className="hover:cursor-pointer hidden sm:block w-full"
+            src={process.env.PUBLIC_URL + "/assets/imgs/trip_plan_top_img_01.png"}
+            alt="Trip Plan Top Image 01"
+          />
+          <img
+            style={{ ...noDrag, objectFit: "cover" }}
+            className="hover:cursor-pointer block sm:hidden w-full"
+            src={process.env.PUBLIC_URL + "/assets/imgs/trip_plan_top_img_02.png"}
+            alt="Trip Plan Top Image 02"
+          />
+        </div>
 
       {/* 이미지 아래 여행목록 시작 */}
       <div className="grid place-items-center">
@@ -311,6 +311,7 @@ const TripList = () => {
         numButtonClicked={numButtonClicked}
         withDays={false}
       />
+      </BasicLayout>
     </>
   );
 };

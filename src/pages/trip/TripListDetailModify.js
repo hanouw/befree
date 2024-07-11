@@ -9,6 +9,7 @@ import { getTripDetail, updateTripDetail } from "../../api/befreeApi";
 import TripListDetailKakaoMapComponent from "../../components/map/TripListDetailKakaoMapComponent";
 import TripAddLoadingModalComponent from "../../components/tripPlanAdd/TripAddLoadingModalComponent";
 import TripListDetailDateMoveModalComponent from "../../components/tripList/TripListDetailDateMoveModalComponent";
+import BasicLayout from "../../layouts/BasicLayout";
 
 const ItemType = {
   CARD: "card",
@@ -82,9 +83,8 @@ const DraggableItem = ({
         opacity: isDragging ? 1 : 1,
         transition: "transform 1s ease",
       }}
-      className={`flex justify-between items-center mb-10 px-4 border border-my-color-darkblue rounded-md py-4 text-sm transition-all duration-300 ${
-        isDragging ? "bg-gray-100 m-1" : "bg-white"
-      }`}
+      className={`flex justify-between items-center mb-10 px-4 border border-my-color-darkblue rounded-md py-4 text-sm transition-all duration-300 ${isDragging ? "bg-gray-100 m-1" : "bg-white"
+        }`}
     >
       <div className="flex items-center">
         <div className="mr-3 cursor-grab hover:bg-gray-300 p-1 rounded">
@@ -347,9 +347,10 @@ const TripListDetail = () => {
 
   return (
     <>
+    <BasicLayout>
       {loading ? <TripAddLoadingModalComponent /> : <></>}
       <TripTopBannerComponent
-        topText={"수정하기"}
+        topText={"여행 계획 수정하기"}
         tid={tid}
         title={title}
         date={date}
@@ -419,47 +420,48 @@ const TripListDetail = () => {
               />
             </svg>
 
-            <span className="font-['Pretendard-Regular'] ml-1 text-sm text-gray-600">
-              클릭해서 날짜 변경
-            </span>
+              <span className="font-['Pretendard-Regular'] ml-1 text-sm text-gray-600">
+                클릭해서 날짜 변경
+              </span>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="flex justify-center my-4 mb-6">
-        <div className="w-[1200px] border-[1px] border-neutral-500"></div>
-      </div>
-
-      <div className="flex justify-center">
-        <div>
-          <div className="w-[1200px]">
-            {items.length === 0 ? (
-              <div className="flex justify-center my-4 mt-52 mb-52 font-[Pretendard-Regular] text-xl">
-                아직 추가한 일정이 없습니다
-              </div>
-            ) : (
-              items.map((item, index) => (
-                <DraggableItem
-                  key={item.pid}
-                  item={item}
-                  index={index}
-                  moveCard={moveCard}
-                  placeDeleteButtonClick={placeDeleteButtonClick}
-                  moveDateButtonClick={moveDateButtonClick}
-                  totalPage={totalPage}
-                  page={page}
-                  refresh={refresh}
-                />
-              ))
-            )}
-          </div>
-          <PagenationComponent
-            page={page}
-            totalPage={totalPage}
-            numButtonClicked={numButtonClicked}
-          />
+        <div className="flex justify-center my-4 mb-6">
+          <div className="w-[1200px] border-[1px] border-neutral-500"></div>
         </div>
-      </div>
+
+        <div className="flex justify-center">
+          <div>
+            <div className="w-[1200px]">
+              {items.length === 0 ? (
+                <div className="flex justify-center my-4 mt-52 mb-52 font-[Pretendard-Regular] text-xl">
+                  아직 추가한 일정이 없습니다
+                </div>
+              ) : (
+                items.map((item, index) => (
+                  <DraggableItem
+                    key={item.pid}
+                    item={item}
+                    index={index}
+                    moveCard={moveCard}
+                    placeDeleteButtonClick={placeDeleteButtonClick}
+                    moveDateButtonClick={moveDateButtonClick}
+                    totalPage={totalPage}
+                    page={page}
+                    refresh={refresh}
+                  />
+                ))
+              )}
+            </div>
+            <PagenationComponent
+              page={page}
+              totalPage={totalPage}
+              numButtonClicked={numButtonClicked}
+            />
+          </div>
+        </div>
+      </BasicLayout>
     </>
   );
 };

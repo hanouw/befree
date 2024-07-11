@@ -205,14 +205,15 @@ const TripListDetail = () => {
 
   return (
     <>
-      {loading ? <TripAddLoadingModalComponent /> : <></>}
-      <TripTopBannerComponent
-        topText={"수정하기"}
-        tid={tid}
-        title={title}
-        date={date}
-        callBackFn={saveModifyClicked}
-      />
+      <BasicLayout>
+        {loading ? <TripAddLoadingModalComponent /> : <></>}
+        <TripTopBannerComponent
+          topText={"수정하기"}
+          tid={tid}
+          title={title}
+          date={date}
+          callBackFn={saveModifyClicked}
+        />
 
       {/* 모니터 */}
       <div className="hidden lg:inline">
@@ -428,6 +429,7 @@ const TripListDetail = () => {
         totalPage={totalPage}
         numButtonClicked={numButtonClicked}
       />
+      </BasicLayout>
     </>
   );
 };

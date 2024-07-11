@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import BasicLayout from "../../layouts/BasicLayout";
 import useCustomMove from "../../hooks/useCustomMove";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import TripAddLoadingModalComponent from "../../components/tripPlanAdd/TripAddLoadingModalComponent";
+import { Link, useSearchParams } from "react-router-dom";
+import { getAccessToken, getKakaoLoginLink, getMemberWithAccessToken } from "../../api/kakaoApi";
+import { useDispatch } from "react-redux";
+import { login } from "../../slices/loginSlice";
 
 const initState = {
   email: "",
@@ -15,6 +19,8 @@ const LoginPage = () => {
 
   const [loginParam, setLoginParam] = useState({ ...initState });
   const [isLoading, setIsLoading] = useState(false);
+
+  const link = getKakaoLoginLink();
 
   const handleChange = (e) => {
     loginParam[e.target.name] = e.target.value;
@@ -73,6 +79,23 @@ const LoginPage = () => {
         <div className="w-full sm:w-1/2 md:w-1/3 px-4">
           <button className={buttonClassName} onClick={handleClickLogin}>
             로그인하기
+          </button>
+        </div>
+        <div className="w-full sm:w-1/2 md:w-1/3 px-4">
+          <button className="text-center w-full text-gray-900 inline-flex justify-center items-center bg-yellow-300 font-['Pretendard-Regular'] rounded-sm text-sm px-5 py-2.5"
+          >
+            <div className="w-6">
+              <img
+                src={
+                  process.env.PUBLIC_URL +
+                  "/assets/imgs/kakaoLogo.png"
+                }
+                alt="kakao"
+              />
+            </div>
+            <Link to={link}>
+              카카오톡 로그인
+            </Link>
           </button>
         </div>
         <div className="space-x-16 font-[Pretendard-Regular] mt-4">
