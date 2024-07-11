@@ -11,6 +11,7 @@ const TripListDetailKakaoMapComponent = (props) => {
     region,
     callBackFn,
     isAlwaysView = false, // true 의 경우 항상 보여주고 false의 경우 hover 시에만 보여줌
+    isMobile,
   } = props;
   const mapContainer = useRef(null);
   const mapInstance = useRef(null);
@@ -81,6 +82,12 @@ const TripListDetailKakaoMapComponent = (props) => {
         <li><span class="label">자전거 </span>${distanceInfo.cycleTime}</li>
       </ul>`;
   };
+  const createMobileOverlayContent = (title, distanceInfo) => {
+    return `
+      <ul class="bg-white border-2 rounded-lg p-1 text-sm font-[Pretendard-Light]">
+        <li><span class="text-xs font-[Pretendard-Regular]">${title}</span></li>
+      </ul>`;
+  };
 
   const createMarkerWithOverlay = (position, title, distanceInfo) => {
     const marker = new kakao.maps.Marker({
@@ -88,7 +95,12 @@ const TripListDetailKakaoMapComponent = (props) => {
       position,
     });
 
-    const content = createOverlayContent(title, distanceInfo);
+    let content;
+    if (isMobile) {
+      content = createMobileOverlayContent(title, distanceInfo);
+    } else {
+      content = createOverlayContent(title, distanceInfo);
+    }
     const overlay = new kakao.maps.CustomOverlay({
       content,
       position,
