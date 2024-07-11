@@ -25,7 +25,7 @@ const TripListDetailModify = lazy(() =>
 );
 const TripplanAdd = lazy(() => import("../pages/trip/TripPlanAdd"));
 const PlaceDetail = lazy(() => import("../pages/trip/PlaceDetail"));
-
+const KakaoRedirect = lazy(() => import("../pages/user/KakaoRedirect"))
 const CodePage = lazy(() => import("../pages/CodePage"));
 
 // 경로 매핑하는 곳 (root)
@@ -57,45 +57,45 @@ const Router = () => {
 		},
 		////////////////////////////////////////////// 여행관련
 		{
-      path: "/trip/list", // 여행 계획 목록 - 이전 여행 및 클릭해서 새로운 여행 계획하기 페이지
-      element: (
-        <Suspense fallback={<LoadingPage />}>
-          <TripList />
-        </Suspense>
-      ),
-    },
-    {
-      path: "/trip/listdetail/:tid", // 여행 상세 - 여행 계획짜기
-      element: (
-        <Suspense fallback={<LoadingPage />}>
-          <TripListDetail />
-        </Suspense>
-      ),
-    },
-    {
-      path: "/trip/listdetailmodify/:tid", // 여행 상세 - 여행 계획짜기
-      element: (
-        <Suspense fallback={<LoadingPage />}>
-          <TripListDetailModify />
-        </Suspense>
-      ),
-    },
-    {
-      path: "/trip/planadd/:tid", // 여행에 여행지 추가
-      element: (
-        <Suspense fallback={<LoadingPage />}>
-          <TripplanAdd />
-        </Suspense>
-      ),
-    },
-    {
-      path: "/trip/placedetail/:contentId/:contentTypeId", // 여행지 상세
-      element: (
-        <Suspense fallback={<LoadingPage />}>
-          <PlaceDetail />
-        </Suspense>
-      ),
-    },
+			path: "/trip/list", // 여행 계획 목록 - 이전 여행 및 클릭해서 새로운 여행 계획하기 페이지
+			element: (
+				<Suspense fallback={<LoadingPage />}>
+					<TripList />
+				</Suspense>
+			),
+		},
+		{
+			path: "/trip/listdetail/:tid", // 여행 상세 - 여행 계획짜기
+			element: (
+				<Suspense fallback={<LoadingPage />}>
+					<TripListDetail />
+				</Suspense>
+			),
+		},
+		{
+			path: "/trip/listdetailmodify/:tid", // 여행 상세 - 여행 계획짜기
+			element: (
+				<Suspense fallback={<LoadingPage />}>
+					<TripListDetailModify />
+				</Suspense>
+			),
+		},
+		{
+			path: "/trip/planadd/:tid", // 여행에 여행지 추가
+			element: (
+				<Suspense fallback={<LoadingPage />}>
+					<TripplanAdd />
+				</Suspense>
+			),
+		},
+		{
+			path: "/trip/placedetail/:contentId/:contentTypeId", // 여행지 상세
+			element: (
+				<Suspense fallback={<LoadingPage />}>
+					<PlaceDetail />
+				</Suspense>
+			),
+		},
 		//////////////////////////////// 마이페이지
 		{
 			path: "/mypage",
@@ -157,6 +157,14 @@ const Router = () => {
 			path: "/error",
 			element: (
 				<ErrorPage />
+			),
+		},
+		{
+			path: "/redirect",
+			element: (
+				<Suspense fallback={<LoadingPage />}>
+					<KakaoRedirect />
+				</Suspense>
 			),
 		},
 	]);
