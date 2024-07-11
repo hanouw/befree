@@ -399,28 +399,26 @@ const TripListDetail = () => {
         </div>
 
         <div className="place-items-center grid py-3">
-          <div>
-            <div className="max-w-xs lg:max-w-6xl">
-              {items.length === 0 ? (
-                <div className="flex justify-center my-16 lg:my-4 lg:mt-52 lg:mb-52 font-[Pretendard-Regular] text-sm lg:text-xl">
-                  아직 추가한 일정이 없습니다
-                </div>
-              ) : (
-                items.map((item, index) => (
-                  <DraggableItem
-                    key={item.pid}
-                    item={item}
-                    index={index}
-                    moveCard={moveCard}
-                    placeDeleteButtonClick={placeDeleteButtonClick}
-                    moveDateButtonClick={moveDateButtonClick}
-                    totalPage={totalPage}
-                    page={page}
-                    refresh={refresh}
-                  />
-                ))
-              )}
-            </div>
+          <div className="max-w-xs lg:max-w-6xl w-full">
+            {items.length === 0 ? (
+              <div className="flex justify-center my-16 lg:my-4 lg:mt-52 lg:mb-52 font-[Pretendard-Regular] text-sm lg:text-xl">
+                아직 추가한 일정이 없습니다
+              </div>
+            ) : (
+              items.map((item, index) => (
+                <DraggableItem
+                  key={item.pid}
+                  item={item}
+                  index={index}
+                  moveCard={moveCard}
+                  placeDeleteButtonClick={placeDeleteButtonClick}
+                  moveDateButtonClick={moveDateButtonClick}
+                  totalPage={totalPage}
+                  page={page}
+                  refresh={refresh}
+                />
+              ))
+            )}
           </div>
         </div>
       </div>

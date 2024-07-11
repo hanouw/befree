@@ -37,11 +37,15 @@ const TripAddModalComponent = ({
 
     const gap = (endDate - startDate) / (1000 * 3600 * 24) + 1;
 
-    if (gap > 0) {
+    if (gap > 0 && trip.ttitle.length < 20 && trip.ttitle.length != 0) {
       console.log("addButtonclicked email", loginInfo.email);
-      updateTrip(loginInfo.email, trip, tid).then(() => handleClose());
-    } else {
+      createTrip(loginInfo.email, trip).then(() => handleClose());
+    } else if (gap < 0) {
       alert("올바른 시작일과 종료일을 입력해주세요");
+    } else if (trip.ttitle.length > 20) {
+      alert("제목은 20자를 넘길 수 없습니다.");
+    } else if (trip.ttitle.length == 0) {
+      alert("제목을 작성해주세요");
     }
   };
 
