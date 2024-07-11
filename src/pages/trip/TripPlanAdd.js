@@ -147,23 +147,25 @@ const TripPlanAdd = () => {
     setLoading(true);
     setShowPlaceDetail([]);
     // API 전송 함수
-    sendPlaceKeywordDataApi(recentResult).then((result) => {
-      console.log("sendPlaceKeywordDataApi 리턴 데이터", result);
-      setMap(result.newMap); // 상태 변수 업데이트
-      console.log("TripPlanAdd updated map:", result.newMap);
-      setNumOfRows(result.numOfRows);
-      setTripList(result.newTripList);
-      setLoading(false);
+    sendPlaceKeywordDataApi(recentResult)
+      .then((result) => {
+        console.log("sendPlaceKeywordDataApi 리턴 데이터", result);
+        setMap(result.newMap); // 상태 변수 업데이트
+        console.log("TripPlanAdd updated map:", result.newMap);
+        setNumOfRows(result.numOfRows);
+        setTripList(result.newTripList);
+        setLoading(false);
 
-      if (!result.isBOF) {
-        setPageIndexData(pageIndexData - 1);
-      } else {
-        pageIndexList.push(result.lastPageInfo);
-        setPageIndexData(pageIndexData + 1);
-      }
-    }).catch(() => {
-      moveToErrorPage()
-    });
+        if (!result.isBOF) {
+          setPageIndexData(pageIndexData - 1);
+        } else {
+          pageIndexList.push(result.lastPageInfo);
+          setPageIndexData(pageIndexData + 1);
+        }
+      })
+      .catch(() => {
+        moveToErrorPage();
+      });
     // 컴포넌트가 마운트될 때 이벤트 리스너 추가
     window.addEventListener("scroll", handleScroll);
 
@@ -217,7 +219,7 @@ const TripPlanAdd = () => {
       {isMoveToTop && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-9 right-9 w-24 h-12 border-2 bg-white border-black text-black rounded-lg shadow-xl hover:bg-black hover:text-white transition-opacity font-[Pretendard-Medium]"
+          className="fixed bottom-9 right-9 w-24 h-12 border-2 bg-white border-black text-black rounded-lg shadow-xl hover:bg-black hover:text-white transition-opacity font-[Pretendard-Medium] hidden lg:inline"
         >
           추가된 목록
         </button>
@@ -293,7 +295,10 @@ const TripPlanAdd = () => {
                           type="button"
                           className="mt-2 text-my-color-darkblue border-2 border-my-color-darkblue hover:bg-gray-100 hover:font-[Pretendard-ExtraBold] focus:ring-4 focus:outline-none focus:ring-gray-200 font-[Pretendard-SemiBold] rounded-md px-5 py-2.5 text-center inline-flex items-center"
                           onClick={() =>
-                            placeDetailButtonClick(item.contentId, item.contentTypeId)
+                            placeDetailButtonClick(
+                              item.contentId,
+                              item.contentTypeId
+                            )
                           }
                         >
                           자세히 보기

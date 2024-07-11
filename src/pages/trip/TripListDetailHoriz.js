@@ -174,64 +174,56 @@ const TripListDetail = () => {
         </div>
         {/* 내용 */}
         <div className="flex justify-center">
-          <div className="max-w-xs w-full px-4">
+          <div className="max-w-xs w-full justify-center">
             {items[0] ? (
               items.map((item, index) => (
-                <div
-                  className="justify-between items-center mt-6 mb-6 px-4 border border-my-color-darkblue rounded-md py-4 text-sm transition-all duration-400 ease-in-out hover:shadow-lg cursor-pointer"
-                  key={item.pid}
-                  style={noDrag}
-                  onMouseEnter={() =>
-                    setIsHover((prevState) => ({
-                      ...prevState,
-                      [index]: true,
-                    }))
-                  }
-                  onMouseLeave={() =>
-                    setIsHover((prevState) => ({
-                      ...prevState,
-                      [index]: false,
-                    }))
-                  }
-                  onClick={() =>
-                    moveToPlaceDetail(item.contentId, item.contentTypeId)
-                  }
-                >
-                  <span className="font-[Pretendard-Regular]">
-                    {item.pid + 1}. {item.title}
-                  </span>
+                <div key={item.pid}>
                   {index == 0 ||
                   amongPin[index - 1] == [] ||
                   amongPin[index - 1] == undefined ||
                   amongPin[index - 1] == null ? (
                     <></>
                   ) : (
-                    <div className="font-[Pretendard-Regular] text-gray-600">
-                      <ul className="dotOverlay distanceInfo font-[Pretendard-Light]">
-                        <li>
-                          <span className="label">거리:</span>
-                          <span className="number">
-                            {amongPin[index - 1].distance != undefined
-                              ? amongPin[index - 1].distance
-                              : "???"}
-                          </span>
-                          m
-                        </li>
-                        <li>
-                          <span className="label">도보: </span>
-                          {amongPin[index - 1].walkTime != undefined
-                            ? amongPin[index - 1].walkTime
+                    <div className="flex justify-center font-[Pretendard-Regular] text-gray-600">
+                      <div className="dotOverlay distanceInfo font-[Pretendard-Light]">
+                        <span className="label">거리:</span>
+                        <span className="number">
+                          {amongPin[index - 1].distance != undefined
+                            ? amongPin[index - 1].distance
                             : "???"}
-                        </li>
-                        <li>
-                          <span className="label">자전거: </span>
-                          {amongPin[index - 1].cycleTime != undefined
-                            ? amongPin[index - 1].cycleTime
-                            : "???"}
-                        </li>
-                      </ul>
+                        </span>
+                        m
+                      </div>
                     </div>
                   )}
+                  <div
+                    className="justify-between items-center mt-2 mb-2 lg:mt-6 lg:mb-6 px-4 border border-my-color-darkblue rounded-md py-4 text-sm transition-all duration-400 ease-in-out hover:shadow-lg cursor-pointer"
+                    style={noDrag}
+                    onMouseEnter={() =>
+                      setIsHover((prevState) => ({
+                        ...prevState,
+                        [index]: true,
+                      }))
+                    }
+                    onMouseLeave={() =>
+                      setIsHover((prevState) => ({
+                        ...prevState,
+                        [index]: false,
+                      }))
+                    }
+                    onClick={() =>
+                      moveToPlaceDetail(item.contentId, item.contentTypeId)
+                    }
+                  >
+                    <span className="font-[Pretendard-Regular] flex justify-between">
+                      <span>
+                        {item.pid + 1}. {item.title}
+                      </span>
+                      <span className="font-[Pretendard-Regular] text-gray-500">
+                        시설 : {item.facilities.length} 개
+                      </span>
+                    </span>
+                  </div>
                 </div>
               ))
             ) : (
@@ -301,7 +293,7 @@ const TripListDetail = () => {
           <div className="flex gap-4 max-w-xs lg:max-w-6xl">
             <TripListDetailKakaoMapComponent
               width="600px"
-              height="600px"
+              height="500px"
               map={mapData}
               region={region}
               callBackFn={pinDistanceCallBack}
@@ -312,13 +304,19 @@ const TripListDetail = () => {
               {/* 내용 */}
               <div className="w-full">
                 {items[0] ? (
-                  <></>
+                  <div className="min-w-[536px]"></div>
                 ) : (
                   <div className="min-w-[536px] mt-[276px]">
-                    <div className="flex justify-center font-[Pretendard-Regular]">
+                    <div
+                      className="flex justify-center font-[Pretendard-Regular]"
+                      key={1}
+                    >
                       추가한 일정이 없습니다
                     </div>
-                    <div className="flex justify-center font-[Pretendard-Regular]">
+                    <div
+                      className="flex justify-center font-[Pretendard-Regular]"
+                      key={2}
+                    >
                       “추가하기” 버튼을 눌러 여행지를 추가하세요
                     </div>
                   </div>
@@ -326,41 +324,20 @@ const TripListDetail = () => {
               </div>
               <div
                 className={`w-full ${
-                  items[0] ? " h-[600px] overflow-y-scroll scrollbar" : ""
+                  items[0]
+                    ? " h-[500px] overflow-y-scroll scrollable-container"
+                    : ""
                 }`}
               >
                 {items.map((item, index) => (
-                  <div
-                    className="flex justify-between items-center mb-10 px-4 border border-my-color-darkblue rounded-md py-4 text-sm transition-all duration-400 ease-in-out hover:h-auto hover:py-8 cursor-pointer"
-                    key={item.pid}
-                    style={noDrag}
-                    onMouseEnter={() =>
-                      setIsHover((prevState) => ({
-                        ...prevState,
-                        [index]: true,
-                      }))
-                    }
-                    onMouseLeave={() =>
-                      setIsHover((prevState) => ({
-                        ...prevState,
-                        [index]: false,
-                      }))
-                    }
-                    onClick={() =>
-                      moveToPlaceDetail(item.contentId, item.contentTypeId)
-                    }
-                  >
-                    <span className="font-[Pretendard-Regular]">
-                      {item.pid + 1}. {item.title}
-                    </span>
-                    {!isHover[index] ||
-                    index == 0 ||
+                  <div>
+                    {index == 0 ||
                     amongPin[index - 1] == [] ||
                     amongPin[index - 1] == undefined ||
                     amongPin[index - 1] == null ? (
                       <></>
                     ) : (
-                      <div className="font-[Pretendard-Regular] text-gray-600">
+                      <div className="flex justify-center font-[Pretendard-Regular] text-sm text-gray-600 mt-2 mb-2">
                         <ul className="dotOverlay distanceInfo font-[Pretendard-Light]">
                           <li>
                             <span className="label">거리:</span>
@@ -371,34 +348,74 @@ const TripListDetail = () => {
                             </span>
                             m
                           </li>
-                          <li>
-                            <span className="label">도보: </span>
-                            {amongPin[index - 1].walkTime != undefined
-                              ? amongPin[index - 1].walkTime
-                              : "???"}
-                          </li>
-                          <li>
-                            <span className="label">자전거: </span>
-                            {amongPin[index - 1].cycleTime != undefined
-                              ? amongPin[index - 1].cycleTime
-                              : "???"}
-                          </li>
+                          {amongPin[index - 1].distance < 4000 ? (
+                            <li>
+                              <span className="label">도보: </span>
+                              {amongPin[index - 1].walkTime != undefined
+                                ? amongPin[index - 1].walkTime
+                                : "???"}
+                            </li>
+                          ) : (
+                            <></>
+                          )}
+                          {amongPin[index - 1].distance >= 4000 &&
+                          amongPin[index - 1].distance <= 8000 ? (
+                            <li>
+                              <span className="label">자전거: </span>
+                              {amongPin[index - 1].cycleTime != undefined
+                                ? amongPin[index - 1].cycleTime
+                                : "???"}
+                            </li>
+                          ) : (
+                            <></>
+                          )}
                         </ul>
                       </div>
                     )}
-                    {!isHover[index] ? (
-                      <span className="font-[Pretendard-Regular] text-gray-500">
-                        {item.facilities[0]} 외 {item.facilities.length - 1} 개
+                    <div
+                      className="flex justify-between items-center px-4 border border-my-color-darkblue rounded-md py-4 text-sm transition-all duration-400 ease-in-out hover:h-auto hover:py-8 cursor-pointer"
+                      key={item.pid}
+                      style={noDrag}
+                      onMouseEnter={() =>
+                        setIsHover((prevState) => ({
+                          ...prevState,
+                          [index]: true,
+                        }))
+                      }
+                      onMouseLeave={() =>
+                        setIsHover((prevState) => ({
+                          ...prevState,
+                          [index]: false,
+                        }))
+                      }
+                      onClick={() =>
+                        moveToPlaceDetail(item.contentId, item.contentTypeId)
+                      }
+                    >
+                      <span className="font-[Pretendard-Regular]">
+                        {item.pid + 1}. {item.title}
                       </span>
-                    ) : (
-                      <div className="peer-hover:visible font-[Pretendard-Regular] text-gray-500">
-                        {item.facilities.map((facility, index) => (
-                          <div key={index}>
-                            {index + 1}. {facility}
-                          </div>
-                        ))}
-                      </div>
-                    )}
+
+                      {!isHover[index] ? (
+                        <span className="font-[Pretendard-Regular] text-gray-500">
+                          {item.facilities[0].length > 10
+                            ? " " + item.facilities[0].substring(0, 10) + "..."
+                            : " " + item.facilities[0]}
+                          외 {item.facilities.length - 1}개
+                        </span>
+                      ) : (
+                        <div className="peer-hover:visible font-[Pretendard-Regular] text-gray-500">
+                          {item.facilities.map((facility, index) => (
+                            <div key={index}>
+                              {index + 1}.
+                              {facility.length > 25
+                                ? " " + facility.substring(0, 25) + "..."
+                                : " " + facility}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   </div>
                 ))}
               </div>

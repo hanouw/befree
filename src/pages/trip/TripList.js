@@ -198,9 +198,9 @@ const TripList = () => {
         <span className="font-['Pretendard-Medium'] sm:text-2xl text-base">
           여행 목록
         </span>
-        <div className="w-full max-w-sm lg:max-w-6xl my-[1%] border-[1px] border-neutral-500"></div>
+        <div className="w-full max-w-[307.2px] lg:max-w-6xl my-[1%] border-[1px] border-neutral-500"></div>
       </div>
-      <div className="grid place-items-center lg:mt-10 mt-3">
+      <div className="grid place-items-center lg:mt-10 mt-5">
         {tripList.length == 0 ? (
           <>
             <div className="flex justify-center my-2 lg:my-4 mt-10 lg:mt-48 font-[Pretendard-Regular] text-sm lg:text-lg">

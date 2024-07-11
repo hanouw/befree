@@ -349,7 +349,7 @@ const TripListDetail = () => {
     <>
       {loading ? <TripAddLoadingModalComponent /> : <></>}
       <TripTopBannerComponent
-        topText={"여행 계획 수정하기"}
+        topText={"수정하기"}
         tid={tid}
         title={title}
         date={date}
