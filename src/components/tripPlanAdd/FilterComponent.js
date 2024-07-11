@@ -87,29 +87,31 @@ const SelectionButtons = ({ items, selectedItem, toggleFunction }) =>
   ));
 
 const AccessibilityButtons = ({ types, selectedItems, toggleFunction }) =>
-  types.map(({ type, icon, alt }) => (
-    <button
-      key={type}
-      className={`accessibility-button ${
-        selectedItems.includes(type) ? "selected" : ""
-      }`}
-      onClick={() => toggleFunction(type)}
-    >
-      <img
-        src={icon}
-        alt={alt}
-        className="mb-3 mt-3 font-[Pretendard-Regular]"
-      />
-      {type}
-    </button>
-  ));
+  <div className="flex flex-wrap justify-center gap-2 sm:gap-4">
+    {types.map(({ type, icon, alt }) => (
+      <button
+        key={type}
+        className={`accessibility-button ${selectedItems.includes(type) ? "selected" : ""
+          } text-xs sm:text-sm w-15 sm:w-28 py-1.5 sm:py-2.5`}
+        onClick={() => toggleFunction(type)}
+      >
+        <img
+          src={icon}
+          alt={alt}
+          className="hidden sm:block mb-2 sm:mb-3 mt-2 sm:mt-3"
+        />
+        {type}
+      </button>
+    ))}
+  </div>
+
+
 const FacilityButtons = ({ facilities, selectedFacilities, toggleFunction }) =>
   facilities.map(({ type, id, cat }) => (
     <button
       key={id}
-      className={`facility-button ${
-        selectedFacilities.includes(type) ? "selected" : ""
-      }`}
+      className={`facility-button ${selectedFacilities.includes(type) ? "selected" : ""
+        }`}
       onClick={() => toggleFunction(type)}
     >
       {type}
@@ -215,10 +217,10 @@ const FilterComponent = ({ region, callBackFn }) => {
       setSelectedProvince(province);
       const options = regions[province]
         ? regions[province].map((city) => (
-            <option key={city} value={city}>
-              {city}
-            </option>
-          ))
+          <option key={city} value={city}>
+            {city}
+          </option>
+        ))
         : [];
       setCityOptions(options);
       setCurrentProvince(province);

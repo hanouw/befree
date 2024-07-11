@@ -19,6 +19,7 @@ const Delete = lazy(() => import("../pages/user/MyPageDelete"));
 const Login = lazy(() => import("../pages/user/LoginPage"));
 const Signup = lazy(() => import("../pages/user/SignupPage"));
 const FindPassword = lazy(() => import("../pages/user/FindPassword"));
+const TripSharedList = lazy(() => import("../pages/trip/TripSharedList"));
 
 const CodePage = lazy(() => import("../pages/CodePage"));
 
@@ -50,6 +51,14 @@ const Router = () => {
 				</Suspense>
 			),
 			children: tripRouter(),
+		},
+		{
+			path: "/shared", // 공유된 여행 계획 목록
+			element: (
+				<Suspense fallback={<LoadingPage />}>
+					<TripSharedList />
+				</Suspense>
+			),
 		},
 		{
 			path: "/mypage",
@@ -110,7 +119,7 @@ const Router = () => {
 		{
 			path: "/error",
 			element: (
-					<ErrorPage />
+				<ErrorPage />
 			),
 		},
 	]);

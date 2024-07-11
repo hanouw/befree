@@ -161,7 +161,7 @@ const TripPlanAdd = () => {
         pageIndexList.push(result.lastPageInfo);
         setPageIndexData(pageIndexData + 1);
       }
-    }).catch(()=> {
+    }).catch(() => {
       moveToErrorPage()
     });
     // 컴포넌트가 마운트될 때 이벤트 리스너 추가
@@ -234,13 +234,24 @@ const TripPlanAdd = () => {
         callBackFn={selectedPlaceChange}
       />
       <FilterComponent region={region} callBackFn={callBackFn} />
-      <KakaoMapComponent
-        width="1200px"
-        height="600px"
-        map={map}
-        region={region}
-      />
-
+      {/* 모바일 */}
+      <div className="inline lg:hidden">
+        <KakaoMapComponent
+          width="412px"
+          height="250px"
+          map={map}
+          region={region}
+        />
+      </div>
+      {/* 모니터 */}
+      <div className="hidden lg:inline">
+        <KakaoMapComponent
+          width="1200px"
+          height="600px"
+          map={map}
+          region={region}
+        />
+      </div>
       {/* 기존 FoundListComponent */}
       <div className="container-noline-list">
         <div className="page-header">
@@ -249,8 +260,7 @@ const TripPlanAdd = () => {
         </div>
         {numOfRows ? (
           <>
-            <div className="grid grid-cols-3 gap-0 mt-10">
-              {console.log(tripList)}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-10">
               {tripList.map((item) => (
                 <div key={item.alt} className="flex justify-evenly mb-10">
                   <div className="flex flex-col" style={{ width: "90%" }}>
@@ -277,16 +287,13 @@ const TripPlanAdd = () => {
                       ))}
                     </div>
                     {/* button start */}
-                    <div className="grid place-items-center">
+                    <div className="grid place-items-center pt-4">
                       <div className="flex items-center justify-between w-full h-10 text-base">
                         <button
                           type="button"
-                          className=" mt-2 text-my-color-darkblue border-2 border-my-color-darkblue hover:bg-gray-100 hover:font-[Pretendard-ExtraBold] focus:ring-4 focus:outline-none focus:ring-gray-200 font-[Pretendard-SemiBold] rounded-md text-sm px-5 py-2.5 text-center inline-flex items-center"
+                          className="mt-2 text-my-color-darkblue border-2 border-my-color-darkblue hover:bg-gray-100 hover:font-[Pretendard-ExtraBold] focus:ring-4 focus:outline-none focus:ring-gray-200 font-[Pretendard-SemiBold] rounded-md px-5 py-2.5 text-center inline-flex items-center"
                           onClick={() =>
-                            placeDetailButtonClick(
-                              item.contentId,
-                              item.contentTypeId
-                            )
+                            placeDetailButtonClick(item.contentId, item.contentTypeId)
                           }
                         >
                           자세히 보기
@@ -342,6 +349,7 @@ const TripPlanAdd = () => {
                 </div>
               ))}
             </div>
+
             <NextBackPagenationComponent
               page={pageIndexData}
               backnextButtonFn={backnextButtonClicked}

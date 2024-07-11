@@ -8,7 +8,7 @@ import useCustomMove from "../hooks/useCustomMove";
 
 const navigation = [
   { name: "홈", href: "/" },
-  { name: "공유된 코스", href: "/trip/shared" },
+  { name: "공유된 코스", href: "/shared" },
   { name: "여행", href: "/trip/list" },
   { name: "마이페이지", href: "/mypage" },
 ];
