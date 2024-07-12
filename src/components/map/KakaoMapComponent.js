@@ -89,7 +89,7 @@ const TripListDetailKakaoMapComponent = (props) => {
   }, [map, region]);
 
   return (
-    <div className="container-noline font-['Pretendard']">
+    <div className="container-noline font-['Pretendard'] flex justify-center items-center">
       <div ref={mapContainer} style={{ width, height }}></div>
     </div>
   );
