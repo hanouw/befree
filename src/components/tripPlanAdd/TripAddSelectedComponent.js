@@ -4,7 +4,7 @@ import useCustomMove from "../../hooks/useCustomMove";
 
 // header가 아닌 여행지 추가 페이지의 헤더
 const TripAddSelectedComponent = ({ addedList, callBackFn }) => {
-  console.log(addedList);
+  //console.log(addedList);
   // 상태 선언 및 초기화
   const [items, setItems] = useState([]);
   useEffect(() => {
@@ -13,7 +13,7 @@ const TripAddSelectedComponent = ({ addedList, callBackFn }) => {
 
   // addedList가 바뀔 때 items 업데이트
   useEffect(() => {
-    console.log(addedList);
+    //console.log(addedList);
     if (addedList !== undefined) {
       setItems((prevItems) => {
         // addedList가 배열이 아닌 객체일 경우 배열로 변환
@@ -52,15 +52,15 @@ const TripAddSelectedComponent = ({ addedList, callBackFn }) => {
             {items.map((item) => (
               <div className="item" key={item.contentId}>
                 <span>{item.title}</span>
-                <span className="details">
+                {/* <span className="details">
                   {item.facilities.map((facil, index) => (
                     <span key={index} className="mr-2">
                       {index + 1}. {facil}
                     </span>
                   ))}
-                </span>
+                </span> */}
                 <button
-                  className="remove-btn"
+                  className="remove-btn font-['Pretendard-Regular']"
                   onClick={() => removeItem(item.contentId)}
                 >
                   삭제

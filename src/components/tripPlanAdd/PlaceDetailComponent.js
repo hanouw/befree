@@ -10,7 +10,7 @@ import {
 import TripAddLoadingModalComponent from "./TripAddLoadingModalComponent";
 import { matchIntro } from "../../util/parameterData";
 import useCustomMove from "../../hooks/useCustomMove";
-import { Carousel } from 'react-responsive-carousel';
+import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 // 여행지 상세 페이지
@@ -35,7 +35,7 @@ const PlaceDetailComponent = ({ contentId, contentTypeId, callBackFn }) => {
   };
 
   useEffect(() => {
-    console.log("useEffect", contentId, contentTypeId);
+    //console.log("useEffect", contentId, contentTypeId);
     placeImg.length = 0;
     setLoading(true);
 
@@ -46,26 +46,26 @@ const PlaceDetailComponent = ({ contentId, contentTypeId, callBackFn }) => {
       disableData(contentId),
     ])
       .then(([detail, imgs, intro, withTour]) => {
-        console.log("공통정보조회 결과:", detail);
+        //console.log("공통정보조회 결과:", detail);
         setPlaceDetail(detail);
 
         if (imgs.numOfRows > 0) {
           const images = imgs.items.item.map((item) => item.originimgurl);
           setPlaceImg(images);
         } else {
-          console.log("이미지없");
+          //console.log("이미지없");
           placeImg.push(
             detail.firstimage ||
-            detail.firstimage2 ||
-            process.env.PUBLIC_URL + "/assets/imgs/defaultImage84.png"
+              detail.firstimage2 ||
+              process.env.PUBLIC_URL + "/assets/imgs/defaultImage84.png"
           );
         }
 
-        console.log("소개정보조회 결과:", intro);
+        //console.log("소개정보조회 결과:", intro);
         const orderedList = matchIntro(contentTypeId, intro);
         setPlaceIntro(orderedList);
 
-        console.log("무장애조회 결과:", withTour);
+        //console.log("무장애조회 결과:", withTour);
         const orderedWithTour = new Map(Object.entries(withTour));
         let orderedWithTourValue = [];
         for (const [name, value] of orderedWithTour) {
@@ -173,10 +173,11 @@ const PlaceDetailComponent = ({ contentId, contentTypeId, callBackFn }) => {
                       key={index}
                       src={image}
                       alt={`Thumbnail ${index + 1}`}
-                      className={`w-24 h-16 rounded-md cursor-pointer transition-all ${selectedImageIndex === index
-                        ? "border-2 border-green-500"
-                        : "border-none"
-                        }`}
+                      className={`w-24 h-16 rounded-md cursor-pointer transition-all ${
+                        selectedImageIndex === index
+                          ? "border-2 border-green-500"
+                          : "border-none"
+                      }`}
                       onClick={() => handleThumbnailClick(index)}
                     />
                   ))}

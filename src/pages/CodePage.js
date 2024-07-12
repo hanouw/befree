@@ -101,7 +101,7 @@ public Map<String, String> sendMail(EmailMsgDTO emailMsgDTO) {
   };
 
   const moveDateButtonCilckFn = (whatDate) => {
-    console.log("moveDateButtonCilckFn, 날짜이동", selectedPid, whatDate);
+    //console.log("moveDateButtonCilckFn, 날짜이동", selectedPid, whatDate);
     moveDateButtonClick(selectedPid, whatDate);
   };
 

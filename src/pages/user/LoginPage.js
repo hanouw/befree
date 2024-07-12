@@ -1,12 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import BasicLayout from "../../layouts/BasicLayout";
 import useCustomMove from "../../hooks/useCustomMove";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import TripAddLoadingModalComponent from "../../components/tripPlanAdd/TripAddLoadingModalComponent";
-import { Link, useSearchParams } from "react-router-dom";
-import { getAccessToken, getKakaoLoginLink, getMemberWithAccessToken } from "../../api/kakaoApi";
-import { useDispatch } from "react-redux";
-import { login } from "../../slices/loginSlice";
+import { Link } from "react-router-dom";
+import { getKakaoLoginLink } from "../../api/kakaoApi";
+import * as ChannelService from "@channel.io/channel-web-sdk-loader";
+
+ChannelService.loadScript();
+
+ChannelService.boot({
+  pluginKey: "73f11a99-fd83-4242-ad0f-bfe8e7f953f0",
+});
 
 const initState = {
   email: "",
@@ -28,13 +33,13 @@ const LoginPage = () => {
   };
 
   const handleClickLogin = () => {
-    setIsLoading(true)
+    setIsLoading(true);
     execLogin(loginParam).then((data) => {
       if (data.error) {
-        setIsLoading(false)
+        setIsLoading(false);
         alert("이메일과 비밀번호를 다시 확인하세요!");
       } else {
-        setIsLoading(false)
+        setIsLoading(false);
         moveToMain();
       }
     });
@@ -82,20 +87,14 @@ const LoginPage = () => {
           </button>
         </div>
         <div className="w-full sm:w-1/2 md:w-1/3 px-4">
-          <button className="text-center w-full text-gray-900 inline-flex justify-center items-center bg-yellow-300 font-['Pretendard-Regular'] rounded-sm text-sm px-5 py-2.5"
-          >
+          <button className="text-center w-full text-gray-900 inline-flex justify-center items-center bg-yellow-300 font-['Pretendard-Regular'] rounded-sm text-sm px-5 py-2.5">
             <div className="w-6">
               <img
-                src={
-                  process.env.PUBLIC_URL +
-                  "/assets/imgs/kakaoLogo.png"
-                }
+                src={process.env.PUBLIC_URL + "/assets/imgs/kakaoLogo.png"}
                 alt="kakao"
               />
             </div>
-            <Link to={link}>
-              카카오톡 로그인
-            </Link>
+            <Link to={link}>카카오톡 로그인</Link>
           </button>
         </div>
         <div className="space-x-16 font-[Pretendard-Regular] mt-4">

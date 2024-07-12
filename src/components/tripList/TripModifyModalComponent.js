@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
-import { createTrip, updateTrip } from "../../api/befreeApi";
+import React, { useState } from "react";
+import { updateTrip } from "../../api/befreeApi";
 import { useSelector } from "react-redux";
 
 const TripAddModalComponent = ({
@@ -26,7 +26,7 @@ const TripAddModalComponent = ({
     // 얘가 변화 탐지해서 바꼈을 때 useState 값을 input 안에 있는 데이터로 바꿔주는 역할
     trip[e.target.name] = e.target.value;
     setTrip({ ...trip });
-    console.log(trip);
+    //console.log(trip);
   };
 
   const loginInfo = useSelector((state) => state.loginSlice);
@@ -37,14 +37,14 @@ const TripAddModalComponent = ({
 
     const gap = (endDate - startDate) / (1000 * 3600 * 24) + 1;
 
-    if (gap > 0 && trip.ttitle.length < 20 && trip.ttitle.length != 0) {
-      console.log("addButtonclicked email", loginInfo.email);
-      createTrip(loginInfo.email, trip).then(() => handleClose());
+    if (gap > 0 && trip.ttitle.length < 20 && trip.ttitle.length !== 0) {
+      //console.log("addButtonclicked email", loginInfo.email);
+      updateTrip(loginInfo.email, trip, tid).then(() => handleClose());
     } else if (gap < 0) {
       alert("올바른 시작일과 종료일을 입력해주세요");
     } else if (trip.ttitle.length > 20) {
       alert("제목은 20자를 넘길 수 없습니다.");
-    } else if (trip.ttitle.length == 0) {
+    } else if (trip.ttitle.length === 0) {
       alert("제목을 작성해주세요");
     }
   };

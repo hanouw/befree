@@ -51,7 +51,7 @@ const TripListDetailKakaoMapComponent = (props) => {
 
     if (Array.isArray(map) && map.length > 0) {
       bounds.current = new kakao.maps.LatLngBounds();
-      map.forEach((el, index) => {
+      map.forEach((el) => {
         const position = new kakao.maps.LatLng(el.mapy, el.mapx);
         const marker = new kakao.maps.Marker({
           map: mapInstance.current,

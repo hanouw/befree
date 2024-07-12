@@ -69,8 +69,8 @@ export default function Footer() {
       <div className="flex justify-center my-4">
         <div className="w-[100%] border-[1px] border-neutral-300"></div>
       </div>
-      <div className="mx-auto max-w-7xl overflow-hidden px-6 py-10 sm:py-12 lg:px-8">
-        <nav
+      <div className="mx-auto max-w-7xl overflow-hidden px-6 py-2 lg:py-4 lg:px-8">
+        {/* <nav
           className="-mb-6 columns-2 sm:flex sm:justify-center sm:space-x-12 lg:visible hidden"
           aria-label="Footer"
         >
@@ -96,8 +96,8 @@ export default function Footer() {
               <item.icon className="h-6 w-6" aria-hidden="true" />
             </a>
           ))}
-        </div>
-        <p className="mt-10 text-center text-xs leading-5 text-gray-500">
+        </div> */}
+        <p className="mt-2 text-center text-xs leading-5 text-gray-500">
           &copy; 2024 BeFree, Inc. All rights reserved.
         </p>
       </div>

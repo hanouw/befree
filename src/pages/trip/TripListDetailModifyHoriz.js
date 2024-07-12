@@ -11,6 +11,10 @@ import TripAddLoadingModalComponent from "../../components/tripPlanAdd/TripAddLo
 import "../../css/Scrollbar.css";
 import DraggableItem from "../../components/tripList/TripListDetailModifyDraggableItem";
 import BasicLayout from "../../layouts/BasicLayout";
+import { isTouchDevice } from "../../util/isTouchDevice";
+import { TouchBackend } from "react-dnd-touch-backend";
+
+const backendForDND = isTouchDevice() ? TouchBackend : HTML5Backend;
 
 const TripListDetail = () => {
   const [items, setItems] = useState([]);
@@ -20,29 +24,26 @@ const TripListDetail = () => {
   const [loading, setLoading] = useState(false); // 로딩중인가
   const [refresh, setRefresh] = useState(true); // 날짜 이동 드롭다운 닫기 위한 state
 
-  const { moveToTripListDetail, moveToCodePage } = useCustomMove();
+  const { moveToTripListDetail } = useCustomMove();
 
   // map 데이터
-  const [mapData, setMapData] = useState([]);
+  // const [mapData, setMapData] = useState([]);
   // 핀 사이 거리 데이터
-  const [amongPin, setAmongPin] = useState([]);
-
-  // 배치구분 (T: 가로, F: 세로)
-  const [isXY, setIsXY] = useState(true);
+  // const [amongPin, setAmongPin] = useState([]);
 
   const location = useLocation();
   const { tid, title, date, region } = location.state || {};
 
   const numButtonClicked = (buttonNumber) => {
     setPage(buttonNumber);
-    console.log(" 날짜버튼 눌려서 callbackFn 실행, setPage 실행", buttonNumber);
+    //console.log(" 날짜버튼 눌려서 callbackFn 실행, setPage 실행", buttonNumber);
   };
 
   const saveModifyClicked = () => {
     const newAllItems = [...allItems];
     newAllItems[page - 1] = items;
 
-    // console.log(
+    // //console.log(
     //   "수정한 내용 저장하기 위한 이전 전체 데이터, newAllItems : ",
     //   newAllItems
     // );
@@ -54,7 +55,7 @@ const TripListDetail = () => {
       }));
     });
 
-    // console.log("최종 저장될 수정된 데이터", newFinalResultAllItems);
+    // //console.log("최종 저장될 수정된 데이터", newFinalResultAllItems);
     updateTripDetail(tid, newFinalResultAllItems).then((dt) => {
       if (dt.RESULT) {
         alert("저장되었습니다");
@@ -72,10 +73,7 @@ const TripListDetail = () => {
     return `${year}-${formattedMonth}-${formattedDay}`;
   };
 
-  const pinDistanceCallBack = (pinData) => {
-    setAmongPin(pinData);
-    console.log("pinData", pinData);
-  };
+  const pinDistanceCallBack = (pinData) => {};
 
   const getDayDiffDay = (startDate, finalDate) =>
     (finalDate - startDate) / (1000 * 3600 * 24);
@@ -97,18 +95,12 @@ const TripListDetail = () => {
 
       for (let i = 0; i < days; i++) {
         const data = await getTripDetail(tid, i + 1); // 각 날에 대한 데이터를 가져옴
-        // console.log(
-        //   "init, isXY로 인해서 실행되는 코드",
-        //   i + 1,
-        //   "일차 데이터 : ",
-        //   data
-        // );
         const formattedItems = data.RESULT.map((item, index) => ({
           ...item,
           pid: index,
         }));
         initAllItems[i] = formattedItems; // i번째 페이지에 데이터 할당
-        if (i == page - 1) {
+        if (i === page - 1) {
           setItems(formattedItems);
         }
       }
@@ -121,7 +113,7 @@ const TripListDetail = () => {
       setLoading(false);
       // setItems(allItems[page - 1]);
     });
-  }, [isXY]);
+  }, []);
 
   useEffect(() => {
     setRefresh(!refresh);
@@ -133,7 +125,7 @@ const TripListDetail = () => {
     } else {
       setItems([]);
     }
-    console.log("페이지 이동 시 찍히는 전체 데이터", allItems);
+    //console.log("페이지 이동 시 찍히는 전체 데이터", allItems);
   }, [page, tid]);
 
   useEffect(() => {
@@ -146,10 +138,10 @@ const TripListDetail = () => {
   }, [items]);
 
   const mapDataSetting = (data) => {
-    setAmongPin([]);
+    // setAmongPin([]);
     let tempMap = [];
     data.RESULT.map((tempData) => {
-      console.log(tempData);
+      //console.log(tempData);
       tempMap.push({
         mapx: tempData.mapx,
         mapy: tempData.mapy,
@@ -157,7 +149,7 @@ const TripListDetail = () => {
         pid: tempData.pid,
       });
     });
-    setMapData(tempMap);
+    // setMapData(tempMap);
     setTotalPage(splitDayAndCalculateDiff(date));
   };
 
@@ -199,7 +191,7 @@ const TripListDetail = () => {
         ...item,
         pid: index,
       }));
-      console.log("날짜이동 버튼 클릭 후 allItems", allItems);
+      //console.log("날짜이동 버튼 클릭 후 allItems", allItems);
       return newReturnItems;
     });
   };
@@ -253,11 +245,11 @@ const TripListDetail = () => {
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z"
                   />
                 </svg>
-                <span className="font-['Pretendard-Regular'] ml-1 text-sm text-gray-600  mr-4">
-                  클릭해서 삭제
+                <span className="font-['Pretendard-Regular'] ml-1 text-sm text-gray-600 mr-4">
+                  클릭해서 날짜 변경
                 </span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -270,12 +262,11 @@ const TripListDetail = () => {
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z"
+                    d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
                   />
                 </svg>
-
                 <span className="font-['Pretendard-Regular'] ml-1 text-sm text-gray-600">
-                  클릭해서 날짜 변경
+                  클릭해서 삭제
                 </span>
               </div>
             </div>
@@ -367,11 +358,12 @@ const TripListDetail = () => {
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z"
                   />
                 </svg>
+
                 <span className="font-['Pretendard-Regular'] ml-1 text-sm text-gray-600 mr-4">
-                  삭제
+                  날짜 변경
                 </span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -384,12 +376,11 @@ const TripListDetail = () => {
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z"
+                    d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
                   />
                 </svg>
-
                 <span className="font-['Pretendard-Regular'] ml-1 text-sm text-gray-600">
-                  날짜 변경
+                  삭제
                 </span>
               </div>
             </div>
@@ -436,7 +427,7 @@ const TripListDetail = () => {
 };
 
 const TripListDetailWithDnd = () => (
-  <DndProvider backend={HTML5Backend}>
+  <DndProvider backend={backendForDND}>
     <TripListDetail />
   </DndProvider>
 );

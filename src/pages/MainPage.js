@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from "react";
 import BasicLayout from "../layouts/BasicLayout";
 import useCustomMove from "../hooks/useCustomMove";
+import * as ChannelService from "@channel.io/channel-web-sdk-loader";
+
+ChannelService.loadScript();
+
+ChannelService.boot({
+  pluginKey: "73f11a99-fd83-4242-ad0f-bfe8e7f953f0",
+});
 
 const MainPage = () => {
-  // 페이지 슬라이드 
+  // 페이지 슬라이드
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   // 페이지 이동

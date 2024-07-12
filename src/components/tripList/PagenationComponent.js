@@ -35,22 +35,13 @@ const PagenationComponent = ({
     const prevCurrentPageGroup = currentPageGroup;
     if (currentPageGroup > 1) {
       setCurrentPageGroup(prevCurrentPageGroup - 1);
-      console.log(
-        "prevClicked if문 통과되어 실행됨 / {...currentPageGroup} - 1 : ",
-        prevCurrentPageGroup - 1
-      );
       isClicked((prevCurrentPageGroup - 1) * 10 - 9);
     }
   };
   const nextClicked = () => {
-    console.log("nextClicked", currentPageGroup, Math.ceil(totalPage / 10));
     const prevCurrentPageGroup = currentPageGroup;
     if (currentPageGroup < Math.ceil(totalPage / 10)) {
       setCurrentPageGroup(prevCurrentPageGroup + 1);
-      console.log(
-        "nextClicked if문 통과되어 실행됨 / {...currentPageGroup} + 1 : ",
-        prevCurrentPageGroup + 1
-      );
       isClicked((prevCurrentPageGroup + 1) * 10 - 9);
     }
   };
@@ -59,12 +50,12 @@ const PagenationComponent = ({
     <div>
       {/* Pagination */}
       {/* 데스크탑 */}
-      <div className="grid place-items-center">
+      <div className="grid place-items-center mt-2">
         <nav aria-label="Page navigation example" className="hidden lg:block">
           <ul className="flex items-center -space-x-px h-10 text-base">
             {currentPageGroup > 1 ? (
               <li onClick={() => prevClicked()} className="cursor-pointer">
-                <a className="flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white rounded-s-lg hover:bg-gray-100 hover:text-gray-700">
+                <div className="flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white rounded-s-lg hover:bg-gray-100 hover:text-gray-700">
                   <span className="sr-only">Previous</span>
                   <svg
                     className="w-3 h-3 rtl:rotate-180"
@@ -81,7 +72,7 @@ const PagenationComponent = ({
                       d="M5 1 1 5l4 4"
                     />
                   </svg>
-                </a>
+                </div>
               </li>
             ) : (
               <></>
@@ -92,7 +83,7 @@ const PagenationComponent = ({
                 onClick={() => isClicked(num)}
                 className="cursor-pointer"
               >
-                <a
+                <div
                   className={`flex items-center px-4 h-10 leading-tight ${
                     num === page
                       ? "border-b-2 border-black font-[Pretendard-Medium] text-black"
@@ -107,12 +98,12 @@ const PagenationComponent = ({
                   ) : (
                     <span></span>
                   )}
-                </a>
+                </div>
               </li>
             ))}
             {currentPageGroup < Math.ceil(totalPage / 10) ? (
               <li onClick={() => nextClicked()} className="cursor-pointer">
-                <a className="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white rounded-e-lg hover:bg-gray-100 hover:text-gray-700">
+                <div className="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white rounded-e-lg hover:bg-gray-100 hover:text-gray-700">
                   <span className="sr-only">Next</span>
                   <svg
                     className="w-3 h-3 rtl:rotate-180"
@@ -129,7 +120,7 @@ const PagenationComponent = ({
                       d="m1 9 4-4-4-4"
                     />
                   </svg>
-                </a>
+                </div>
               </li>
             ) : (
               <></>
@@ -143,7 +134,7 @@ const PagenationComponent = ({
           <ul className="flex items-center -space-x-px h-10 text-base">
             {currentPageGroup > 1 ? (
               <li onClick={() => prevClicked()} className="cursor-pointer">
-                <a className="flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white rounded-s-lg hover:bg-gray-100 hover:text-gray-700">
+                <div className="flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white rounded-s-lg hover:bg-gray-100 hover:text-gray-700">
                   <span className="sr-only">Previous</span>
                   <svg
                     className="w-3 h-3 rtl:rotate-180"
@@ -160,7 +151,7 @@ const PagenationComponent = ({
                       d="M5 1 1 5l4 4"
                     />
                   </svg>
-                </a>
+                </div>
               </li>
             ) : (
               <></>
@@ -171,7 +162,7 @@ const PagenationComponent = ({
                 onClick={() => isClicked(num)}
                 className="cursor-pointer"
               >
-                <a
+                <div
                   className={`flex items-center px-3 h-10 leading-tight ${
                     num === page
                       ? "border-b-2 border-black font-[Pretendard-Medium] text-black"
@@ -181,17 +172,20 @@ const PagenationComponent = ({
                   {num}
                   {withDays ? (
                     <span className="font-[Pretendard-Regular] text-xs">
-                      일차
+                      일
+                      <span className="font-[Pretendard-Regular] text-xs hidden lg:inline">
+                        차
+                      </span>
                     </span>
                   ) : (
                     <span></span>
                   )}
-                </a>
+                </div>
               </li>
             ))}
             {currentPageGroup < Math.ceil(totalPage / 5) ? (
               <li onClick={() => nextClicked()} className="cursor-pointer">
-                <a className="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white rounded-e-lg hover:bg-gray-100 hover:text-gray-700">
+                <div className="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white rounded-e-lg hover:bg-gray-100 hover:text-gray-700">
                   <span className="sr-only">Next</span>
                   <svg
                     className="w-3 h-3 rtl:rotate-180"
@@ -208,7 +202,7 @@ const PagenationComponent = ({
                       d="m1 9 4-4-4-4"
                     />
                   </svg>
-                </a>
+                </div>
               </li>
             ) : (
               <></>

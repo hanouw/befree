@@ -25,20 +25,22 @@ const TripSharedList = () => {
   const [totalPage, setTotalPage] = useState(0);
 
   const fetchTripList = (page) => {
-    console.log("fetchTripList 호출됨");
+    //console.log("fetchTripList 호출됨");
     getSharedTripList(page).then((data) => {
-      console.log("안쪽");
+      //console.log("안쪽");
       let dataResult = data.RESULT.paginatedTrips;
       setTotalPage(data.RESULT.totalPage);
-      console.log(dataResult);
+      //console.log(dataResult);
 
       const tripListTemp = dataResult.map((trip) => {
         const tbegin = new Date(trip.tbegin);
         const tend = new Date(trip.tend);
-        const formattedBeginDate = `${tbegin.getFullYear()}.${tbegin.getMonth() + 1
-          }.${tbegin.getDate()}`;
-        const formattedEndDate = `${tend.getFullYear()}.${tend.getMonth() + 1
-          }.${tend.getDate()}`;
+        const formattedBeginDate = `${tbegin.getFullYear()}.${
+          tbegin.getMonth() + 1
+        }.${tbegin.getDate()}`;
+        const formattedEndDate = `${tend.getFullYear()}.${
+          tend.getMonth() + 1
+        }.${tend.getDate()}`;
 
         return {
           src:
@@ -61,11 +63,9 @@ const TripSharedList = () => {
 
   const numButtonClicked = (buttonNumber) => {
     setPage(buttonNumber);
-    console.log("눌림", buttonNumber);
   };
 
   useEffect(() => {
-    console.log("useEffect 실행됨");
     fetchTripList(page);
   }, [page]);
 
@@ -73,13 +73,16 @@ const TripSharedList = () => {
     <>
       <BasicLayout>
         <div className="grid place-items-center">
-          <span className="font-['Pretendard-Medium'] sm:text-2xl text-base mt-24">
+          <div className="font-['Pretendard-Semibold'] sm:text-4xl text-xl mt-6 lg:mt-12">
             공유된 여행 코스
+          </div>
+          <span className="font-['Pretendard-Medium'] sm:text-xl text-sm text-gray-600 mt-4 mb-8">
+            다른 사람들과 여행 일정을 공유해보세요
           </span>
           <div className="max-w-sm lg:max-w-6xl my-[1%] w-[100%] border-[1px] border-neutral-500"></div>
         </div>
         <div className="grid place-items-center lg:mt-10 mt-3">
-          {tripList.length == 0 || tripList == [] ? (
+          {tripList.length === 0 || tripList == [] ? (
             <>
               <div className="flex justify-center my-4 mt-40 mb-40 font-[Pretendard-Regular]">
                 아직 아무도 여행 목록을 공유하지 않았습니다

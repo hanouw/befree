@@ -85,13 +85,13 @@ const TripPlanAdd = () => {
     keyword,
     facilityCodeArray
   ) => {
-    console.log("TripPlanAdd callBackFn 실행됨");
+    //console.log("TripPlanAdd callBackFn 실행됨");
 
     // 페이지 정보 초기화
     setPageIndexList([1]);
     setPageIndexData(0);
 
-    console.log(newSelectedRegionCode, region);
+    //console.log(newSelectedRegionCode, region);
 
     // useState에 필터링 결과 저장
     setRecentResult({
@@ -109,7 +109,7 @@ const TripPlanAdd = () => {
 
   // 최종 추가하기 버튼 클릭
   const finalAddClicked = () => {
-    console.log("===============최종클릭=================");
+    //console.log("===============최종클릭=================");
     addPlaceToTrip(tid, finalData).then((isSuccess) => {
       if (isSuccess.RESULT) {
         alert("추가되었습니다");
@@ -130,7 +130,7 @@ const TripPlanAdd = () => {
 
   // 이전 다음페이지 버튼 클릭
   const backnextButtonClicked = (bf) => {
-    console.log(bf);
+    //console.log(bf);
     setRecentResult({
       category: recentResult.category, // contentTypeId
       imgNece: recentResult.imgNece, // arrange
@@ -150,9 +150,9 @@ const TripPlanAdd = () => {
     // API 전송 함수
     sendPlaceKeywordDataApi(recentResult)
       .then((result) => {
-        console.log("sendPlaceKeywordDataApi 리턴 데이터", result);
+        //console.log("sendPlaceKeywordDataApi 리턴 데이터", result);
         setMap(result.newMap); // 상태 변수 업데이트
-        console.log("TripPlanAdd updated map:", result.newMap);
+        //console.log("TripPlanAdd updated map:", result.newMap);
         setNumOfRows(result.numOfRows);
         setTripList(result.newTripList);
         setLoading(false);
@@ -221,7 +221,7 @@ const TripPlanAdd = () => {
         {isMoveToTop && (
           <button
             onClick={scrollToTop}
-            className="fixed bottom-9 right-9 w-24 h-12 border-2 bg-white border-black text-black rounded-lg shadow-xl hover:bg-black hover:text-white transition-opacity font-[Pretendard-Medium] hidden lg:inline"
+            className="fixed bottom-9 left-9 w-24 h-12 border-2 bg-white border-black text-black rounded-lg shadow-xl hover:bg-black hover:text-white transition-opacity font-[Pretendard-Medium] hidden lg:inline"
           >
             추가된 목록
           </button>

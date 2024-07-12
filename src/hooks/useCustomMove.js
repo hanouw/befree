@@ -94,7 +94,7 @@ const useCustomMove = () => {
   };
   // 회원 삭제 확인 페이지로 이동
   const moveToDelete = (val) => {
-    console.log("movaeTodelete val:", val);
+    //console.log("movaeTodelete val:", val);
     navigate({ pathname: `/confirm` }, { state: { val: `${val}` } });
   };
   // 회원 비밀번호찾기 페이지로 이동
@@ -116,8 +116,8 @@ const useCustomMove = () => {
   };
 
   const moveToErrorPage = () => {
-    navigate({ pathname: `/error` })
-  }
+    navigate({ pathname: `/error` });
+  };
 
   // 각 이동 함수를 리턴
   return {
@@ -136,7 +136,6 @@ const useCustomMove = () => {
     moveToFindPassword,
     moveToCodePage,
     refresh,
-    moveToCodePage,
     moveToErrorPage,
   };
 };

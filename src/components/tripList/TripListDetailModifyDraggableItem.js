@@ -27,7 +27,7 @@ const DraggableItem = ({
   };
 
   const moveDateButtonCilckFn = (whatDate) => {
-    console.log("moveDateButtonCilckFn, 날짜이동", selectedPid, whatDate);
+    //console.log("moveDateButtonCilckFn, 날짜이동", selectedPid, whatDate);
     moveDateButtonClick(selectedPid, whatDate);
   };
 
@@ -81,6 +81,7 @@ const DraggableItem = ({
     >
       <div className="flex items-center">
         <div className="mr-3 cursor-grab hover:bg-gray-300 p-1 rounded">
+          {/* 삼선 */}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -101,7 +102,7 @@ const DraggableItem = ({
         </span>
       </div>
       <div className="flex items-center">
-        {showMoveDateModal && selectedPid == item.pid ? (
+        {showMoveDateModal && selectedPid === item.pid ? (
           <TripListDetailDateMoveModalComponent
             totalPage={totalPage}
             page={page}
@@ -119,6 +120,7 @@ const DraggableItem = ({
           className="mr-4 cursor-pointer hover:mb-1"
           onClick={() => moveDateButtonShow(item.pid)}
         >
+          {/* 날짜이동 */}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -139,6 +141,7 @@ const DraggableItem = ({
           className="hover:ring-2 hover:ring-slate-300 rounded-2xl mr-2 cursor-pointer"
           onClick={() => placeDeleteButtonClickFn(item.pid)}
         >
+          {/* 삭제 */}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
