@@ -25,7 +25,7 @@ const KakaoRedirect = () => {
         moveToMain();
       });
     });
-  }, [authCode, dispatch, moveToMain]); // authCode값이 변경될때만 요청되도록 useEffect 사용
+  }, [authCode]); // authCode값이 변경될때만 요청되도록 useEffect 사용
   return <div></div>;
 };
 

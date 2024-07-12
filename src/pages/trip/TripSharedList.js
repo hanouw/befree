@@ -63,11 +63,9 @@ const TripSharedList = () => {
 
   const numButtonClicked = (buttonNumber) => {
     setPage(buttonNumber);
-    //console.log("눌림", buttonNumber);
   };
 
   useEffect(() => {
-    //console.log("useEffect 실행됨");
     fetchTripList(page);
   }, [page]);
 

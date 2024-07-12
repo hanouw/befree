@@ -50,7 +50,7 @@ const PagenationComponent = ({
     <div>
       {/* Pagination */}
       {/* 데스크탑 */}
-      <div className="grid place-items-center">
+      <div className="grid place-items-center mt-2">
         <nav aria-label="Page navigation example" className="hidden lg:block">
           <ul className="flex items-center -space-x-px h-10 text-base">
             {currentPageGroup > 1 ? (

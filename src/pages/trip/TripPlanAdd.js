@@ -174,7 +174,7 @@ const TripPlanAdd = () => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [recentResult, moveToErrorPage, pageIndexData, pageIndexList]);
+  }, [recentResult]);
 
   const addPlaceToTempList = (
     contentId,
@@ -209,7 +209,7 @@ const TripPlanAdd = () => {
     <div>
       <BasicLayout>
         {loading ? <TripAddLoadingModalComponent /> : <></>}
-        {showPlaceDetail.length === 0 ? (
+        {showPlaceDetail.length == 0 ? (
           <></>
         ) : (
           <PlaceDetailComponent
@@ -221,7 +221,7 @@ const TripPlanAdd = () => {
         {isMoveToTop && (
           <button
             onClick={scrollToTop}
-            className="fixed bottom-9 right-9 w-24 h-12 border-2 bg-white border-black text-black rounded-lg shadow-xl hover:bg-black hover:text-white transition-opacity font-[Pretendard-Medium] hidden lg:inline"
+            className="fixed bottom-9 left-9 w-24 h-12 border-2 bg-white border-black text-black rounded-lg shadow-xl hover:bg-black hover:text-white transition-opacity font-[Pretendard-Medium] hidden lg:inline"
           >
             추가된 목록
           </button>
