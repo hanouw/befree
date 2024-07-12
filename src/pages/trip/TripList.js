@@ -7,6 +7,13 @@ import { getTripList, shareTrip } from "../../api/befreeApi";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import { useSelector } from "react-redux";
 import BasicLayout from "../../layouts/BasicLayout";
+import * as ChannelService from "@channel.io/channel-web-sdk-loader";
+
+ChannelService.loadScript();
+
+ChannelService.boot({
+  pluginKey: "73f11a99-fd83-4242-ad0f-bfe8e7f953f0",
+});
 
 // 여행 계획 목록
 const TripList = () => {
