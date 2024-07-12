@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "../../css/TripPlanAdd.css";
 import { mapData } from "../../util/mapData";
 
@@ -143,14 +143,14 @@ const FilterComponent = ({ region, callBackFn }) => {
 
   // 검색( 키워드 옆 X ) 클릭 시 작동
   const searchClicked = () => {
-    // console.log(cityOptions); // 옵션 보여주기 (전체, 강남구, 강동구, 강북구)
-    // console.log(selectedProvinces); // 서울특별시
-    // console.log(selectedCities); // ['광주 동구', '서울 전체'] O
-    // console.log(selectedCategory); // 28 O
-    // console.log(selectedAccessibilityTypes); // 지체장애인, 노약자
-    // console.log(selectedFacilities); // 전용 입장권 할인, 유아놀이 보관 가능
-    // console.log(onlyWithImages); // false O
-    // console.log(keyword); // 키워드 O
+    // //console.log(cityOptions); // 옵션 보여주기 (전체, 강남구, 강동구, 강북구)
+    // //console.log(selectedProvinces); // 서울특별시
+    // //console.log(selectedCities); // ['광주 동구', '서울 전체'] O
+    // //console.log(selectedCategory); // 28 O
+    // //console.log(selectedAccessibilityTypes); // 지체장애인, 노약자
+    // //console.log(selectedFacilities); // 전용 입장권 할인, 유아놀이 보관 가능
+    // //console.log(onlyWithImages); // false O
+    // //console.log(keyword); // 키워드 O
     let selectedRegionCode = null;
     const provinceName = selectedCities.split(" ")[0]; // 지역
     const cityName = selectedCities.split(" ")[1]; // 시군구
@@ -159,15 +159,15 @@ const FilterComponent = ({ region, callBackFn }) => {
     );
 
     if (provinceData) {
-      const areaCode = selectedCities == "" ? region : provinceData.areaCode;
+      const areaCode = selectedCities === "" ? region : provinceData.areaCode;
       const regionData = provinceData.regions.find(
         (region) => region.name === cityName
       );
       const code = regionData ? regionData.code : 0; // 혹시 모를 예외처리
 
       selectedRegionCode = { areaCode, code };
-      console.log("-------------");
-      console.log(selectedCities);
+      //console.log("-------------");
+      //console.log(selectedCities);
     }
 
     let facilityCodeArray = [];
@@ -179,16 +179,16 @@ const FilterComponent = ({ region, callBackFn }) => {
     });
 
     for (let i = 0; i < selectedAccessibilityTypes.length; i++) {
-      if (selectedAccessibilityTypes[i] == "시각장애인") {
+      if (selectedAccessibilityTypes[i] === "시각장애인") {
         facilityCodeArray.push(facilities.find((item) => item.cat === 2));
       }
-      if (selectedAccessibilityTypes[i] == "청각장애인") {
+      if (selectedAccessibilityTypes[i] === "청각장애인") {
         facilityCodeArray.push(facilities.find((item) => item.cat === 3));
       }
-      if (selectedAccessibilityTypes[i] == "지체장애인") {
+      if (selectedAccessibilityTypes[i] === "지체장애인") {
         facilityCodeArray.push(facilities.find((item) => item.cat === 1));
       }
-      if (selectedAccessibilityTypes[i] == "유아") {
+      if (selectedAccessibilityTypes[i] === "유아") {
         facilityCodeArray.push(facilities.find((item) => item.cat === 4));
       }
     }

@@ -52,7 +52,7 @@ const TripListDetail = () => {
   const title = { ...location.state }.title;
   const date = { ...location.state }.date;
   const region = { ...location.state }.region;
-  const isShared = { ...location.state }.shared == "true" || false;
+  const isShared = { ...location.state }.shared === "true" || false;
 
   // 다른 날짜로 이동
   const numButtonClicked = (buttonNumber) => {
@@ -61,7 +61,7 @@ const TripListDetail = () => {
       resolve();
     }).then(() => {
       setPage(buttonNumber);
-      console.log("눌림", buttonNumber);
+      //console.log("눌림", buttonNumber);
     });
   };
 
@@ -95,11 +95,11 @@ const TripListDetail = () => {
   useEffect(() => {
     getTripDetail(tid, page).then((data) => {
       setItems(data.RESULT);
-      console.log(data.RESULT);
+      //console.log(data.RESULT);
 
       let tempMap = [];
       data.RESULT.map((tempData) => {
-        console.log(tempData);
+        //console.log(tempData);
         tempMap.push({
           mapx: tempData.mapx,
           mapy: tempData.mapy,
@@ -158,7 +158,9 @@ const TripListDetail = () => {
                       수정하기
                     </button>
                     <button
-                      onClick={() => moveToTripPlanAdd(tid, title, date, region)}
+                      onClick={() =>
+                        moveToTripPlanAdd(tid, title, date, region)
+                      }
                       className="w-24 text-white flex justify-center items-center bg-my-color-darkblue hover:bg-slate-700 focus:ring-2 focus:outline-none focus:ring-slate-400 font-['Pretendard-Regular'] rounded-md text-sm py-1 lg:py-2"
                     >
                       추가하기
@@ -180,17 +182,17 @@ const TripListDetail = () => {
               {items[0] ? (
                 items.map((item, index) => (
                   <div key={item.pid}>
-                    {index == 0 ||
-                      amongPin[index - 1] == [] ||
-                      amongPin[index - 1] == undefined ||
-                      amongPin[index - 1] == null ? (
+                    {index === 0 ||
+                    amongPin[index - 1] == [] ||
+                    amongPin[index - 1] === undefined ||
+                    amongPin[index - 1] === null ? (
                       <></>
                     ) : (
                       <div className="flex justify-center font-[Pretendard-Regular] text-gray-600">
                         <div className="dotOverlay distanceInfo font-[Pretendard-Light]">
                           <span className="label">거리:</span>
                           <span className="number">
-                            {amongPin[index - 1].distance != undefined
+                            {amongPin[index - 1].distance !== undefined
                               ? amongPin[index - 1].distance
                               : "???"}
                           </span>
@@ -275,7 +277,9 @@ const TripListDetail = () => {
                       수정하기
                     </button>
                     <button
-                      onClick={() => moveToTripPlanAdd(tid, title, date, region)}
+                      onClick={() =>
+                        moveToTripPlanAdd(tid, title, date, region)
+                      }
                       className="w-28 text-white flex justify-center items-center bg-my-color-darkblue hover:bg-slate-700 focus:ring-2 focus:outline-none focus:ring-slate-400 font-['Pretendard-Regular'] rounded-md text-sm py-2.5"
                     >
                       추가하기
@@ -325,17 +329,18 @@ const TripListDetail = () => {
                   )}
                 </div>
                 <div
-                  className={`w-full ${items[0]
+                  className={`w-full ${
+                    items[0]
                       ? " h-[500px] overflow-y-scroll scrollable-container"
                       : ""
-                    }`}
+                  }`}
                 >
                   {items.map((item, index) => (
                     <div>
-                      {index == 0 ||
-                        amongPin[index - 1] == [] ||
-                        amongPin[index - 1] == undefined ||
-                        amongPin[index - 1] == null ? (
+                      {index === 0 ||
+                      amongPin[index - 1] == [] ||
+                      amongPin[index - 1] === undefined ||
+                      amongPin[index - 1] === null ? (
                         <></>
                       ) : (
                         <div className="flex justify-center font-[Pretendard-Regular] text-sm text-gray-600 mt-2 mb-2">
@@ -343,7 +348,7 @@ const TripListDetail = () => {
                             <li>
                               <span className="label">거리:</span>
                               <span className="number">
-                                {amongPin[index - 1].distance != undefined
+                                {amongPin[index - 1].distance !== undefined
                                   ? amongPin[index - 1].distance
                                   : "???"}
                               </span>
@@ -352,7 +357,7 @@ const TripListDetail = () => {
                             {amongPin[index - 1].distance < 4000 ? (
                               <li>
                                 <span className="label">도보: </span>
-                                {amongPin[index - 1].walkTime != undefined
+                                {amongPin[index - 1].walkTime !== undefined
                                   ? amongPin[index - 1].walkTime
                                   : "???"}
                               </li>
@@ -360,10 +365,10 @@ const TripListDetail = () => {
                               <></>
                             )}
                             {amongPin[index - 1].distance >= 4000 &&
-                              amongPin[index - 1].distance <= 8000 ? (
+                            amongPin[index - 1].distance <= 8000 ? (
                               <li>
                                 <span className="label">자전거: </span>
-                                {amongPin[index - 1].cycleTime != undefined
+                                {amongPin[index - 1].cycleTime !== undefined
                                   ? amongPin[index - 1].cycleTime
                                   : "???"}
                               </li>
@@ -400,7 +405,9 @@ const TripListDetail = () => {
                         {!isHover[index] ? (
                           <span className="font-[Pretendard-Regular] text-gray-500">
                             {item.facilities[0].length > 10
-                              ? " " + item.facilities[0].substring(0, 10) + "..."
+                              ? " " +
+                                item.facilities[0].substring(0, 10) +
+                                "..."
                               : " " + item.facilities[0]}
                             외 {item.facilities.length - 1}개
                           </span>

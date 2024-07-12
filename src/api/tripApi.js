@@ -37,18 +37,18 @@ export const disableData = async (contentId) => {
         if (val.includes("_")) {
           val = val.split("_")[0];
         }
-        if (eName == "wheelchair") {
+        if (eName === "wheelchair") {
           val = "휠체어 대여 가능";
-        } else if (eName == "helpdog") {
+        } else if (eName === "helpdog") {
           val = "안내견 동반 가능";
-        } else if (eName == "stroller") {
+        } else if (eName === "stroller") {
           val = "유모차 대여 가능";
-        } else if (eName == "exit") {
-          val = "출입통로 : " + `${value}`;
-        } else if (eName == "publictransport") {
-          val = "접근로 : " + `${value}`;
-        } else if (eName == "babysparechair") {
-          val = "유아 의자" + `${value}`;
+        } else if (eName === "exit") {
+          val = `출입통로 : ${value}`;
+        } else if (eName === "publictransport") {
+          val = `접근로 : ${value}`;
+        } else if (eName === "babysparechair") {
+          val = `유아 의자 ${value}`;
         }
         ordredList[eName] = val;
       }
@@ -121,32 +121,13 @@ export const placeKeywordData = async (
   }
 };
 
-//※내주변 좌표(서울 한국관광공사 주변)에서 1000m 이내에 있는 모든타입의 관광정보 조회
-//http://apis.data.go.kr/B551011/KorWithService1/locationBasedList1?serviceKey=인증키&pageNo=1&numOfRows=10&mapX=126.981611&mapY=37.568477&radius=1000&listYN=Y&arrange=A&MobileOS=ETC&MobileApp=AppTest
-
-// 지역이 경북에 있는 모든타입 관광정보 조회 (한페이지에 10개씩, 첫페이지며, 리스트를 제목순으로 조회)
-// http://apis.data.go.kr/B551011/KorWithService1/areaBasedList1?serviceKey=uO3hkVTS0Jua91aVTLwTYLDL9n1Tta108iwJEvwieZmxcwtzO32Fk9cyhgaKc5A22IM%2FREUAIyCVKvoTbvnfmg%3D%3D&areaCode=35&listYN=Y&arrange=A&MobileOS=ETC&MobileApp=AppTest
-
-//※내주변 좌표(서울 한국관광공사 주변)에서 1000m 이내에 있는 모든타입의 관광정보 조회
-//http://apis.data.go.kr/B551011/KorWithService1/locationBasedList1?serviceKey=인증키&pageNo=1&numOfRows=10&mapX=126.981611&mapY=37.568477&radius=1000&listYN=Y&arrange=A&MobileOS=ETC&MobileApp=AppTest
-
-// ※키워드통합검색 : 키워드가 "강원"인 관광정보를 검색하여 리스트로 조회
-// http://apis.data.go.kr/B551011/KorWithService1/searchKeyword1?serviceKey=인증키&keyword=%EA%B0%95%EC%9B%90&MobileOS=ETC&MobileApp=AppTest&arrange=A
-
-// ※컨텐츠ID가 “252581”인 관광정보의 “기본정보”만 조회
-// http://apis.data.go.kr/B551011/KorWithService1/detailCommon1?serviceKey=인증키&contentId=252581&defaultYN=Y&MobileOS=ETC&MobileApp=AppTest
-
-// ※컨텐츠ID가 “252581”인 관광정보의 “기본정보”, “주소”, “개요” 정보를 조회
-// http://apis.data.go.kr/B551011/KorWithService1/detailCommon1?serviceKey=인증키&contentId=252581&defaultYN=Y&addrinfoYN=Y&overviewYN=Y&MobileOS=ETC&MobileApp=AppTest
-
 // 위 API를 필터링 해서 가져오기
 // API 전송 함수
 export const sendPlaceKeywordDataApi = async (recentResult) => {
-  console.log(recentResult);
   let placeDataList = [];
   let facilitiesList = [];
   let lastPageInfo = 1;
-  const facilityTF = recentResult.facilityCodeArray.length == 0;
+  const facilityTF = recentResult.facilityCodeArray.length === 0;
 
   // 장애 & 취약 관련 정보 없을 때 12개 한번에 요청
   if (facilityTF) {
@@ -170,16 +151,13 @@ export const sendPlaceKeywordDataApi = async (recentResult) => {
 
     // 장소 시설 탐색
     for (let i = 0; i < item.length; i++) {
-      console.log("장소 시설 탐색중...");
       let tempFacil = [];
       const conId = item[i].contentid;
-
-      console.log(conId);
 
       const disableReturnData = await disableData(conId); // 여기에 데이터 저장
 
       for (let key in disableReturnData) {
-        if (disableReturnData[key].trim() && key != "contentid") {
+        if (disableReturnData[key].trim() && key !== "contentid") {
           let val = disableReturnData[key];
           if (val.includes("_")) {
             val = val.split("_")[0];
@@ -206,7 +184,7 @@ export const sendPlaceKeywordDataApi = async (recentResult) => {
         1 // 한번에 요청하는 개수
       );
       pageNum++;
-      if (data.response.body.items == "") {
+      if (data.response.body.items === "") {
         break;
       }
 
@@ -227,7 +205,7 @@ export const sendPlaceKeywordDataApi = async (recentResult) => {
           // 시설을 저장
           let tempFacil = [];
           for (let key in disableReturnData) {
-            if (disableReturnData[key].trim() && key != "contentid") {
+            if (disableReturnData[key].trim() && key !== "contentid") {
               let val = disableReturnData[key];
               if (val.includes("_")) {
                 val = val.split("_")[0];
@@ -235,7 +213,6 @@ export const sendPlaceKeywordDataApi = async (recentResult) => {
               tempFacil.push(val);
             }
           }
-          console.log("====True====");
           placeDataList.push(item);
           facilitiesList.push(tempFacil);
         }
@@ -248,7 +225,7 @@ export const sendPlaceKeywordDataApi = async (recentResult) => {
 
   // 지도 만들기
   const newMap = []; // 새로운 배열 생성
-  if (placeDataList.length != 0) {
+  if (placeDataList.length !== 0) {
     for (let i = 0; i < placeDataList.length; i++) {
       const item = placeDataList[i];
       const mapObj = {
@@ -289,8 +266,6 @@ export const sendPlaceKeywordDataApi = async (recentResult) => {
     isBOF: recentResult.isBOF,
   };
 
-  console.log(returnValue);
-
   return returnValue;
 };
 
@@ -303,7 +278,7 @@ export const getPlaceDetail = async (contentId) => {
     `&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&contentId=` +
     `${contentId}` +
     `&defaultYN=Y&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y&_type=json`;
-    const  response = await axios.get(link);
+  const response = await axios.get(link);
   return response.data.response.body.items.item[0];
 };
 
@@ -314,7 +289,7 @@ export const getPlaceDetailImg = async (contentId) => {
     `&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&contentId=` +
     `${contentId}` +
     `&imageYN=Y&subImageYN=Y&_type=json`;
-    const  response = await axios.get(link);
+  const response = await axios.get(link);
 
   return response.data.response.body;
 };
@@ -327,7 +302,7 @@ export const getPlaceDetailIntro = async (contentId, contentTypeId) => {
     `${contentId}` +
     `&contentTypeId=` +
     `${contentTypeId}`;
-    const  response = await axios.get(link);
+  const response = await axios.get(link);
 
   return response.data.response.body.items.item[0];
 };

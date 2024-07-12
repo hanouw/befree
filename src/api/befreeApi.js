@@ -1,27 +1,24 @@
 import axios from "axios";
 
-export const BEFREE_API_SERVER_HOST = "http://3.36.84.228:8085";
-// export const BEFREE_API_SERVER_HOST = "http://localhost:8085";
+// export const BEFREE_API_SERVER_HOST = "http://3.36.84.228:8085";
+export const BEFREE_API_SERVER_HOST = "http://localhost:8085";
 
 const trip = `${BEFREE_API_SERVER_HOST}/trip`;
 
 // 여행 생성
 export const createTrip = async (email, tripRequestDTO) => {
-  console.log(tripRequestDTO);
   const response = await axios.post(`${trip}/${email}`, tripRequestDTO);
   return response.data;
 };
 
 // 여행 수정
 export const updateTrip = async (email, tripRequestDTO, tid) => {
-  console.log(tripRequestDTO);
   const response = await axios.put(`${trip}/${email}/${tid}`, tripRequestDTO);
   return response.data;
 };
 
 // 여행 공유
 export const shareTrip = async (email, tid) => {
-  console.log(email, tid);
   const response = await axios.put(`${trip}/${email}/${tid}/share`);
   return response.data;
 };

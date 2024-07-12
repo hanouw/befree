@@ -1,5 +1,5 @@
 export const matchIntro = (contentTypeId, list) => {
-  console.log("matchIntro 실행", contentTypeId, list);
+  //console.log("matchIntro 실행", contentTypeId, list);
 
   const keyMappings = {
     12: {
@@ -155,6 +155,6 @@ export const matchIntro = (contentTypeId, list) => {
     }
   }
 
-  console.log(transformedList);
+  //console.log(transformedList);
   return transformedList;
 };

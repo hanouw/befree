@@ -18,7 +18,7 @@ const TripListDetailDateMoveModalComponent = ({
   const moveToDate = () => {
     let result = [];
     for (let i = 0; i < totalPage; i++) {
-      if (i + 1 != page) {
+      if (i + 1 !== page) {
         result.push(
           <div
             className="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-gray-900 font-[Pretendard-Regular]"
