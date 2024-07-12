@@ -73,8 +73,11 @@ const TripSharedList = () => {
     <>
       <BasicLayout>
         <div className="grid place-items-center">
-          <span className="font-['Pretendard-Medium'] sm:text-2xl text-base mt-24">
+          <div className="font-['Pretendard-Semibold'] sm:text-4xl text-xl mt-6 lg:mt-12">
             공유된 여행 코스
+          </div>
+          <span className="font-['Pretendard-Medium'] sm:text-xl text-sm text-gray-600 mt-4 mb-8">
+            다른 사람들과 여행 일정을 공유해보세요
           </span>
           <div className="max-w-sm lg:max-w-6xl my-[1%] w-[100%] border-[1px] border-neutral-500"></div>
         </div>

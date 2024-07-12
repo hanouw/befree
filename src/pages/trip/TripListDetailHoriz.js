@@ -312,7 +312,7 @@ const TripListDetail = () => {
                   {items[0] ? (
                     <div className="min-w-[536px]"></div>
                   ) : (
-                    <div className="min-w-[536px] mt-[276px]">
+                    <div className="min-w-[536px] mt-[43%]">
                       <div
                         className="flex justify-center font-[Pretendard-Regular]"
                         key={1}
