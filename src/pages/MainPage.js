@@ -46,6 +46,45 @@ const MainPage = () => {
     return () => clearInterval(intervalId);
   }, []);
 
+  const introImages = [
+    {
+      src: process.env.PUBLIC_URL + "/assets/imgs/mainImgs/trip.png",
+      alt: "Main Intro Image 01",
+      title: "시작하기",
+      text: '상단 "여행" 탭을 눌러 시작하세요',
+    },
+    {
+      src: process.env.PUBLIC_URL + "/assets/imgs/mainImgs/plan.png",
+      alt: "Main Intro Image 02",
+      title: "새 여행 추가하기",
+      text: "이미지를 클릭하여 새로운 여행을 계획하세요",
+    },
+    {
+      src: process.env.PUBLIC_URL + "/assets/imgs/mainImgs/filter.png",
+      alt: "Main Intro Image 03",
+      title: "여행지를 취향에 맞게",
+      text: "맞춤형 검색으로 원하는 여행지를",
+    },
+    {
+      src: process.env.PUBLIC_URL + "/assets/imgs/mainImgs/add.png",
+      alt: "Main Intro Image 04",
+      title: "장바구니처럼",
+      text: "한 번에 담아서, 한 번에 추가",
+    },
+    {
+      src: process.env.PUBLIC_URL + "/assets/imgs/mainImgs/place.png",
+      alt: "Main Intro Image 05",
+      title: "여행지의 상세 정보 확인",
+      text: "여행 약자 유형에 맞는 여행지를 고르세요",
+    },
+    {
+      src: process.env.PUBLIC_URL + "/assets/imgs/mainImgs/tripdetail.png",
+      alt: "Main Intro Image 06",
+      title: "나만의 여행 계획을 완성",
+      text: "자, 이제 누구나 자유롭고 평등한 여행을 떠날 차례입니다",
+    },
+  ];
+
   return (
     <BasicLayout>
       {/* 이미지 드래그 막기 */}
@@ -67,7 +106,7 @@ const MainPage = () => {
         alt={images[currentImageIndex].alt}
       />
       {/* 공통 설명 - grid-cols-1 lg:grid-cols-2 모바일은 세로 한줄로 나오도록 */}
-      <div className="grid place-items-center grid-cols-1 lg:grid-cols-2 mb-8">
+      <div className="grid place-items-center grid-cols-1 lg:grid-cols-2 mb-20 lg:mb-48">
         {/* 데스크탑 및 모바일 - 아래아래 줄이 핵심,  hidden lg:block */}
         <div className="w-auto">
           <span className="font-['Pretendard-Semibold'] lg:text-2xl text-base">
@@ -89,6 +128,45 @@ const MainPage = () => {
           ></img>
         </div>
       </div>
+      {/* 점선 */}
+      <div className="w-full border-t-2 border-dashed border-gray-300 mb-20 lg:mb-48"></div>
+
+      {introImages.map((data, index) => (
+        <div className="grid place-items-center grid-cols-1 lg:grid-cols-2 mb-28">
+          <div
+            className={`lg:pl-20 ${
+              index % 2 === 0 ? "lg:hidden" : "lg:inline"
+            }`}
+          >
+            <span className="font-['Pretendard-Semibold'] lg:text-2xl text-base">
+              {data.title}
+            </span>
+            <div className="font-['Pretendard-Medium'] lg:text-base text-xs mb-4 max-w-80 lg:max-w-96 mt-4 break-keep">
+              {data.text}
+            </div>
+          </div>
+          <div
+            className={`w-5/6 mt-4 lg:mt-0 ${
+              index % 2 === 0 ? "lg:ml-32" : "lg:mr-32"
+            }`}
+          >
+            <img src={data.src} alt={data.alt} className="rounded-lg border" />
+          </div>
+          <div
+            className={`hidden lg:pr-20 ${
+              index % 2 === 0 ? "lg:inline" : "lg:hidden"
+            }`}
+          >
+            <span className="font-['Pretendard-Semibold'] lg:text-2xl text-base">
+              {data.title}
+            </span>
+            <div className="font-['Pretendard-Medium'] lg:text-base text-xs mb-4 max-w-80 lg:max-w-96 mt-4 break-keep">
+              {data.text}
+            </div>
+          </div>
+        </div>
+      ))}
+
       <span className="grid place-items-center font-semibold lg:text-2xl text-lg">
         새로운 여행을 찾아 떠나보세요!
       </span>
