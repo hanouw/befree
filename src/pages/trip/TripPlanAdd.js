@@ -241,7 +241,7 @@ const TripPlanAdd = () => {
         {/* 모바일 */}
         <div className="inline lg:hidden">
           <KakaoMapComponent
-            width="320px"
+            width="412px"
             height="250px"
             map={map}
             region={region}
@@ -258,9 +258,9 @@ const TripPlanAdd = () => {
         </div>
         {/* 기존 FoundListComponent */}
         <div className="container-noline-list">
-          <div className="page-header">
-            <div className="text-2xl lg:text-3xl">목록</div>
-            <div className="w-[100%] my-[1%] border-[1px] border-neutral-500"></div>
+          <div className="page-header flex flex-col items-center justify-center">
+            <h1>목록</h1>
+            <div className="w-[90%] my-[1%] border-[1px] border-neutral-500"></div>
           </div>
           {numOfRows ? (
             <>
