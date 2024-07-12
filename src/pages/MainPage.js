@@ -129,40 +129,46 @@ const MainPage = () => {
         </div>
       </div>
       {/* 점선 */}
-      <div className="w-full border-t-2 border-dashed border-gray-300 mb-20 lg:mb-48"></div>
+      <div className="w-full border-t-2 border-dashed border-gray-300 mb-16 lg:mb-48"></div>
 
       {introImages.map((data, index) => (
-        <div className="grid place-items-center grid-cols-1 lg:grid-cols-2 mb-28">
+        <div className="grid place-items-center grid-cols-1 lg:grid-cols-2 mb-20 lg:mb-28">
           <div
-            className={`lg:pl-20 ${
+            className={`w-full justify-center text-center lg:pl-20 ${
               index % 2 === 0 ? "lg:hidden" : "lg:inline"
             }`}
           >
             <span className="font-['Pretendard-Semibold'] lg:text-2xl text-base">
               {data.title}
             </span>
-            <div className="font-['Pretendard-Medium'] lg:text-base text-xs mb-4 max-w-80 lg:max-w-96 mt-4 break-keep">
+            <br></br>
+            <div className="mb-2"></div>
+            <span className="font-['Pretendard-Medium'] lg:text-base text-xs mb-4 max-w-80 lg:max-w-96 mt-4 break-keep">
               {data.text}
-            </div>
+            </span>
           </div>
+
           <div
-            className={`w-5/6 mt-4 lg:mt-0 ${
+            className={`w-5/6 mt-5 lg:mt-0 ${
               index % 2 === 0 ? "lg:ml-32" : "lg:mr-32"
             }`}
           >
             <img src={data.src} alt={data.alt} className="rounded-lg border" />
           </div>
+
           <div
-            className={`hidden lg:pr-20 ${
+            className={`w-full justify-center text-center hidden lg:pr-20 ${
               index % 2 === 0 ? "lg:inline" : "lg:hidden"
             }`}
           >
             <span className="font-['Pretendard-Semibold'] lg:text-2xl text-base">
               {data.title}
             </span>
-            <div className="font-['Pretendard-Medium'] lg:text-base text-xs mb-4 max-w-80 lg:max-w-96 mt-4 break-keep">
+            <br></br>
+            <div className="mb-2"></div>
+            <span className="font-['Pretendard-Medium'] lg:text-base text-xs mb-4 max-w-80 lg:max-w-96 mt-4 break-keep">
               {data.text}
-            </div>
+            </span>
           </div>
         </div>
       ))}

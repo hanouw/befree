@@ -87,15 +87,18 @@ const LoginPage = () => {
           </button>
         </div>
         <div className="w-full sm:w-1/2 md:w-1/3 px-4">
-          <button className="text-center w-full text-gray-900 inline-flex justify-center items-center bg-yellow-300 font-['Pretendard-Regular'] rounded-sm text-sm px-5 py-2.5">
+          <Link
+            to={link}
+            className="text-center w-full text-gray-900 inline-flex justify-center items-center bg-yellow-300 font-['Pretendard-Regular'] rounded-sm text-sm px-5 py-2.5"
+          >
             <div className="w-6">
               <img
                 src={process.env.PUBLIC_URL + "/assets/imgs/kakaoLogo.png"}
                 alt="kakao"
               />
             </div>
-            <Link to={link}>카카오톡 로그인</Link>
-          </button>
+            <span>카카오톡 로그인</span>
+          </Link>
         </div>
         <div className="space-x-16 font-[Pretendard-Regular] mt-4">
           <button onClick={moveToFindPassword}>비밀번호 찾기</button>
