@@ -65,7 +65,7 @@ const MyPage = () => {
             name="password"
             type="password"
             className={inputClassName}
-            placeholder="4자 이상의 새로운 비밀번호를 입력해주세요."
+            placeholder="8자 이상의 영문+숫자 조합의 새로운 비밀번호를 입력해주세요."
             onChange={handleChange}
           />
         </div>
