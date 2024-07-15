@@ -78,7 +78,7 @@ const LoginPage = () => {
             value={loginParam.password}
             onChange={handleChange}
             className={inputClassName}
-            placeholder="4자리 이상의 비밀번호"
+            placeholder="8자리 이상의 영문+숫자 조합을 입력해주세요"
             required
           />
         </div>
