@@ -23,6 +23,7 @@ const SignupPage = () => {
   const [pwResult, setPwResult] = useState(false);
   const [emailValid, setEmailValid] = useState(false);
   const [isSending, setIsSending] = useState(false);
+  const [validatePw, setValidatePw] = useState(false);
 
   const handleChange = (e) => {
     inputVal[e.target.name] = e.target.value;
@@ -45,7 +46,11 @@ const SignupPage = () => {
 
   const validatePassword = () => {
     const { password, passwordVerify } = inputVal;
-    if (password.length >= 4 && password === passwordVerify) {
+
+    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,}$/;
+    setValidatePw(passwordRegex.test(password));
+
+    if (password === passwordVerify && validatePw) {
       setPwResult(true);
     } else {
       setPwResult(false);
@@ -116,9 +121,9 @@ const SignupPage = () => {
       return;
     }
     if (!pwResult) {
-      if (inputVal.password.length < 4) {
+      if (!validatePw) {
         setPwResult(false);
-        alert("4자리 이상의 비밀번호를 입력해주세요.");
+        alert("8자리 이상의 영문+숫자 조합의 비밀번호를 입력해주세요.");
         return;
       }
       if (inputVal.password !== inputVal.passwordVerify) {
@@ -128,6 +133,11 @@ const SignupPage = () => {
         setPwResult(true);
       }
     }
+
+    if (!validatePw) {
+      alert("8자리 이상의 영문+숫자를 입력해주세요")
+    }
+
     if (pwResult && keyResult) {
       register({
         email: inputVal.email,
@@ -216,7 +226,7 @@ const SignupPage = () => {
             onChange={handleChange}
             value={inputVal.password}
             className={inputClassName}
-            placeholder="4자리 이상의 비밀번호"
+            placeholder="8자리 이상의 영문+숫자를 입력해주세요"
             required
           />
         </div>

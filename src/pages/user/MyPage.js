@@ -53,12 +53,17 @@ const MyPage = () => {
           >
             회원 탈퇴
           </button>
-          <button
-            className={buttonClassName}
-            onClick={() => moveToDelete("modify")}
-          >
-            비밀번호 변경
-          </button>
+          {loginState.social ? (<></>) : (
+            <>
+              <button
+                className={buttonClassName}
+                onClick={() => moveToDelete("modify")}
+              >
+                비밀번호 변경
+              </button>
+            </>
+          )}
+
         </div>
       </div>
     </BasicLayout>
